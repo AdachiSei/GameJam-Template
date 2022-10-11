@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 /// <summary>
-/// シーンを読み込みたい時に必要
+/// シーンを読み込みたい時に必要なScript
 /// </summary>
 public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 {
