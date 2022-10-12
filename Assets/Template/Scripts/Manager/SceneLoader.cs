@@ -7,11 +7,19 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 {
+    /// <summary>
+    /// Scene‚ğ“Ç‚İ‚ŞŠÖ”
+    /// </summary>
+    /// <param name="name">Scene‚Ì–¼‘O</param>
     public void LoadScene(string name)
     {
         SceneManager.LoadSceneAsync(name);
     }
 
+    /// <summary>
+    /// Scene‚ğ“Ç‚İ‚ŞŠÖ”
+    /// </summary>
+    /// <param name="name">Scene‚Ìí—Ş(enum)</param>
     public void LoadScene(SceneType type)
     {
         SceneManager.LoadSceneAsync(type.ToString());

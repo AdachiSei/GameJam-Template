@@ -12,9 +12,9 @@ public class SFXData : ScriptableObject
 
     [SerializeField]
     [Header("BGM‚ÌŽí—Þ")]
-    SFXType _type;
+    private SFXType _type;
 
     [SerializeField]
     [Header("SFX‚ÌƒNƒŠƒbƒv")]
-    AudioClip _audioClip;
+    private AudioClip _audioClip;
 }
