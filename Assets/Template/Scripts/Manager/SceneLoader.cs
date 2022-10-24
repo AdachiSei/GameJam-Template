@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 {
+    #region public methods
+
     /// <summary>
     /// Scene‚ğ“Ç‚İ‚ŞŠÖ”
     /// </summary>
@@ -24,4 +26,11 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     {
         SceneManager.LoadSceneAsync(type.ToString());
     }
+
+    public void LoadScene<T>(T type)
+    {
+        SceneManager.LoadSceneAsync(type.ToString());
+    }
+
+    #endregion
 }

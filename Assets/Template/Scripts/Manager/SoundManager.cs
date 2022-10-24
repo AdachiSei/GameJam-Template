@@ -8,9 +8,11 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SoundManager : SingletonMonoBehaviour<SoundManager>
 {
+    #region inspector menber
+
     [SerializeField]
     [Header("最初に流すBGM")]
-    BGMType _type;
+    private BGMType _type;
 
     [SerializeField]
     [Header("音楽")]
@@ -22,12 +24,24 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     [SerializeField]
     [Header("効果音を格納するオブジェクト")]
-    GameObject _pool;
+    private GameObject _sFXAudioGameObject;
+
+    [SerializeField]
+    [Header("オーディオソースがついているプレファブ")]
+    private AudioSource _audioSorcePrefab;
+
+    [SerializeField]
+    [Header("効果音を格納するオブジェクトの生成数")]
+    private int _sFXAudioNum = 30;
+
+    #endregion
+
+    List<AudioSource> _sFXAudios = new();
 
     protected override void Awake()
     {
         base.Awake();
-        CreatePool();
+        CreateSFX();
         PlayBGM(_type);
     }
 
@@ -79,8 +93,15 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         {
             if(sFX.Type == type)
             {
-                //sFX.AudioClip
-                return;
+                foreach (var audio in _sFXAudios)
+                {
+                    if(audio.clip != null)
+                    {
+                        audio.clip = sFX.AudioClip;
+                        audio.Play();
+                        return;
+                    }
+                }
             }
         }
     }
@@ -97,26 +118,52 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         }
     }
 
-
-    private void CreatePool()
+    private void CreateSFX()
     {
-        Instantiate(gameObject.AddComponent<AudioSource>().clip = _sFXDatas[0].AudioClip, new(), Quaternion.identity,_pool.transform);
+        for (var i = 0; i < _sFXAudioNum; i++)
+        {
+             _sFXAudios.Add(Instantiate(_audioSorcePrefab,
+                                new(),
+                                Quaternion.identity,
+                                _sFXAudioGameObject.transform));
+        }
     }
 
     private void Pause()
     {
-         
+        foreach (var bGMAudio in _bGMDatas)
+        {
+            if(bGMAudio.AudioSource.isPlaying)
+            {
+                bGMAudio.AudioSource.Pause();
+            }
+        }
+        foreach (var sFXAudio in _sFXAudios)
+        {
+            if (sFXAudio.isPlaying)
+            {
+                sFXAudio.Pause();
+            }
+        }
     }
 
     private void Restart()
     {
-
+        foreach (var bGMAudio in _bGMDatas)
+        {
+            bGMAudio.AudioSource.UnPause();
+        }
+        foreach (var sFXAudio in _sFXAudios)
+        {
+            sFXAudio.UnPause();
+        }
     }
 
 
     [Serializable]
     public class BGMData
     {
+        public string Name => _name;
         public BGMType Type => _type;
         public AudioSource AudioSource => _audioSource;
 
