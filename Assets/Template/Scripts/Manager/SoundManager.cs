@@ -16,11 +16,11 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     [SerializeField]
     [Header("音楽")]
-    private BGMData[] _bGMDatas;
+    private BGMDatas[] _bGMDatas;
 
     [SerializeField]
     [Header("効果音")]
-    private SFXData[] _sFXDatas;
+    private SFXData _sFXData;
 
     [SerializeField]
     [Header("効果音を格納するオブジェクト")]
@@ -89,7 +89,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <param name="type">再生したい効果音(SFX)</param>
     private void PlaySFX(SFXType type)
     {
-        foreach (var sFX in _sFXDatas)
+        foreach (var sFX in _sFXData.SFXes)
         {
             if(sFX.Type == type)
             {
@@ -108,7 +108,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     private void PlaySFX(SFXType type,float volume)
     {
-        foreach (var sFX in _sFXDatas)
+        foreach (var sFX in _sFXData.SFXes)
         {
             if (sFX.Type == type)
             {
@@ -161,7 +161,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
 
     [Serializable]
-    public class BGMData
+    public class BGMDatas
     {
         public string Name => _name;
         public BGMType Type => _type;
