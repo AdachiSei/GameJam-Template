@@ -20,7 +20,7 @@ public class BGMData : ScriptableObject
     {
         public string Name => _name;
         public BGMType Type => _type;
-        public AudioSource AudioSource => _audioSource;
+        public AudioClip AudioClip => _audioSource;
 
         [SerializeField]
         [Header("–¼‘O")]
@@ -32,6 +32,6 @@ public class BGMData : ScriptableObject
 
         [SerializeField]
         [Header("BGM")]
-        private AudioSource _audioSource;
+        private AudioClip _audioSource;
     }
 }

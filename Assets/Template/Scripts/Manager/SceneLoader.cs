@@ -103,11 +103,11 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         _sceneNames = new(_sceneNames.OrderBy(name =>
        {
            var sceneNum = name.Trim().Split("Scene");
-           if (sceneNum[DM.ONE] == "")
+           if (sceneNum[DMInt.ONE] == "")
            {
-               sceneNum = new[] { sceneNum[DM.ZERO], "0" };
+               sceneNum = new[] { sceneNum[DMInt.ZERO], "0" };
            }
-           return int.Parse(sceneNum[DM.ONE]);
+           return int.Parse(sceneNum[DMInt.ONE]);
        }));
     }
 

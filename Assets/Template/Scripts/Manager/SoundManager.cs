@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using DisturbMagic;
+
 /// <summary>
 /// サウンドを管理するScript
 /// </summary>
@@ -19,8 +21,16 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     private BGMDatas[] _bGMDatas;
 
     [SerializeField]
+    [Header("")]
+    private BGMData _bGMData;
+
+    [SerializeField]
     [Header("効果音")]
     private SFXData _sFXData;
+
+    [SerializeField]
+    [Header("音楽を格納するオブジェクト")]
+    private GameObject _bGMAudioGameObject;
 
     [SerializeField]
     [Header("効果音を格納するオブジェクト")]
@@ -36,13 +46,14 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     #endregion
 
+    List<AudioSource> _bGMAudios = new();
     List<AudioSource> _sFXAudios = new();
 
     protected override void Awake()
     {
         base.Awake();
-        CreateSFX();
-        PlayBGM(_type);
+        //CreateSFX();
+        //PlayBGM(_type);
     }
 
     #region
@@ -50,7 +61,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// 音楽(BGM)を再生する関数
     /// </summary>
     /// <param name="type">再生したい音楽(BGM)</param>
-    private void PlayBGM(BGMType type)
+    public void PlayBGM(BGMType type)
     {
         foreach (var bGM in _bGMDatas)
         {
@@ -68,7 +79,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// </summary>
     /// <param name="type">再生したい音楽(BGM)</param>
     /// <param name="volume">音楽(BGM)のボリューム</param>
-    private void PlayBGM(BGMType type, float volume)
+    public void PlayBGM(BGMType type, float volume)
     {
         foreach (var bGM in _bGMDatas)
         {
@@ -87,7 +98,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// 効果音(SFX)を再生する関数
     /// </summary>
     /// <param name="type">再生したい効果音(SFX)</param>
-    private void PlaySFX(SFXType type)
+    public void PlaySFX(SFXType type)
     {
         foreach (var sFX in _sFXData.SFXes)
         {
@@ -106,7 +117,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         }
     }
 
-    private void PlaySFX(SFXType type,float volume)
+    public void PlaySFX(SFXType type,float volume)
     {
         foreach (var sFX in _sFXData.SFXes)
         {
@@ -118,14 +129,61 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         }
     }
 
-    private void CreateSFX()
+    [ContextMenu("CreateBGM")]
+
+    public void CreateBGM()
+    {
+        if(_bGMAudios.Count >= _bGMData.BGMs.Length)
+        {
+            Debug.Log("");
+            return;
+        }
+        for (var i = 0; i < _bGMData.BGMs.Length; i++)
+        {
+            _bGMAudios
+                .Add(Instantiate(_audioSorcePrefab,
+                             new(),
+                            Quaternion.identity,
+                            _bGMAudioGameObject.transform));
+            _bGMAudios[i].clip = _bGMData.BGMs[i].AudioClip;
+            _bGMAudios[i].loop = true;
+        }
+        _bGMAudios = new(_bGMAudios.Distinct());
+    }
+
+    [ContextMenu("CreateSFX")]
+    public void CreateSFX()
     {
         for (var i = 0; i < _sFXAudioNum; i++)
         {
-             _sFXAudios.Add(Instantiate(_audioSorcePrefab,
-                                new(),
-                                Quaternion.identity,
-                                _sFXAudioGameObject.transform));
+             _sFXAudios
+                .Add(Instantiate(_audioSorcePrefab,
+                            new(),
+                            Quaternion.identity,
+                            _sFXAudioGameObject.transform));
+        }
+    }
+
+    [ContextMenu("Init")]
+    public void Init()
+    { 
+        while(true)
+        {
+            var children = _bGMAudioGameObject.transform;
+            if (children.childCount == DMInt.ZERO)
+            {
+                break;
+            }
+            DestroyImmediate(children.GetChild(DMInt.ZERO).gameObject);
+        }
+        while (true)
+        {
+            var children = _sFXAudioGameObject.transform;
+            if (children.childCount == DMInt.ZERO)
+            {
+                return;
+            }
+            DestroyImmediate(children.GetChild(DMInt.ZERO).gameObject);
         }
     }
 
