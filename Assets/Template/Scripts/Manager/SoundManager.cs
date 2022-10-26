@@ -10,6 +10,12 @@ using DisturbMagic;
 /// </summary>
 public class SoundManager : SingletonMonoBehaviour<SoundManager>
 {
+    public float A = 10;
+    public float B = 10;
+    public float C = 10;
+
+    public bool IsStopCreate => _isStopCreate;
+
     #region inspector menber
 
     [SerializeField]
@@ -40,12 +46,9 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     [Header("オーディオソースがついているプレファブ")]
     private AudioSource _audioSorcePrefab;
 
-    [SerializeField]
-    [Header("効果音を格納するオブジェクトの生成数")]
-    private int _sFXAudioNum = 30;
-
     #endregion
 
+    private bool _isStopCreate;
     List<AudioSource> _bGMAudios = new();
     List<AudioSource> _sFXAudios = new();
 
@@ -53,10 +56,38 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     {
         base.Awake();
         //CreateSFX();
-        //PlayBGM(_type);
+        PlayBGM("Test");
     }
 
     #region
+
+    void PlayAudio(BGM bGM)
+    {
+        foreach (var audio in _bGMAudios)
+        {
+            if (audio.clip == bGM.AudioClip)
+            {
+                audio.Play();
+                Debug.Log(audio.clip.name + "を再生中");
+                return;
+            }
+        }
+        Debug.Log("BGMを再生できなかった");
+    }
+
+    public void PlayBGM(string name)
+    {
+        foreach (var bGM in _bGMData.BGMs)
+        {
+            if (bGM.Name == name)
+            {
+                PlayAudio(bGM);
+                return;
+            }
+        }
+        Debug.Log("BGMが見つからなかった");
+    }
+
     /// <summary>
     /// 音楽(BGM)を再生する関数
     /// </summary>
@@ -71,7 +102,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                 return;
             }
         }
-        Debug.Log("BGMを再生していません");
+        Debug.Log("BGMを再生していない");
     }
 
     /// <summary>
@@ -90,8 +121,9 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                 return;
             }
         }
-        Debug.Log("BGMを再生していません");
+        Debug.Log("BGMを再生していない");
     }
+
     #endregion
 
     /// <summary>
@@ -127,15 +159,24 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                 return;
             }
         }
-    }
-
-    [ContextMenu("CreateBGM")]
+    }  
 
     public void CreateBGM()
     {
-        if(_bGMAudios.Count >= _bGMData.BGMs.Length)
+        _isStopCreate = false;
+        _bGMAudios.Clear();
+        while (true)
         {
-            Debug.Log("");
+            var children = _bGMAudioGameObject.transform;
+            if (children.childCount == DMInt.ZERO)
+            {
+                break;
+            }
+            DestroyImmediate(children.GetChild(DMInt.ZERO).gameObject);
+        }
+        
+        if (_bGMAudios.Count >= _bGMData.BGMs.Length)
+        {
             return;
         }
         for (var i = 0; i < _bGMData.BGMs.Length; i++)
@@ -150,24 +191,36 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         }
         _bGMAudios = new(_bGMAudios.Distinct());
     }
-
-    [ContextMenu("CreateSFX")]
-    public void CreateSFX()
+    
+    public void CreateSFX(int num)
     {
-        for (var i = 0; i < _sFXAudioNum; i++)
+        _isStopCreate = false;
+        _sFXAudios.Clear();
+        while (true)
         {
-             _sFXAudios
-                .Add(Instantiate(_audioSorcePrefab,
-                            new(),
-                            Quaternion.identity,
-                            _sFXAudioGameObject.transform));
+            var children = _sFXAudioGameObject.transform;
+            if (children.childCount == DMInt.ZERO)
+            {
+                break;
+            }
+            DestroyImmediate(children.GetChild(DMInt.ZERO).gameObject);
+        }
+        for (var i = 0; i < num; i++)
+        {
+            _sFXAudios
+               .Add(Instantiate(_audioSorcePrefab,
+                           new(),
+                           Quaternion.identity,
+                           _sFXAudioGameObject.transform));
         }
     }
 
-    [ContextMenu("Init")]
     public void Init()
-    { 
-        while(true)
+    {
+        _isStopCreate = true;
+        _bGMAudios.Clear();
+        _sFXAudios.Clear();
+        while (true)
         {
             var children = _bGMAudioGameObject.transform;
             if (children.childCount == DMInt.ZERO)
@@ -181,7 +234,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
             var children = _sFXAudioGameObject.transform;
             if (children.childCount == DMInt.ZERO)
             {
-                return;
+                break;
             }
             DestroyImmediate(children.GetChild(DMInt.ZERO).gameObject);
         }

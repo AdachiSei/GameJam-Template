@@ -11,12 +11,16 @@ using DisturbMagic;
 /// </summary>
 public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 {
+    public bool IsGetSceneName => _isGetSceneName;
+
     #region Inspecter Member
 
     [SerializeField]
     List<string> _sceneNames = new();
 
     #endregion
+
+    private bool _isGetSceneName = false;
 
     #region Public Methods
 
@@ -88,7 +92,6 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     /// <summary>
     /// Assetフォルダの中にあるSceneの名前を全てとってくる関数
     /// </summary>
-    [ContextMenu("GetSceneName")]
     public void GetSceneName()
     {
         //Sceneの名前を全てとってくる
