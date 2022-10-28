@@ -19,6 +19,7 @@ namespace DisturbMagic
         public const int EIGHT = 8;
         public const int NINE = 9;
         public const int TEN = 10;
+        public const int THOUSAND = 1000;
     }
 
     /// <summary>

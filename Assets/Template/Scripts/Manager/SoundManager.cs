@@ -10,10 +10,7 @@ using DisturbMagic;
 /// </summary>
 public class SoundManager : SingletonMonoBehaviour<SoundManager>
 {
-    public float A = 10;
-    public float B = 10;
-    public float C = 10;
-
+    public int AudioCount => _audioCount;
     public bool IsStopCreate => _isStopCreate;
 
     #region inspector menber
@@ -48,9 +45,15 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     #endregion
 
+    private int _audioCount;
     private bool _isStopCreate;
     List<AudioSource> _bGMAudios = new();
     List<AudioSource> _sFXAudios = new();
+
+    public void ChangeCreateAudioCount(int count)
+    {
+        _audioCount = count;
+    }
 
     protected override void Awake()
     {
@@ -192,7 +195,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         _bGMAudios = new(_bGMAudios.Distinct());
     }
     
-    public void CreateSFX(int num)
+    public void CreateSFX()
     {
         _isStopCreate = false;
         _sFXAudios.Clear();
@@ -205,7 +208,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
             }
             DestroyImmediate(children.GetChild(DMInt.ZERO).gameObject);
         }
-        for (var i = 0; i < num; i++)
+        for (var i = 0; i < _audioCount; i++)
         {
             _sFXAudios
                .Add(Instantiate(_audioSorcePrefab,

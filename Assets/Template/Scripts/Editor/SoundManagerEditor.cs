@@ -2,46 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using DisturbMagic;
 
 [CustomEditor(typeof(SoundManager))]
 public class SoundManagerEditor : Editor
 {
-    int _num;
-    string _numStr;
-    bool _first = true;
+    static bool _isOpening;
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        var soundManager = target as SoundManager;
-        GUILayout.Box("BGM用のAudioSorceを作成");
-        if (GUILayout.Button("CreateBGM"))
-        {
-            soundManager.CreateBGM();
-        }
-        GUILayout.Box("SFX用のAudioSorceを作成");
+        var soundM = target as SoundManager;
+        var _style = new GUIStyle(EditorStyles.label);
+        _style.richText = true;
 
-        try
+        EditorGUILayout.Space();
+
+        _isOpening = EditorGUILayout.Foldout(_isOpening, "Settings");
+        if (_isOpening)
         {
-            if (_first)
+            EditorGUILayout.Space();
+
+            //BGM用のPrefabを作成
+            EditorGUILayout.LabelField("<b>BGM用のPrefabを作成</b>", _style);
+            if (GUILayout.Button("CreateBGM"))
             {
-                _numStr = "0";
-                _first = false;
+                soundM.CreateBGM();
             }
-            _numStr = GUILayout.TextField(_numStr, 3);
-            _num = int.Parse(_numStr);
-        }
-        catch{}
 
-        if (GUILayout.Button("CreateSFX"))
-        {
-            soundManager.CreateSFX(_num);
+            EditorGUILayout.Space();
+
+            EditorGUILayout.LabelField("<b>SFX用のPrefabを作成</b>",_style);
+            var intField =　EditorGUILayout.IntField("生成数",soundM.AudioCount);
+            bool lessThanZero = soundM.AudioCount < DMInt.ZERO;
+            bool overHundred = soundM.AudioCount > DMInt.THOUSAND;
+            if (lessThanZero) intField = DMInt.ZERO;
+            else if (overHundred)intField = DMInt.THOUSAND;
+            soundM.ChangeCreateAudioCount(intField);
+            if (GUILayout.Button("CreateSFX"))
+            {
+                soundM.CreateSFX();
+            }
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.LabelField("<b>Sound用のPrefabを全削除</b>",_style);
+            EditorGUI.BeginDisabledGroup(soundM.IsStopCreate);
+            if (GUILayout.Button("Init"))
+            {
+                soundM.Init();
+            }
+            EditorGUI.EndDisabledGroup();
         }
-        GUILayout.Box("AudioSorceを全削除");
-        EditorGUI.BeginDisabledGroup(soundManager.IsStopCreate);
-        if (GUILayout.Button("Init"))
-        {
-            soundManager.Init();
-        }
-        EditorGUI.EndDisabledGroup();
     }
 }

@@ -247,7 +247,6 @@ MonoBehaviour:
   _bGMAudioGameObject: {fileID: 1750778653}
   _sFXAudioGameObject: {fileID: 2108255010}
   _audioSorcePrefab: {fileID: -2636995887087475959, guid: c7e8f22935b235e4281b6433a257a372, type: 3}
-  _sFXAudioNum: 30
 --- !u!4 &1609600771
 Transform:
   m_ObjectHideFlags: 0
