@@ -46,7 +46,7 @@ public class SoundManagerEditor : Editor
 
             EditorGUILayout.Space();
 
-            EditorGUILayout.LabelField("<b>Sound用のPrefabを全削除</b>",_style);
+            EditorGUILayout.LabelField("<b>BGM&SFX用のPrefabを全削除</b>", _style);
             EditorGUI.BeginDisabledGroup(soundM.IsStopCreate);
             if (GUILayout.Button("Init"))
             {
