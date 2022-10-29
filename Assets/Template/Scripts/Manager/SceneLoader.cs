@@ -11,7 +11,11 @@ using DisturbMagic;
 /// </summary>
 public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 {
+    #region Public Property
+
     public bool IsGetSceneName => _isGetSceneName;
+
+    #endregion
 
     #region Inspecter Member
 
@@ -19,7 +23,11 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     string[] _sceneNames;
     #endregion
 
+    #region Private Member
+
     private bool _isGetSceneName = false;
+
+    #endregion
 
     #region Public Methods
 
