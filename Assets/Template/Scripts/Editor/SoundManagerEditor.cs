@@ -7,7 +7,13 @@ using DisturbMagic;
 [CustomEditor(typeof(SoundManager))]
 public class SoundManagerEditor : Editor
 {
-    static bool _isOpening;
+    #region Private Static Member
+
+    private static bool _isOpening;
+
+    #endregion
+
+    #region Override Method
 
     public override void OnInspectorGUI()
     {
@@ -55,4 +61,6 @@ public class SoundManagerEditor : Editor
             EditorGUI.EndDisabledGroup();
         }
     }
+
+    #endregion
 }

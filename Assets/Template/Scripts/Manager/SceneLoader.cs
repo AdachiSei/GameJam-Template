@@ -20,7 +20,8 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     #region Inspecter Member
 
     [SerializeField]
-    string[] _sceneNames;
+    [Header("全てのシーンの名前")]
+    private string[] _sceneNames;
     #endregion
 
     #region Private Member
