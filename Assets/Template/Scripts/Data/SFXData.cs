@@ -15,23 +15,23 @@ public class SFXData : ScriptableObject
     [Header("")]
     private SFX[] _sFXes;
 
-    [Serializable]
-    public class SFX
-    {
-        public string Name => _name;
-        public SFXType Type => _type;
-        public AudioClip AudioClip => _audioClip;
+}
+[Serializable]
+public class SFX
+{
+    public string Name => _name;
+    public SFXType Type => _type;
+    public AudioClip AudioClip => _audioClip;
 
-        [SerializeField]
-        [Header("名前")]
-        private string _name;
+    [SerializeField]
+    [Header("名前")]
+    private string _name;
 
-        [SerializeField]
-        [Header("BGMの種類")]
-        private SFXType _type;
+    [SerializeField]
+    [Header("BGMの種類")]
+    private SFXType _type;
 
-        [SerializeField]
-        [Header("SFXのクリップ")]
-        private AudioClip _audioClip;
-    }
+    [SerializeField]
+    [Header("SFXのクリップ")]
+    private AudioClip _audioClip;
 }

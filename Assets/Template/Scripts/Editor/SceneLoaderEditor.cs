@@ -20,13 +20,11 @@ public class SceneLoaderEditor : Editor
         {
             EditorGUILayout.Space();
 
-            EditorGUILayout.LabelField("<b>Sceneの名前を全てとってくる</b>", style, GUILayout.ExpandHeight(true));
+            EditorGUILayout.LabelField("<b>Sceneの名前を全てとってくる</b>",style);
             if (GUILayout.Button("GetSceneName"))
             {
                 sceneLoader.GetSceneName();
             }
-            EditorGUI.EndDisabledGroup();
-
         }
     }
 }

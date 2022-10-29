@@ -38,7 +38,7 @@ public class SoundManagerEditor : Editor
             bool overHundred = soundM.AudioCount > DMInt.THOUSAND;
             if (lessThanZero) intField = DMInt.ZERO;
             else if (overHundred)intField = DMInt.THOUSAND;
-            soundM.ChangeCreateAudioCount(intField);
+            soundM.ChangeAudioCount(intField);
             if (GUILayout.Button("CreateSFX"))
             {
                 soundM.CreateSFX();

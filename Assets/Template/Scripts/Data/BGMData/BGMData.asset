@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BGMData
   m_EditorClassIdentifier: 
   _bGMs:
-  - _name: 
+  - _name: Test
     _type: 0
-    _audioSource: {fileID: 0}
+    _audioClip: {fileID: 8300000, guid: fabe4a5ebb18eff48b56b1384546ccf5, type: 3}

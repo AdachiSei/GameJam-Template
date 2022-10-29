@@ -238,15 +238,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isDontDestroy: 0
   _type: 0
-  _bGMDatas:
-  - _name: Test
-    _type: 0
-    _audioSource: {fileID: 0}
   _bGMData: {fileID: 11400000, guid: 5eb54cf227498484f9ec6f1b26d1c880, type: 2}
   _sFXData: {fileID: 11400000, guid: 61d353ace826a534ea39a6a97e2fc409, type: 2}
   _bGMAudioGameObject: {fileID: 1750778653}
   _sFXAudioGameObject: {fileID: 2108255010}
   _audioSorcePrefab: {fileID: -2636995887087475959, guid: c7e8f22935b235e4281b6433a257a372, type: 3}
+  _bGMAudios: []
+  _sFXAudios: []
 --- !u!4 &1609600771
 Transform:
   m_ObjectHideFlags: 0
@@ -379,7 +377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
       propertyPath: _sceneNames.Array.size
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
       propertyPath: _sceneNames.Array.data[0]

@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9612815377d3345498a184fd1656d8ee, type: 3}
   m_Name: SFXData
   m_EditorClassIdentifier: 
-  _type: 0
-  _audioClip: {fileID: 0}
+  _sFXes:
+  - _name: Test
+    _type: 0
+    _audioClip: {fileID: 8300000, guid: fabe4a5ebb18eff48b56b1384546ccf5, type: 3}

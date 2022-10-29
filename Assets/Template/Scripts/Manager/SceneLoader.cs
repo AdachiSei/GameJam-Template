@@ -16,8 +16,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     #region Inspecter Member
 
     [SerializeField]
-    List<string> _sceneNames = new();
-
+    string[] _sceneNames;
     #endregion
 
     private bool _isGetSceneName = false;
@@ -57,7 +56,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     public void LoadNextScene()
     {
         var name = SceneManager.GetActiveScene().name;
-        for (int i = 0; i < _sceneNames.Count; i++)
+        for (int i = 0; i < _sceneNames.Length; i++)
         {
             if (_sceneNames[i] == name)
             {
@@ -74,7 +73,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     public void LoadPrevScene()
     {
         var name = SceneManager.GetActiveScene().name;
-        for (int i = 0; i < _sceneNames.Count; i++)
+        for (int i = 0; i < _sceneNames.Length; i++)
         {
             if (_sceneNames[i] == name)
             {
@@ -94,24 +93,30 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     /// </summary>
     public void GetSceneName()
     {
+        List<string> sceneNames = new();
         //Scene‚Ì–¼‘O‚ð‘S‚Ä‚Æ‚Á‚Ä‚­‚é
         foreach (var guid in AssetDatabase.FindAssets("t:Scene"))
         {
             var path = AssetDatabase.GUIDToAssetPath(guid);
             var name = AssetDatabase.LoadMainAssetAtPath(path).name;
-            _sceneNames.Add(name);
+            sceneNames.Add(name);
         }
         //•À‚Ñ‘Ö‚¦
-        _sceneNames = new(_sceneNames.Distinct());
-        _sceneNames = new(_sceneNames.OrderBy(name =>
+        sceneNames = new(sceneNames.Distinct());
+        sceneNames = new(sceneNames.OrderBy(name =>
        {
            var sceneNum = name.Trim().Split("Scene");
            if (sceneNum[DMInt.ONE] == "")
            {
-               sceneNum = new[] { sceneNum[DMInt.ZERO], "0" };
+               sceneNum = new[] {sceneNum[DMInt.ZERO], "0" };
            }
            return int.Parse(sceneNum[DMInt.ONE]);
        }));
+
+        for (int i = 0; i < sceneNames.Count; i++)
+        {
+            _sceneNames[i] = sceneNames[i];
+        }
     }
 
     #endregion
