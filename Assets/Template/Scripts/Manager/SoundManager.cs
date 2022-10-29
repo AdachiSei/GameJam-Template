@@ -67,6 +67,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     {
         base.Awake();
         PlayBGM("Test");
+        PlaySFX("Test");
     }
 
     #endregion
@@ -76,7 +77,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <summary>
     /// 音楽(BGM)を再生する関数
     /// </summary>
-    /// <param name="name">音楽(BGM)の名前</param>
+    /// <param name="name">Dataに設定した音楽(BGM)の名前</param>
     /// <param name="volume">音の大きさ</param>
     public void PlayBGM(string name,float volume)
     {
@@ -94,7 +95,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <summary>
     /// 音楽(BGM)を再生する関数
     /// </summary>
-    /// <param name="name">音楽(BGM)の名前</param>
+    /// <param name="name">Dataに設定した音楽(BGM)の名前</param>
     public void PlayBGM(string name) =>
         PlayBGM(name, DMFloat.ONE);
 
@@ -126,7 +127,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <summary>
     /// 効果音(SFX)を再生する関数
     /// </summary>
-    /// <param name="name">効果音(SFX)の名前</param>
+    /// <param name="name">Dataに設定した効果音(SFX)の名前</param>
     /// <param name="volume">音の大きさ</param>
     public void PlaySFX(string name,float volume)
     {
@@ -144,7 +145,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <summary>
     /// 効果音(SFX)を再生する関数
     /// </summary>
-    /// <param name="name">効果音(SFX)の名前</param>
+    /// <param name="name">Dataに設定した効果音(SFX)の名前</param>
     public void PlaySFX(string name) =>
         PlayBGM(name, DMFloat.ONE);
 
@@ -198,8 +199,9 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                         Quaternion.identity,
                         _bGMAudioGameObject.transform);
             _bGMAudios.Add(audio);
-            _bGMAudios[i].clip = _bGMData.BGMs[i].AudioClip;
-            _bGMAudios[i].loop = true;
+            audio.name = _bGMData.BGMs[i].Name;
+            audio.clip = _bGMData.BGMs[i].AudioClip;
+            audio.loop = true;
         }
         _bGMAudios = new(_bGMAudios.Distinct());
     }
