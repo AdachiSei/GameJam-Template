@@ -20,16 +20,11 @@ public class BGMData : ScriptableObject
 public class BGM
 {
     public string Name => _name;
-    public BGMType Type => _type;
     public AudioClip AudioClip => _audioClip;
 
     [SerializeField]
     [Header("–¼‘O")]
     private string _name;
-
-    [SerializeField]
-    [Header("BGM‚ÌŽí—Þ")]
-    private BGMType _type;
 
     [SerializeField]
     [Header("BGM")]

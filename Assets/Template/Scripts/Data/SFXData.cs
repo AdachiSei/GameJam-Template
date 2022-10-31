@@ -20,16 +20,11 @@ public class SFXData : ScriptableObject
 public class SFX
 {
     public string Name => _name;
-    public SFXType Type => _type;
     public AudioClip AudioClip => _audioClip;
 
     [SerializeField]
     [Header("名前")]
     private string _name;
-
-    [SerializeField]
-    [Header("BGMの種類")]
-    private SFXType _type;
 
     [SerializeField]
     [Header("SFXのクリップ")]

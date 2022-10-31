@@ -22,7 +22,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     [SerializeField]
     [Header("最初に流すBGM")]
-    private BGMType _type;
+    private string _name;
 
     [SerializeField]
     [Header("音楽")]
@@ -34,22 +34,22 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     [SerializeField]
     [Header("音楽を格納するオブジェクト")]
-    private GameObject _bGMAudioGameObject;
+    private GameObject _bGMParent;
 
     [SerializeField]
     [Header("効果音を格納するオブジェクト")]
-    private GameObject _sFXAudioGameObject;
+    private GameObject _sFXParent;
 
     [SerializeField]
     [Header("オーディオソースがついているプレファブ")]
-    private AudioSource _audioSorcePrefab;
+    private AudioSource _audioPrefab;
 
     [SerializeField]
     [Header("BGM用のオーディオ")]
     private List<AudioSource> _bGMAudios = new();
 
     [SerializeField]
-    [Header("BGM用のオーディオ")]
+    [Header("SFX用のオーディオ")]
     private List<AudioSource> _sFXAudios = new();
 
     #endregion
@@ -68,22 +68,30 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     protected override void Awake()
     {
         base.Awake();
-        //オーディオソースが付いているプレファブが無かったら
-        if (_audioSorcePrefab == null)
+        if (_audioPrefab == null)//オーディオのプレファブが無かったら
         {
             CreateAudio();
         }
-        if (_bGMAudioGameObject == null)
+        if (_bGMParent == null)//BGMを格納するオブジェクトが無かったら
         {
-            CreateBGMAudioGameObject();
+            CreateBGMParent();
         }
-        if (_sFXAudioGameObject == null)
+        if (_sFXParent == null)//SFXを格納するオブジェクトが無かったら
         {
-            CreateSFXAudioGameObject();
+            CreateSFXParent();
         }
+        _audioPrefab.playOnAwake = false;
         //ポーズ用
         PauseManager.Instance.OnPause += Pause;
-        PauseManager.Instance.OnUnPause += UnPause;
+        PauseManager.Instance.OnResume += Resume;
+        PlayBGM("Test");
+        PlaySFX("Test");
+    }
+
+    private void OnDisable()
+    {
+        PauseManager.Instance.OnPause -= Pause;
+        PauseManager.Instance.OnResume -= Resume;
     }
 
     #endregion
@@ -95,98 +103,92 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// </summary>
     /// <param name="name">Dataに設定した音楽(BGM)の名前</param>
     /// <param name="volume">音の大きさ</param>
-    public void PlayBGM(string name,float volume)
+    public void PlayBGM(string name,float volume = 1)
     {
+        //再生したい音を格納しているオブジェクトから絞り込む
+        foreach (var audio in _bGMAudios)
+        {
+            if (audio.name == name)
+            {
+                audio.volume = volume;
+                audio.Play();
+                return;
+            }
+        }
+        //再生したい音を格納しているオブジェクトが無かったら
+        //再生したい音をDataから絞り込む
         foreach (var bGM in _bGMData.BGMs)
         {
             if (bGM.Name == name)
             {
-                PlayAudioForBGM(bGM, volume);
+                //再生したい音をのAudioを生成
+                var newAudio =
+                Instantiate(_audioPrefab,
+                        new(),
+                        Quaternion.identity,
+                        _bGMParent.transform);
+                _bGMAudios.Add(newAudio);
+                newAudio.volume = volume;
+                newAudio.clip = bGM.AudioClip;
+                newAudio.name = bGM.Name;
+                newAudio.loop = true;
+                newAudio.Play();
                 return;
             }
         }
         Debug.Log("BGMが見つからなかった");
     }
-
-    /// <summary>
-    /// 音楽(BGM)を再生する関数
-    /// </summary>
-    /// <param name="name">Dataに設定した音楽(BGM)の名前</param>
-    public void PlayBGM(string name) =>
-        PlayBGM(name, DMFloat.ONE);
-
-    /// <summary>
-    /// 音楽(BGM)を再生する関数
-    /// </summary>
-    /// <param name="type">音楽(BGM)の種類</param>
-    /// <param name="volume">音の大きさ</param
-    public void PlayBGM(BGMType type,float volume)
-    {
-        foreach (var bGM in _bGMData.BGMs)
-        {
-            if (bGM.Type == type)
-            {
-                PlayAudioForBGM(bGM, volume);
-                return;
-            }
-        }
-        Debug.Log("BGMが見つからなかった");
-    }
-
-    /// <summary>
-    /// 音楽(BGM)を再生する関数
-    /// </summary>
-    ///  /// <param name="type">音楽(BGM)の種類</param>
-    public void PlayBGM(BGMType type) =>
-        PlayBGM(type, DMFloat.ONE);
 
     /// <summary>
     /// 効果音(SFX)を再生する関数
     /// </summary>
     /// <param name="name">Dataに設定した効果音(SFX)の名前</param>
     /// <param name="volume">音の大きさ</param>
-    public void PlaySFX(string name,float volume)
+    async public void PlaySFX(string name, float volume = 1)
     {
+        //再生したい音をDataからを絞り込む
         foreach (var sFX in _sFXData.SFXes)
         {
             if (sFX.Name == name)
             {
-                PlayAudioForSFX(sFX, volume);
+                //ClipがnullのAudioを探す
+                foreach (var audio in _sFXAudios)
+                {
+                    if (audio.clip == null)
+                    {
+                        audio.clip = sFX.AudioClip;
+                        audio.volume = volume;
+                        var privName = audio.name;
+                        audio.name = sFX.Name;
+                        audio.Play();
+                        await UniTaskSeconds(sFX.AudioClip.length);
+                        audio.name = privName;
+                        audio.clip = null;
+                        return;
+                    }
+                }
+                var gameObject =
+                    Instantiate(_audioPrefab,
+                                new(),
+                                Quaternion.identity,
+                                _sFXParent.transform);
+                gameObject.name = "NewSFX " + _newAudioNum;
+                _newAudioNum++;
+                _sFXAudios.Add(gameObject);
+                var newAudio = _sFXAudios[_sFXAudios.Count - DMInt.ONE];
+                newAudio.clip = sFX.AudioClip;
+                newAudio.volume = volume;
+                var newPrivName = newAudio.name;
+                newAudio.name = sFX.Name;
+                newAudio.Play();
+                await UniTaskSeconds(sFX.AudioClip.length);
+                newAudio.name = newPrivName;
+                newAudio.clip = null;
                 return;
             }
         }
         Debug.Log("SFXが見つからなかった");
     }
-
-    /// <summary>
-    /// 効果音(SFX)を再生する関数
-    /// </summary>
-    /// <param name="name">Dataに設定した効果音(SFX)の名前</param>
-    public void PlaySFX(string name) =>
-        PlaySFX(name, DMFloat.ONE);
-
-    /// <summary>
-    /// 効果音(SFX)を再生する関数
-    /// </summary>
-    /// <param name="type">効果音(SFX)の種類</param>
-    /// <param name="volume">音の大きさ</param>
-    public void PlaySFX(SFXType type,float volume)
-    {
-        foreach (var sFX in _sFXData.SFXes)
-        {
-            if(sFX.Type == type)
-            {
-                PlayAudioForSFX(sFX, volume);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 効果音(SFX)を再生する関数
-    /// </summary>
-    /// /// <param name="type">効果音(SFX)の種類</param>
-    public void PlaySFX(SFXType type) =>
-        PlaySFX(type, DMFloat.ONE);
 
     #endregion
 
@@ -204,13 +206,13 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// </summary>
     public void CreateBGM()
     {
-        if (_audioSorcePrefab == null)
+        if (_audioPrefab == null)
         {
             CreateAudio();
         }
-        if(_bGMAudioGameObject == null)
+        if(_bGMParent == null)
         {
-            CreateBGMAudioGameObject();
+            CreateBGMParent();
         }
         _isStopCreate = false;
         _bGMAudios.Clear();
@@ -218,10 +220,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         for (var i = 0; i < _bGMData.BGMs.Length; i++)
         {
             var audio =
-            Instantiate(_audioSorcePrefab,
+            Instantiate(_audioPrefab,
                         new(),
                         Quaternion.identity,
-                        _bGMAudioGameObject.transform);
+                        _bGMParent.transform);
             _bGMAudios.Add(audio);
             audio.name = _bGMData.BGMs[i].Name;
             audio.clip = _bGMData.BGMs[i].AudioClip;
@@ -235,13 +237,13 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// </summary>
     public void CreateSFX()
     {
-        if (_audioSorcePrefab == null)
+        if (_audioPrefab == null)
         {
             CreateAudio();
         }
-        if(_sFXAudioGameObject == null)
+        if(_sFXParent == null)
         {
-            CreateSFXAudioGameObject();
+            CreateSFXParent();
         }
         _isStopCreate = false;
         _sFXAudios.Clear();
@@ -249,10 +251,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         for (var i = 0; i < _audioCount; i++)
         {
             var audio =
-            Instantiate(_audioSorcePrefab,
+            Instantiate(_audioPrefab,
                         new(),
                         Quaternion.identity,
-                        _sFXAudioGameObject.transform);
+                        _sFXParent.transform);
             audio.loop = true;
             if (i < 10)
                 audio.name = "SFX " + "00" + i;
@@ -283,21 +285,21 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <summary>
     /// 音楽を格納するオブジェクトを生成する関数
     /// </summary>
-    private void CreateBGMAudioGameObject()
+    private void CreateBGMParent()
     {
-        _bGMAudioGameObject = new();
-        _bGMAudioGameObject.name = "BGM";
-        _bGMAudioGameObject.transform.parent = transform;
+        _bGMParent = new();
+        _bGMParent.name = "BGM";
+        _bGMParent.transform.parent = transform;
     }
 
     /// <summary>
     /// 効果音を格納するオブジェクトを生成する関数
     /// </summary>
-    private void CreateSFXAudioGameObject()
+    private void CreateSFXParent()
     {
-        _sFXAudioGameObject = new();
-        _sFXAudioGameObject.name = "SFX";
-        _sFXAudioGameObject.transform.parent = transform;
+        _sFXParent = new();
+        _sFXParent.name = "SFX";
+        _sFXParent.transform.parent = transform;
     }
 
     /// <summary>
@@ -307,84 +309,25 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     {
         GameObject gameObj = new();
         gameObj.transform.parent = transform;
-        _audioSorcePrefab = gameObj.AddComponent<AudioSource>();
-        _audioSorcePrefab.playOnAwake = false;
-        _audioSorcePrefab.name = "XD";
+        _audioPrefab = gameObj.AddComponent<AudioSource>();
+        _audioPrefab.playOnAwake = false;
+        _audioPrefab.name = "XD";
     }
 
     /// <summary>
-    /// 実際に音楽(BGM)を再生する関数
+    /// ポーズ対応の非同期で待ってくれる関数
     /// </summary>
-    /// <param name="bGM">音楽(BGM)の名前</param>
-    /// <param name="volume">音の大きさ</param>
-    private void PlayAudioForBGM(BGM bGM,float volume)
+    /// <param name="time">待つ時間</param>
+    async private UniTask UniTaskSeconds(float time)
     {
-        _audioSorcePrefab.playOnAwake = false;
-        foreach (var audio in _bGMAudios)
+        for (float i = 0f; i < time; i += Time.deltaTime)
         {
-            if (audio.clip == bGM.AudioClip)
+            while (_isPause)
             {
-                audio.volume = volume;
-                audio.Play();
-                Debug.Log(bGM.Name + "を再生した");
-                return;
+                await UniTask.NextFrame();
             }
+            await UniTask.NextFrame();
         }
-        var newAudio =
-            Instantiate(_audioSorcePrefab,
-                        new(),
-                        Quaternion.identity,
-                        _bGMAudioGameObject.transform);
-        _bGMAudios.Add(newAudio);
-        newAudio.clip = bGM.AudioClip;
-        newAudio.loop = true;
-        Debug.Log(bGM.Name + "を再生できた...");
-    }
-
-    /// <summary>
-    /// 実際に効果音(SFX)を再生する関数
-    /// </summary>
-    /// <param name="sFX">効果音(SFX)</param>
-    /// <param name="volume">音の大きさ</param>
-    async private void PlayAudioForSFX(SFX sFX,float volume)
-    {
-        _audioSorcePrefab.playOnAwake = false;
-        foreach (var audio in _sFXAudios)
-        {
-            if (audio.clip == null)
-            {
-                audio.clip = sFX.AudioClip;
-                audio.volume = volume;
-                audio.Play();
-                Debug.Log(sFX.Name + "を再生中");
-                var clipLength = sFX.AudioClip.length;
-                for (float i = 0f; i < clipLength; i += Time.deltaTime)
-                {
-                    while (_isPause)
-                    {
-                        await UniTask.NextFrame();
-                    }
-                    await UniTask.NextFrame();
-                }
-                audio.clip = null;
-                return;
-            }
-        }
-        var gameObject =
-            Instantiate(_audioSorcePrefab,
-                        new(),
-                        Quaternion.identity,
-                        _sFXAudioGameObject.transform);
-        gameObject.name = "NewSFX " + _newAudioNum;
-        _newAudioNum++;
-        _sFXAudios.Add(gameObject);
-        var newAudio = _sFXAudios[_sFXAudios.Count - DMInt.ONE];
-        newAudio.clip = sFX.AudioClip;
-        newAudio.volume = volume;
-        newAudio.Play();
-        Debug.Log(sFX.Name + "を再生中...");
-        await UniTask.Delay(TimeSpan.FromSeconds(sFX.AudioClip.length));
-        newAudio.clip = null;
     }
 
     /// <summary>
@@ -392,9 +335,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// </summary>
     private void InitBGM()
     {
+        if (_bGMParent == null) return;
         while (true)
         {
-            var children = _bGMAudioGameObject.transform;
+            var children = _bGMParent.transform;
             var empty = children.childCount == DMInt.ZERO;
             if (empty) break;
             var DestroyGO = children.GetChild(DMInt.ZERO).gameObject;
@@ -407,9 +351,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// </summary>
     private void InitSFX()
     {
+        if (_sFXParent == null) return;
         while (true)
         {
-            var children = _sFXAudioGameObject.transform;
+            var children = _sFXParent.transform;
             if (children.childCount == DMInt.ZERO)
             {
                 break;
@@ -445,7 +390,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <summary>
     /// ポーズ解除用の関数
     /// </summary>
-    private void UnPause()
+    private void Resume()
     {
         _isPause = false;
         foreach (var bGMAudio in _bGMAudios)

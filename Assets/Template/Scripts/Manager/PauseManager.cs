@@ -14,7 +14,7 @@ public class PauseManager : SingletonMonoBehaviour<PauseManager>
     #region Events
 
     public event Action OnPause;
-    public event Action OnUnPause;
+    public event Action OnResume;
 
     #endregion
 
@@ -32,7 +32,7 @@ public class PauseManager : SingletonMonoBehaviour<PauseManager>
             else
             {
                 _isPause = false;
-                OnUnPause();
+                OnResume();
             }
         }
     }

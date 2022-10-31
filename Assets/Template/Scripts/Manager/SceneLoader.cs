@@ -42,15 +42,6 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     }
 
     /// <summary>
-    /// Scene‚ğ“Ç‚İ‚ŞŠÖ”
-    /// </summary>
-    /// <param name="name">Scene‚Ìí—Ş(enum)</param>
-    public void LoadScene(SceneType type)
-    {
-        SceneManager.LoadSceneAsync(type.ToString());
-    }
-
-    /// <summary>
     /// ¡‚ÌScene‚ğƒŠƒ[ƒh‚·‚é‚½‚ß‚ÌŠÖ”
     /// </summary>
     public void ReloadScene()
