@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InputButtonName;
 
 public class PauseManager : SingletonMonoBehaviour<PauseManager>
 {
@@ -22,7 +23,7 @@ public class PauseManager : SingletonMonoBehaviour<PauseManager>
 
     void Update()
     {
-        if (Input.GetButtonDown("Cancel"))
+        if (Input.GetButtonDown(InputName.CANCEL))
         {
             if (!_isPause)
             {
