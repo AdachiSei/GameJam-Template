@@ -15,18 +15,18 @@ public class BGMData : ScriptableObject
     [Header("")]
     private BGM[] _bGMs;
 
-}
-[Serializable]
-public class BGM
-{
-    public string Name => _name;
-    public AudioClip AudioClip => _audioClip;
+    [Serializable]
+    public class BGM
+    {
+        public string Name => _name;
+        public AudioClip AudioClip => _audioClip;
 
-    [SerializeField]
-    [Header("–¼‘O")]
-    private string _name;
+        [SerializeField]
+        [Header("–¼‘O")]
+        private string _name;
 
-    [SerializeField]
-    [Header("BGM")]
-    private AudioClip _audioClip;
+        [SerializeField]
+        [Header("BGM")]
+        private AudioClip _audioClip;
+    }
 }

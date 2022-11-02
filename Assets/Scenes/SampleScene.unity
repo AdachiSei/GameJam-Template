@@ -422,31 +422,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
       propertyPath: _sceneNames.Array.size
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
       propertyPath: _sceneNames.Array.data[0]
-      value: New Scene
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[1]
       value: SampleScene
       objectReference: {fileID: 0}
     - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[2]
+      propertyPath: _sceneNames.Array.data[1]
       value: TestScene
       objectReference: {fileID: 0}
     - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[3]
-      value: TestScene1
+      propertyPath: _sceneNames.Array.data[2]
+      value: TestScene 1
       objectReference: {fileID: 0}
     - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[4]
+      propertyPath: _sceneNames.Array.data[3]
       value: TestScene2
       objectReference: {fileID: 0}
     - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
+      propertyPath: _sceneNames.Array.data[4]
+      value: New Scene 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
       propertyPath: _sceneNames.Array.data[5]
-      value: TestScene1
+      value: RemoveThis
       objectReference: {fileID: 0}
     - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
       propertyPath: _sceneNames.Array.data[6]
@@ -454,15 +454,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
       propertyPath: _sceneNames.Array.data[7]
-      value: New Scene
+      value: TestScene2
       objectReference: {fileID: 0}
     - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
       propertyPath: _sceneNames.Array.data[8]
-      value: SampleScene
+      value: TestScene2
       objectReference: {fileID: 0}
     - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
       propertyPath: _sceneNames.Array.data[9]
-      value: TestScene
+      value: TestScene2
       objectReference: {fileID: 0}
     - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
       propertyPath: _sceneNames.Array.data[10]

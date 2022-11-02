@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +24,22 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     [SerializeField]
     [Header("全てのシーンの名前")]
     private string[] _sceneNames;
+
     #endregion
 
     #region Private Member
 
     private bool _isGetSceneName = false;
+
+    #endregion
+
+    #region Unity Method
+
+    protected override void Awake()
+    {
+        base.Awake();
+        CheckScenesName();
+    }
 
     #endregion
 
@@ -55,16 +68,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     /// </summary>
     public void LoadNextScene()
     {
-        var name = SceneManager.GetActiveScene().name;
-        for (int i = 0; i < _sceneNames.Length; i++)
-        {
-            if (_sceneNames[i] == name)
-            {
-                i++;
-                LoadScene(_sceneNames[i]);
-                return;
-            }
-        }
+        WantToLoadScene(true);
     }
 
     /// <summary>
@@ -72,43 +76,40 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     /// </summary>
     public void LoadPrevScene()
     {
-        var name = SceneManager.GetActiveScene().name;
-        for (int i = 0; i < _sceneNames.Length; i++)
-        {
-            if (_sceneNames[i] == name)
-            {
-                i--;
-                LoadScene(_sceneNames[i]);
-                return;
-            }
-        }
-    }
+        WantToLoadScene(false);
+    }  
 
     #endregion
 
-    #region Inspector Methods
+    #region Inspector Method
 
     /// <summary>
     /// Assetフォルダの中にあるSceneの名前を全てとってくる関数
     /// </summary>
     public void GetSceneName()
     {
-        List<string> sceneNames = new();
-        //Sceneの名前を全てとってくる
-        foreach (var guid in AssetDatabase.FindAssets("t:Scene"))
+        var offset = 0;
+        var isPlaying = EditorApplication.isPlaying;
+        if (isPlaying == false)
         {
-            var path = AssetDatabase.GUIDToAssetPath(guid);
-            var name = AssetDatabase.LoadMainAssetAtPath(path).name;
+            offset = 1;
+        }
+        Array.Resize(ref _sceneNames, EditorBuildSettings.scenes.Length + offset);
+        List<string> sceneNames = new();
+        //BuildSetingsに入っているSceneの名前を全てとってくる
+        foreach (var scene in EditorBuildSettings.scenes)
+        {
+            var name = Path.GetFileNameWithoutExtension(scene.path);
             sceneNames.Add(name);
         }
-        //並び替え
+        //重複している要素を消してから並び替え
         sceneNames = new(sceneNames.Distinct());
         sceneNames = new(sceneNames.OrderBy(name =>
        {
-           var sceneNum = name.Trim().Split("Scene");
+           var sceneNum = name.Split("Scene");
            if (sceneNum[DMInt.ONE] == "")
            {
-               sceneNum = new[] {sceneNum[DMInt.ZERO], "0" };
+               sceneNum = new[] { sceneNum[DMInt.ZERO], "0" };
            }
            return int.Parse(sceneNum[DMInt.ONE]);
        }));
@@ -116,6 +117,56 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         for (int i = 0; i < sceneNames.Count; i++)
         {
             _sceneNames[i] = sceneNames[i];
+        }
+        if (isPlaying == false)
+        {
+            _sceneNames[_sceneNames.Length - offset] = "RemoveThis";
+        }
+    }
+
+    #endregion
+
+    #region Private Mehod
+
+    /// <summary>
+    /// BuildSettingsとSceneLoaderのSceneが違ったら呼びなおす関数
+    /// </summary>
+    void CheckScenesName()
+    {   
+        if (_sceneNames.Length != EditorBuildSettings.scenes.Length)
+        {
+            GetSceneName();
+        }
+        else
+        {
+            foreach (var scene in EditorBuildSettings.scenes)
+            {
+                var sceneName = Path.GetFileNameWithoutExtension(scene.path).ToString();
+                if (_sceneNames.Any(name => name == sceneName) == false)
+                {
+                    GetSceneName();
+                    return;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 読み込みたいScene
+    /// </summary>
+    /// <param name="_isNext">次のSceneか</param>
+    void WantToLoadScene(bool _isNext)
+    {
+        var offset = -1;
+        if (_isNext) offset = 1;
+        var name = SceneManager.GetActiveScene().name;
+        for (int i = 0; i < _sceneNames.Length; i++)
+        {
+            if (_sceneNames[i] == name)
+            {
+                LoadScene(_sceneNames[i + offset]);
+                return;
+            }
         }
     }
 

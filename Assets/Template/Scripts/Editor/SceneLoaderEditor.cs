@@ -20,7 +20,6 @@ public class SceneLoaderEditor : Editor
         var sceneLoader = target as SceneLoader;
         var style = new GUIStyle(EditorStyles.label);
         style.richText = true;
-
         _isOpening = EditorGUILayout.Foldout(_isOpening, "Settings");
         if (_isOpening)
         {
