@@ -366,7 +366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isDontDestroy: 0
-  _name: 
+  _name: Test
   _bGMData: {fileID: 11400000, guid: 5eb54cf227498484f9ec6f1b26d1c880, type: 2}
   _sFXData: {fileID: 11400000, guid: 61d353ace826a534ea39a6a97e2fc409, type: 2}
   _bGMParent: {fileID: 859039382}
