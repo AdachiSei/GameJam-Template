@@ -9,11 +9,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BGMData", menuName = "ScriptableObjects/BGMData", order = 0)]
 public class BGMData : ScriptableObject
 {
-    public BGM[] BGMs => _bGMs;
+    public BGM[] BGMs => _bGM;
 
     [SerializeField]
-    [Header("")]
-    private BGM[] _bGMs;
+    [Header("‰¹Šy")]
+    private BGM[] _bGM;
 
     [Serializable]
     public class BGM

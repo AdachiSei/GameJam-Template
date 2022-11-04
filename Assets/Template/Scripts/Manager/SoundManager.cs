@@ -105,6 +105,11 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <param name="volume">音の大きさ</param>
     public void PlayBGM(string name,float volume = 1)
     {
+        //最初にBGMを止める
+        foreach(var audio in _bGMAudios)
+        {
+            audio.Stop();
+        }
         //再生したい音を格納しているオブジェクトから絞り込む
         foreach (var audio in _bGMAudios)
         {

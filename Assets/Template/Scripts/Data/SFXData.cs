@@ -9,11 +9,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SFXData", menuName = "ScriptableObjects/SFXData", order = 1)]
 public class SFXData : ScriptableObject
 {
-    public SFX[] SFXes => _sFXes;
+    public SFX[] SFXes => _sFX;
 
     [SerializeField]
-    [Header("")]
-    private SFX[] _sFXes;
+    [Header("Œø‰Ê‰¹")]
+    private SFX[] _sFX;
 
     [Serializable]
     public class SFX

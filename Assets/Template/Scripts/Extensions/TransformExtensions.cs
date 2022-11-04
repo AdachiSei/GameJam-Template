@@ -33,7 +33,7 @@ public static class TransformExtensions
         return tr;
     }
 
-    public static Transform ChangePosAll(this Transform tr, float x, float y, float z)
+    public static Transform ChangePosAll(this Transform tr, float x, float y, float z = 0f)
     {
         var pos = tr.position;
         pos.x = x;
@@ -67,7 +67,7 @@ public static class TransformExtensions
         return tr;
     }
 
-    public static Transform AddPosAll(this Transform tr, float x, float y, float z)
+    public static Transform AddPosAll(this Transform tr, float x, float y, float z = 0f)
     {
         var pos = tr.position;
         pos.x += x;
@@ -177,7 +177,7 @@ public static class TransformExtensions
         return tr;
     }
 
-    public static Transform ChangeScaleAll(this Transform tr, float x, float y, float z)
+    public static Transform ChangeScaleAll(this Transform tr, float x, float y, float z = 0f)
     {
         var scale = tr.localScale;
         scale.x = x;
@@ -211,7 +211,7 @@ public static class TransformExtensions
         return tr;
     }
 
-    public static Transform AddScaleAll(this Transform tr, float x, float y, float z)
+    public static Transform AddScaleAll(this Transform tr, float x, float y, float z = 0f)
     {
         var scale = tr.localScale;
         scale.x += x;
