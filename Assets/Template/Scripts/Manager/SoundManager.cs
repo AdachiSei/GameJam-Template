@@ -103,13 +103,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// </summary>
     /// <param name="name">Dataに設定した音楽(BGM)の名前</param>
     /// <param name="volume">音の大きさ</param>
-    public void PlayBGM(string name,float volume = 1)
+    async public void PlayBGM(string name,float volume = 1)
     {
         //最初にBGMを止める
-        foreach(var audio in _bGMAudios)
-        {
-            audio.Stop();
-        }
+        await StopBGM();
         //再生したい音を格納しているオブジェクトから絞り込む
         foreach (var audio in _bGMAudios)
         {
@@ -194,6 +191,19 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
             }
         }
         Debug.Log("SFXが見つからなかった");
+    }
+
+    /// <summary>
+    /// BGMを止める関数
+    /// </summary>
+    async public UniTask StopBGM()
+    {
+        //最初にBGMを止める
+        foreach (var audio in _bGMAudios)
+        {
+            audio.Stop();
+        }
+        await UniTask.NextFrame();
     }
 
     #endregion
