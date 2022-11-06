@@ -151,6 +151,20 @@ public static class TransformExtensions
 
     #endregion
 
+    #region Scale Method
+
+    public static Transform ChangeScaleAll(this Transform tr, float all)
+    {
+        var scale = tr.localScale;
+        scale.x = all;
+        scale.y = all;
+        scale.z = all;
+        tr.localScale = scale;
+        return tr;
+    }
+
+    #endregion
+
     #region Translate Methods
 
     public static Transform TranslateX(this Transform tr, float x)
