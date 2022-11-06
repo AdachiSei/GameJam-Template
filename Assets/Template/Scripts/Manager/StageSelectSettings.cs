@@ -1,34 +1,50 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DisturbMagic;
 
 /// <summary>
-/// ƒXƒe[ƒWƒZƒŒƒNƒg‰æ–Ê‚ğİ’è‚µ‚Ä‚­‚ê‚éScript
+/// ã‚¹ãƒ†ãƒ¼ã‚¸ã‚»ãƒ¬ã‚¯ãƒˆç”»é¢ã‚’è¨­å®šã—ã¦ãã‚Œã‚‹Script
 /// </summary>
 public class StageSelectSettings : MonoBehaviour
 {
     [SerializeField]
-    [Header("İ’è‚µ‚½‚¢“z")]
-    GameObject[] _gameObject;
+    [Header("è¨­å®šã—ãŸã„å¥´")]
+    GameObject[] _stage;
 
     [SerializeField]
     [Header("Context")]
+    VerticalLayoutGroup _context;
+
+    [SerializeField]
+    [Header("è¨­å®šã—ãŸã„å¥´ã‚’æ ¼ç´ã™ã‚‹ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ")]
     HorizontalLayoutGroup _hGroup;
 
     [SerializeField]
-    [Header("İ’è‚µ‚½‚¢“z‚ğŠi”[‚·‚éƒQ[ƒ€ƒIƒuƒWƒFƒNƒg")]
-    VerticalLayoutGroup _vGroup;
+    [Header("ã„ãã¤ãšã¤è¨­å®šã™ã‚‹ã‹")]
+    int _count = 3;
 
     public void Setting(int count)
     {
-        for (int i = 0; i < count; i++)
+        var limitCount = 0;
+        var stageCount = _stage.Length - DMInt.ONE;
+        var hGroupCount = stageCount / count;
+        for (int i = 0; i < _stage.Length - DMInt.ONE; i++)
         {
+            foreach (Transform tr in _hGroup.transform)
+            {
+                limitCount++;
+                _stage[0].transform.parent = tr.parent;
+                if (limitCount > count) break;
+            }
+        }
+        
+    }
 
-        }
-        foreach (Transform i in _vGroup.transform)
-        {
-            _gameObject[0].transform.parent = i.parent;
-        }
+    [ContextMenu("Test")]
+    public void Test()
+    {
+        Debug.Log((_stage.Length - DMInt.ONE)/_count + 1);
     }
 }
