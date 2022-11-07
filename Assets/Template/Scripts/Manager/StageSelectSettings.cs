@@ -9,6 +9,8 @@ using DisturbMagic;
 /// </summary>
 public class StageSelectSettings : MonoBehaviour
 {
+    public int Count => _count;
+
     [SerializeField]
     [Header("設定したい奴")]
     GameObject[] _stage;
@@ -18,29 +20,54 @@ public class StageSelectSettings : MonoBehaviour
     VerticalLayoutGroup _context;
 
     [SerializeField]
-    [Header("設定したい奴を格納するゲームオブジェクト")]
-    HorizontalLayoutGroup _hGroup;
+    [Header("設定したい奴を格納するゲームオブジェクトのPrefab")]
+    RectTransform _stageParent;
 
     [SerializeField]
-    [Header("いくつずつ設定するか")]
+    List<RectTransform> _stageParents = new();
     int _count = 3;
 
     public void Setting(int count)
     {
-        var limitCount = 0;
-        var stageCount = _stage.Length - DMInt.ONE;
-        var hGroupCount = stageCount / count;
-        for (int i = 0; i < _stage.Length - DMInt.ONE; i++)
+        foreach (var i in _stageParents)
         {
-            foreach (Transform tr in _hGroup.transform)
+            i.DetachChildren();
+        }
+        _stageParents = new();     
+        while (true)
+        {
+            var children = _context.transform;
+            var empty = children.childCount == DMInt.ZERO;
+            if (empty) break;
+            var DestroyGO = children.GetChild(DMInt.ZERO).gameObject;
+            DestroyImmediate(DestroyGO);
+        }
+
+        var stageCount = _stage.Length - DMInt.ONE;
+        var stageParentCount = stageCount / count + 1;
+        for (int i = 0; i < stageParentCount; i++)
+        {
+            var newStageParent = Instantiate(_stageParent);
+            newStageParent.transform.SetParent(_context.transform);
+            _stageParents.Add(newStageParent);
+        }
+        var setCount = 0;
+        foreach (var parent in _stageParents)
+        {
+            for (int i = 0; i < count; i++)
             {
-                limitCount++;
-                _stage[0].transform.parent = tr.parent;
-                if (limitCount > count) break;
+                if (setCount > stageCount) return;
+                _stage[setCount].transform.SetParent(parent);
+                setCount++;
             }
         }
-        
     }
+
+    public void ChangeCount(int count)
+    {
+        _count = count;
+    }
+
 
     [ContextMenu("Test")]
     public void Test()

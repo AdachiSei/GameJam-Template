@@ -19,8 +19,8 @@ public class SoundManagerEditor : Editor
     {
         base.OnInspectorGUI();
         var soundM = target as SoundManager;
-        var _style = new GUIStyle(EditorStyles.label);
-        _style.richText = true;
+        var style = new GUIStyle(EditorStyles.label);
+        style.richText = true;
 
         EditorGUILayout.Space();
 
@@ -30,7 +30,7 @@ public class SoundManagerEditor : Editor
             EditorGUILayout.Space();
 
             //BGM用のPrefabを作成
-            EditorGUILayout.LabelField("<b>BGM用のPrefabを生成</b>", _style);
+            EditorGUILayout.LabelField("<b>BGM用のPrefabを生成</b>", style);
 
             if (GUILayout.Button("CreateBGM"))
             {
@@ -39,7 +39,7 @@ public class SoundManagerEditor : Editor
 
             EditorGUILayout.Space();
 
-            EditorGUILayout.LabelField("<b>SFX用のPrefabを生成</b>", _style);
+            EditorGUILayout.LabelField("<b>SFX用のPrefabを生成</b>", style);
             var intField =　EditorGUILayout.IntField("生成数", soundM.AudioCount);
             var lessThanZero = soundM.AudioCount < DMInt.ZERO;
             var overHundred = soundM.AudioCount > DMInt.THOUSAND;
@@ -55,7 +55,7 @@ public class SoundManagerEditor : Editor
 
             EditorGUILayout.Space();
 
-            EditorGUILayout.LabelField("<b>BGM&SFX用のPrefabを全削除</b>", _style);
+            EditorGUILayout.LabelField("<b>BGM&SFX用のPrefabを全削除</b>", style);
             EditorGUI.BeginDisabledGroup(soundM.IsStopCreate);
 
             if (GUILayout.Button("Init"))
