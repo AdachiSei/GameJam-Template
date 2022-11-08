@@ -10,6 +10,7 @@ using DisturbMagic;
 public class StageSelectSettings : MonoBehaviour
 {
     public int Count => _count;
+    public float Range => _range;
 
     [SerializeField]
     [Header("設定したい奴")]
@@ -21,17 +22,28 @@ public class StageSelectSettings : MonoBehaviour
 
     [SerializeField]
     [Header("設定したい奴を格納するゲームオブジェクトのPrefab")]
-    RectTransform _stageParent;
+    HorizontalLayoutGroup _stageParent;
 
     [SerializeField]
-    List<RectTransform> _stageParents = new();
+    [Header("設定したい奴を格納するゲームオブジェクトのPrefabs")]
+    List<HorizontalLayoutGroup> _stageParents = new();
+
     int _count = 3;
+    float _range;
+
+    public void ChangeSpace(float range)
+    {
+        foreach (var i in _stageParents)
+        {
+            i.spacing = range;
+        }
+    }
 
     public void Setting(int count)
     {
         foreach (var i in _stageParents)
         {
-            i.DetachChildren();
+            i.transform.DetachChildren();
         }
         _stageParents = new();     
         while (true)
@@ -57,7 +69,7 @@ public class StageSelectSettings : MonoBehaviour
             for (int i = 0; i < count; i++)
             {
                 if (setCount > stageCount) return;
-                _stage[setCount].transform.SetParent(parent);
+                _stage[setCount].transform.SetParent(parent.transform);
                 setCount++;
             }
         }
@@ -66,6 +78,11 @@ public class StageSelectSettings : MonoBehaviour
     public void ChangeCount(int count)
     {
         _count = count;
+    }
+
+    public void ChangeRange(float range)
+    {
+        _range = range;
     }
 
 

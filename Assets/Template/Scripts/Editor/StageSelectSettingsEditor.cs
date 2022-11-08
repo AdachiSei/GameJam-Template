@@ -16,6 +16,10 @@ public class StageSelectSettingsEditor : Editor
         var style = new GUIStyle(EditorStyles.label);
         style.richText = true;
 
+        var floatField = EditorGUILayout.FloatField("スペース", settings.Range);
+        settings.ChangeRange(floatField);
+        settings.ChangeSpace(floatField);
+
         EditorGUILayout.LabelField("<b>格納する</b>", style);
         var intField = EditorGUILayout.IntField("いくつずつか", settings.Count);
         var lessThanZero = settings.Count < _minValue;
