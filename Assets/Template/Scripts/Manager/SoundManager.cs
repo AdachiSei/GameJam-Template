@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using DisturbMagic;
 using Cysharp.Threading.Tasks;
 
 /// <summary>
@@ -60,6 +59,12 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     private int _newAudioNum;
     private bool _isStopCreate;
     private bool _isPause;
+
+    #endregion
+
+    #region Const Member
+
+    private const int OFFSET = 1;
 
     #endregion
 
@@ -178,7 +183,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                 gameObject.name = "NewSFX " + _newAudioNum;
                 _newAudioNum++;
                 _sFXAudios.Add(gameObject);
-                var newAudio = _sFXAudios[_sFXAudios.Count - DMInt.ONE];
+                var newAudio = _sFXAudios[_sFXAudios.Count - OFFSET];
                 newAudio.clip = sFX.AudioClip;
                 newAudio.volume = volume;
                 var newPrivName = newAudio.name;
@@ -355,9 +360,9 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         while (true)
         {
             var children = _bGMParent.transform;
-            var empty = children.childCount == DMInt.ZERO;
+            var empty = children.childCount == OFFSET;
             if (empty) break;
-            var DestroyGO = children.GetChild(DMInt.ZERO).gameObject;
+            var DestroyGO = children.GetChild(OFFSET).gameObject;
             DestroyImmediate(DestroyGO);
         }
     }
@@ -371,11 +376,11 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         while (true)
         {
             var children = _sFXParent.transform;
-            if (children.childCount == DMInt.ZERO)
+            if (children.childCount == OFFSET)
             {
                 break;
             }
-            var DestroyGO = children.GetChild(DMInt.ZERO).gameObject;
+            var DestroyGO = children.GetChild(OFFSET).gameObject;
             DestroyImmediate(DestroyGO);
         }
     }

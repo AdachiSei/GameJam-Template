@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ポーズに必要なScripts
+/// </summary>
 public class PauseManager : SingletonMonoBehaviour<PauseManager>
 {
     #region private Member

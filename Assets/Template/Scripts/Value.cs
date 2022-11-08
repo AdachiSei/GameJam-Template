@@ -11,11 +11,11 @@ public struct Value<T>
 
     [SerializeField]
     [Header("è¨Ç≥Ç¢íl")]
-    T _minValue;
+    private T _minValue;
 
     [SerializeField]
     [Header("ëÂÇ´Ç¢íl")]
-    T _maxValue;
+    private T _maxValue;
 
     public void ChangeValue(T minValue, T maxValue)
     {

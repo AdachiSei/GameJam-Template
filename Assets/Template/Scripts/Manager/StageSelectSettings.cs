@@ -2,35 +2,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DisturbMagic;
 
 /// <summary>
 /// ステージセレクト画面を設定してくれるScript
 /// </summary>
 public class StageSelectSettings : MonoBehaviour
 {
+    #region Properties
+
     public int Count => _count;
     public float Range => _range;
+    public IReadOnlyList<HorizontalLayoutGroup> StageParents => _stageParents;  
+
+    #endregion
+
+    #region Inspector Member
 
     [SerializeField]
-    [Header("設定したい奴")]
-    GameObject[] _stage;
+    [Header("設定したいもの")]
+    private GameObject[] _stage;
 
     [SerializeField]
     [Header("Context")]
-    VerticalLayoutGroup _context;
+    private VerticalLayoutGroup _context;
 
     [SerializeField]
-    [Header("設定したい奴を格納するゲームオブジェクトのPrefab")]
-    HorizontalLayoutGroup _stageParent;
+    [Header("設定したいものを格納するゲームオブジェクトのPrefab")]
+    private HorizontalLayoutGroup _stageParent;
 
     [SerializeField]
-    [Header("設定したい奴を格納するゲームオブジェクトのPrefabs")]
-    List<HorizontalLayoutGroup> _stageParents = new();
+    [Header("設定したいものを格納するゲームオブジェクトのPrefabs")]
+    private List<HorizontalLayoutGroup> _stageParents = new();
 
-    int _count = 3;
-    float _range;
+    #endregion
 
+    #region Private Member
+
+    private int _count = 3;
+    private float _range;
+
+    #endregion
+
+    #region Const Member
+
+    private const int OFFSET = 1;
+
+    #endregion
+
+    #region Public Methods
+
+    public void ChangeCount(int count)
+    {
+        _count = count;
+    }
+
+    public void ChangeRange(float range)
+    {
+        _range = range;
+    }
     public void ChangeSpace(float range)
     {
         foreach (var i in _stageParents)
@@ -38,6 +67,10 @@ public class StageSelectSettings : MonoBehaviour
             i.spacing = range;
         }
     }
+
+    #endregion
+
+    #region Inspector Method
 
     public void Setting(int count)
     {
@@ -49,14 +82,14 @@ public class StageSelectSettings : MonoBehaviour
         while (true)
         {
             var children = _context.transform;
-            var empty = children.childCount == DMInt.ZERO;
+            var empty = children.childCount == 0;
             if (empty) break;
-            var DestroyGO = children.GetChild(DMInt.ZERO).gameObject;
+            var DestroyGO = children.GetChild(0).gameObject;
             DestroyImmediate(DestroyGO);
         }
 
-        var stageCount = _stage.Length - DMInt.ONE;
-        var stageParentCount = stageCount / count + 1;
+        var stageCount = _stage.Length - OFFSET;
+        var stageParentCount = stageCount / count + OFFSET;
         for (int i = 0; i < stageParentCount; i++)
         {
             var newStageParent = Instantiate(_stageParent);
@@ -75,20 +108,5 @@ public class StageSelectSettings : MonoBehaviour
         }
     }
 
-    public void ChangeCount(int count)
-    {
-        _count = count;
-    }
-
-    public void ChangeRange(float range)
-    {
-        _range = range;
-    }
-
-
-    [ContextMenu("Test")]
-    public void Test()
-    {
-        Debug.Log((_stage.Length - DMInt.ONE)/_count + 1);
-    }
+    #endregion
 }

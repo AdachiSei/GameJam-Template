@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using DisturbMagic;
 
 [CustomEditor(typeof(SoundManager))]
 public class SoundManagerEditor : Editor
 {
+    #region Private Member
+
+    private int _maxValue = 1000;
+
+    #endregion
+
     #region Private Static Member
 
     private static bool _isOpening;
@@ -41,10 +46,10 @@ public class SoundManagerEditor : Editor
 
             EditorGUILayout.LabelField("<b>SFXópÇÃPrefabÇê∂ê¨</b>", style);
             var intField =Å@EditorGUILayout.IntField("ê∂ê¨êî", soundM.AudioCount);
-            var lessThanZero = soundM.AudioCount < DMInt.ZERO;
-            var overHundred = soundM.AudioCount > DMInt.THOUSAND;
-            if (lessThanZero) intField = DMInt.ZERO;
-            else if (overHundred)intField = DMInt.THOUSAND;
+            var lessThanZero = soundM.AudioCount < 0;
+            var overHundred = soundM.AudioCount > _maxValue;
+            if (lessThanZero) intField = 0;
+            else if (overHundred)intField = _maxValue;
 
             soundM.ChangeAudioCount(intField);
 
