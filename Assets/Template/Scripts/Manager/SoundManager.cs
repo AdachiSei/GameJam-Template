@@ -95,8 +95,11 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     private void OnDisable()
     {
-        PauseManager.Instance.OnPause -= Pause;
-        PauseManager.Instance.OnResume -= Resume;
+        if (IsDontDestroy)
+        {
+            PauseManager.Instance.OnPause -= Pause;
+            PauseManager.Instance.OnResume -= Resume;
+        }
     }
 
     #endregion
@@ -360,9 +363,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         while (true)
         {
             var children = _bGMParent.transform;
-            var empty = children.childCount == OFFSET;
+            var empty = children.childCount == 0;
+            Debug.Log(children.childCount);
             if (empty) break;
-            var DestroyGO = children.GetChild(OFFSET).gameObject;
+            var DestroyGO = children.GetChild(0).gameObject;
             DestroyImmediate(DestroyGO);
         }
     }
@@ -376,11 +380,9 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         while (true)
         {
             var children = _sFXParent.transform;
-            if (children.childCount == OFFSET)
-            {
-                break;
-            }
-            var DestroyGO = children.GetChild(OFFSET).gameObject;
+            var empty = children.childCount == 0;
+            if (empty) break;
+            var DestroyGO = children.GetChild(0).gameObject;
             DestroyImmediate(DestroyGO);
         }
     }

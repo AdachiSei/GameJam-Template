@@ -6,7 +6,9 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using DisturbMagic;
+using DG.Tweening;
+using UnityEngine.UI;
+using Cysharp.Threading.Tasks;
 
 /// <summary>
 /// シーンを読み込むために必要なScript
@@ -22,6 +24,18 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     #region Inspecter Member
 
     [SerializeField]
+    Image _loadingImage;
+
+    [SerializeField]
+    Image _panel;
+
+    [SerializeField]
+    private float _fadeTime = 0.5f;
+
+    [SerializeField]
+    private float _loadSpeed = 1f;
+
+    [SerializeField]
     [Header("全てのシーンの名前")]
     private string[] _sceneNames;
 
@@ -30,6 +44,15 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     #region Private Member
 
     private bool _isGetSceneName = false;
+    private  Vector3 _rotDir = new(0f,0f,-360);
+
+    #endregion
+
+    #region Const Member
+
+    private const int OFFSET = 1;
+    private const int LOOP = -1;
+    private const float FADE_POS = 800;
 
     #endregion
 
@@ -39,9 +62,17 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     {
         base.Awake();
         CheckScenesName();
+        _panel?.rectTransform.DOLocalMoveX(-FADE_POS, _fadeTime);
+        _loadingImage?.gameObject.SetActive(false);
     }
 
     #endregion
+
+    [ContextMenu("Reload")]
+    public void Test()
+    {
+        ReloadScene();
+    }
 
     #region Public Methods
 
@@ -49,9 +80,20 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     /// Sceneを読み込む関数
     /// </summary>
     /// <param name="name">Sceneの名前</param>
-    public void LoadScene(string name)
+    async public void LoadScene(string name)
     {
-        SceneManager.LoadSceneAsync(name);
+        if (_panel)
+        {
+            _panel.rectTransform.DOLocalMoveX(0f, _fadeTime);
+            await UniTask.Delay(TimeSpan.FromSeconds(_fadeTime));
+        }
+        _loadingImage?.gameObject.SetActive(true);
+        _loadingImage?
+            .transform
+                .DORotate(_rotDir, _loadSpeed, RotateMode.FastBeyond360)
+                .SetEase(Ease.Linear)
+                .SetLoops(LOOP);
+        await SceneManager.LoadSceneAsync(name);
     }
 
     /// <summary>
@@ -107,11 +149,11 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         sceneNames = new(sceneNames.OrderBy(name =>
        {
            var sceneNum = name.Split("Scene");
-           if (sceneNum[DMInt.ONE] == "")
+           if (sceneNum[OFFSET] == "")
            {
-               sceneNum = new[] { sceneNum[DMInt.ZERO], "0" };
+               sceneNum = new[] { sceneNum[0], "0" };
            }
-           return int.Parse(sceneNum[DMInt.ONE]);
+           return int.Parse(sceneNum[OFFSET]);
        }));
 
         for (int i = 0; i < sceneNames.Count; i++)

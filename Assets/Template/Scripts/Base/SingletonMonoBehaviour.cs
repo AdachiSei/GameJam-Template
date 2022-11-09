@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 {
+    public bool IsDontDestroy => _isDontDestroy;
+
     [SerializeField]
     [Header("ƒV[ƒ“‚ªˆÚ“®‚µ‚Ä‚à•Û‚·‚é‚©")]
     bool _isDontDestroy;
