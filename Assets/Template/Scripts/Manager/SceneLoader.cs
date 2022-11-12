@@ -68,12 +68,6 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     #endregion
 
-    [ContextMenu("Reload")]
-    public void Test()
-    {
-        ReloadScene();
-    }
-
     #region Public Methods
 
     /// <summary>

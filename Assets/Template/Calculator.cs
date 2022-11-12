@@ -1,31 +1,31 @@
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class Calculator
 {
-    public static TValue RandomT<T, TValue>(TValue a, TValue b) where T : IRandom<TValue>, new()
+
+    public static float Probability(float[] num)
     {
-        return new T().RandomNum(a, b);
+        float[] probability = { };
+        float sum = num.Sum();
+        var limitCount = 1;
+        Array.Resize(ref probability, num.Length);
+        for (int index = 0; index < num.Length; index++)
+        {
+            for (int count = 0; count < limitCount; count++)
+            {
+                probability[index] += num[count] * 100f / sum;
+            }
+             Debug.Log(index + "”Ô–Ú " + probability[index]);
+            limitCount++;
+        }
+        var random = UnityEngine.Random.Range(0f,100f);
+        Debug.Log("—” " + random);
+        var result = probability.FirstOrDefault(p => p > random);
+        Debug.Log("Œ‹‰Ê‚Í..." + result);
+        return result;
     }
-
-    public static TValue B<TValue>(int a) where TValue : Testoo<TValue>,new()
-    {
-        return new TValue().A(a);
-    }
-}
-
-public interface Testoo<T>
-{
-    public T A(int a);
-}
-
-public struct RandomInt : IRandom<int>
-{
-    public int RandomNum(int min, int max) => Random.Range(min, max);
-}
-
-public struct RandomFloat : IRandom<float>
-{
-    public float RandomNum(float min, float max) => Random.Range(min, max);
 }
