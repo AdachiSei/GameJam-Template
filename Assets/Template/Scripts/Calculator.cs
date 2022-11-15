@@ -95,4 +95,48 @@ public static class Calculator
         var newNum = num.ToArray();
         return RandomIndex(newNum);
     }
+
+    public static int RandomIndex<T>(T[] num) where T : IRandom<T,int>,new()
+    {
+        return RandomIndex(new T().AllValue(num));
+    }
+
+    public static int RandomIndex<T>(T[] num,int bug = 0) where T : IRandom<T, float>, new()
+    {
+        return RandomIndex(new T().AllValue(num));
+    }
+
+    public static int RandomIndex<T>(List<T> num) where T : IRandom<T, int>, new()
+    {
+        return RandomIndex(new T().AllValue(num.ToArray()));
+    }
+
+    public static int RandomIndex<T>(List<T> num, int bug = 0) where T : IRandom<T, float>, new()
+    {
+        return RandomIndex(new T().AllValue(num.ToArray()));
+    }
+}
+
+[Serializable]
+public struct RandomInt : IRandom<RandomInt,int>
+{
+    [SerializeField]
+    int _a;
+
+    public int[] AllValue(RandomInt[] num)
+    {
+        return num.Select(e => e._a).ToArray();
+    }
+}
+
+[Serializable]
+public struct RandomFloat : IRandom<RandomFloat, float>
+{
+    [SerializeField]
+    float _a;
+
+    public float[] AllValue(RandomFloat[] num)
+    {
+        return num.Select(e => e._a).ToArray();
+    }
 }
