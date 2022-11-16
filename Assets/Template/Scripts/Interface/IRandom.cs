@@ -7,5 +7,11 @@
 public interface IRandom<TScriptName, T>
 {
     public T[] AllValue(TScriptName[] num);
-    //return num.Select(e => e.intŒ^).ToArray();
+    //return num.Select(e => e.TŒ^).ToArray();
+}
+
+public interface IRandomList<TScriptName, T>
+{
+    public T[] AllValue(TScriptName num);
+    //return num.TŒ^.ToArray();
 }

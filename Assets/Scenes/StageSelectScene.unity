@@ -904,8 +904,10 @@ MonoBehaviour:
   - a: e
     b: 1
   _randomInt:
-  - _a: 2
-  - _a: 2
+    _a:
+    - _a: 1
+    - _a: 4
+    - _a: 4
 --- !u!4 &493113819
 Transform:
   m_ObjectHideFlags: 0
