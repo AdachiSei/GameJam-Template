@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 
 /// <summary>
 /// サウンドを管理するScript
@@ -22,6 +23,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     [SerializeField]
     [Header("最初に流すBGM")]
     private string _name;
+
+    [SerializeField]
+    [Header("音が消えるまでの時間")]
+    float _fadeTime;
 
     [SerializeField]
     [Header("音楽")]
@@ -209,9 +214,15 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         //最初にBGMを止める
         foreach (var audio in _bGMAudios)
         {
+            //audio.Stop();
+            audio.DOFade(0, _fadeTime);
+        }
+        //await UniTask.NextFrame();
+        await UniTask.Delay(TimeSpan.FromSeconds(_fadeTime));
+        foreach (var audio in _bGMAudios)
+        {
             audio.Stop();
         }
-        await UniTask.NextFrame();
     }
 
     #endregion

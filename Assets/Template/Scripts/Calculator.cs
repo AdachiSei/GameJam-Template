@@ -101,7 +101,7 @@ public static class Calculator
     /// </summary>
     /// <param name="num">確率</param>
     /// <returns>Index</returns>
-    public static int RandomIndex<T>(T[] num) where T : IRandom<T,int>,new()
+    public static int RandomIndex<T>(T[] num) where T : IProbabilityArrayOrList<T,int>,new()
     {
         return RandomIndex(new T().AllValue(num));
     }
@@ -111,7 +111,7 @@ public static class Calculator
     /// </summary>
     /// <param name="num">確率</param>
     /// <returns>Index</returns>
-    public static int RandomIndex<T>(T[] num,int bug = 0) where T : IRandom<T, float>, new()
+    public static int RandomIndex<T>(T[] num,int isInt = 0) where T : IProbabilityArrayOrList<T, float>, new()
     {
         return RandomIndex(new T().AllValue(num));
     }
@@ -121,7 +121,7 @@ public static class Calculator
     /// </summary>
     /// <param name="num">確率</param>
     /// <returns>Index</returns>
-    public static int RandomIndex<T>(IReadOnlyList<T> num) where T : IRandom<T, int>, new()
+    public static int RandomIndex<T>(IReadOnlyList<T> num) where T : IProbabilityArrayOrList<T, int>, new()
     {
         return RandomIndex(new T().AllValue(num.ToArray()));
     }
@@ -131,7 +131,7 @@ public static class Calculator
     /// </summary>
     /// <param name="num">確率</param>
     /// <returns>Index</returns>
-    public static int RandomIndex<T>(IReadOnlyList<T> num, bool isInt = false) where T : IRandom<T, float>, new()
+    public static int RandomIndex<T>(IReadOnlyList<T> num, bool isInt = false) where T : IProbabilityArrayOrList<T, float>, new()
     {
         return RandomIndex(new T().AllValue(num.ToArray()));
     }
@@ -141,7 +141,7 @@ public static class Calculator
     /// </summary>
     /// <param name="num">確率</param>
     /// <returns>Index</returns>
-    public static int RandomIndex<T>(T num) where T : IRandomList<T, int>, new()
+    public static int RandomIndex<T>(T num) where T : IProbabilityInArrayOrList<T, int>, new()
     {
         return RandomIndex(new T().AllValue(num));
     }
@@ -151,53 +151,8 @@ public static class Calculator
     /// </summary>
     /// <param name="num">確率</param>
     /// <returns>Index</returns>
-    public static int RandomIndex<T>(T num, bool isInt = false) where T : IRandomList<T, float>, new()
+    public static int RandomIndex<T>(T num, bool isInt = false) where T : IProbabilityInArrayOrList<T, float>, new()
     {
         return RandomIndex(new T().AllValue(num));
-    }
-}
-
-[Serializable]
-public struct RandomInt : IRandom<RandomInt,int>
-{
-    [SerializeField]
-    int _a;
-
-    public int[] AllValue(RandomInt[] num)
-    {
-        return num.Select(e => e._a).ToArray();
-    }
-}
-
-[Serializable]
-public struct RandomFloat : IRandom<RandomFloat, float>
-{
-    [SerializeField]
-    float _a;
-
-    public float[] AllValue(RandomFloat[] num)
-    {
-        return num.Select(e => e._a).ToArray();
-    }
-}
-
-[Serializable]
-public struct RandomIntInList : IRandomList<RandomIntInList, int>
-{
-    [SerializeField]
-    Test[] _a;
-
-    public int[] AllValue(RandomIntInList num)
-    {
-        return num._a.Select(e => e.A).ToArray();
-    }
-
-    [Serializable]
-    public class Test
-    {
-        public int A => _a;
-
-        [SerializeField]
-        int _a;
     }
 }

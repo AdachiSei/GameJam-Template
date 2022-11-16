@@ -9,180 +9,180 @@ public static class TransformExtensions
 {
     #region Position Methods
 
-    public static Transform ChangePosX(this Transform tr, float x)
+    public static Transform ChangePosX(this Transform transform, float x)
     {
-        var pos = tr.position;
+        var pos = transform.position;
         pos.x = x;
-        tr.position = pos;
-        return tr;
+        transform.position = pos;
+        return transform;
     }
 
-    public static Transform ChangePosY(this Transform tr, float y)
+    public static Transform ChangePosY(this Transform trandform, float y)
     {
-        var pos = tr.position;
+        var pos = trandform.position;
         pos.y = y;
-        tr.position = pos;
-        return tr;
+        trandform.position = pos;
+        return trandform;
     }
 
-    public static Transform ChangePosZ(this Transform tr, float z)
+    public static Transform ChangePosZ(this Transform trandform, float z)
     {
-        var pos = tr.position;
+        var pos = trandform.position;
         pos.z = z;
-        tr.position = pos;
-        return tr;
+        trandform.position = pos;
+        return trandform;
     }
 
-    public static Transform ChangePosAll(this Transform tr, float x, float y, float z = 0f)
+    public static Transform ChangePosAll(this Transform transform, float x, float y, float z = 0f)
     {
-        var pos = tr.position;
+        var pos = transform.position;
         pos.x = x;
         pos.y = y;
         pos.z = z;
-        tr.position = pos;
-        return tr;
+        transform.position = pos;
+        return transform;
     }
 
-    public static Transform AddPosX(this Transform tr, float x)
+    public static Transform AddPosX(this Transform transform, float x)
     {
-        var pos = tr.position;
+        var pos = transform.position;
         pos.x += x;
-        tr.position = pos;
-        return tr;
+        transform.position = pos;
+        return transform;
     }
 
-    public static Transform AddPosY(this Transform tr, float y)
+    public static Transform AddPosY(this Transform transform, float y)
     {
-        var pos = tr.position;
+        var pos = transform.position;
         pos.y += y;
-        tr.position = pos;
-        return tr;
+        transform.position = pos;
+        return transform;
     }
 
-    public static Transform AddPosZ(this Transform tr, float z)
+    public static Transform AddPosZ(this Transform transform, float z)
     {
-        var pos = tr.position;
+        var pos = transform.position;
         pos.z += z;
-        tr.position = pos;
-        return tr;
+        transform.position = pos;
+        return transform;
     }
 
-    public static Transform AddPosAll(this Transform tr, float x, float y, float z = 0f)
+    public static Transform AddPosAll(this Transform transform, float x, float y, float z = 0f)
     {
-        var pos = tr.position;
+        var pos = transform.position;
         pos.x += x;
         pos.y += y;
         pos.z += z;
-        tr.position = pos;
-        return tr;
+        transform.position = pos;
+        return transform;
     }
 
     #endregion
 
     #region Rotation Methods
 
-    public static Transform ChangeRotX(this Transform tr, float x)
+    public static Transform ChangeRotX(this Transform transform, float x)
     {
-        var rot = tr.rotation;
+        var rot = transform.rotation;
         rot.x = x;
-        tr.rotation = rot;
-        return tr;
+        transform.rotation = rot;
+        return transform;
     }
 
-    public static Transform ChangeRotY(this Transform tr, float y)
+    public static Transform ChangeRotY(this Transform trandform, float y)
     {
-        var rot = tr.rotation;
+        var rot = trandform.rotation;
         rot.y = y;
-        tr.rotation = rot;
-        return tr;
+        trandform.rotation = rot;
+        return trandform;
     }
 
-    public static Transform ChangeRotZ(this Transform tr, float z)
+    public static Transform ChangeRotZ(this Transform transform, float z)
     {
-        var rot = tr.rotation;
+        var rot = transform.rotation;
         rot.z = z;
-        tr.rotation = rot;
-        return tr;
+        transform.rotation = rot;
+        return transform;
     }
 
-    public static Transform ChangeRotAll(this Transform tr, float x, float y, float z)
+    public static Transform ChangeRotAll(this Transform transform, float x, float y, float z)
     {
-        var rot = tr.rotation;
+        var rot = transform.rotation;
         rot.x = x;
         rot.y = y;
         rot.z = z;
-        tr.rotation = rot;
-        return tr;
+        transform.rotation = rot;
+        return transform;
     }
 
-    public static Transform AddRotX(this Transform tr, float x)
+    public static Transform AddRotX(this Transform transform, float x)
     {
-        var rot = tr.rotation;
+        var rot = transform.rotation;
         rot.x += x;
-        tr.rotation = rot;
-        return tr;
+        transform.rotation = rot;
+        return transform;
     }
 
-    public static Transform AddRotY(this Transform tr, float y)
+    public static Transform AddRotY(this Transform transform, float y)
     {
-        var rot = tr.rotation;
+        var rot = transform.rotation;
         rot.y += y;
-        tr.rotation = rot;
-        return tr;
+        transform.rotation = rot;
+        return transform;
     }
 
-    public static Transform AddRotZ(this Transform tr, float z)
+    public static Transform AddRotZ(this Transform transform, float z)
     {
-        var rot = tr.rotation;
+        var rot = transform.rotation;
         rot.z += z;
-        tr.rotation = rot;
-        return tr;
+        transform.rotation = rot;
+        return transform;
     }
 
-    public static Transform AddRotAll(this Transform tr, float x, float y, float z)
+    public static Transform AddRotAll(this Transform transform, float x, float y, float z)
     {
-        var rot = tr.rotation;
+        var rot = transform.rotation;
         rot.x += x;
         rot.y += y;
         rot.z += z;
-        tr.rotation = rot;
-        return tr;
+        transform.rotation = rot;
+        return transform;
     }
 
     #endregion
 
     #region Scale Method
 
-    public static Transform ChangeScaleAll(this Transform tr, float all)
+    public static Transform ChangeScaleAll(this Transform transform, float all)
     {
-        var scale = tr.localScale;
+        var scale = transform.localScale;
         scale.x = all;
         scale.y = all;
         scale.z = all;
-        tr.localScale = scale;
-        return tr;
+        transform.localScale = scale;
+        return transform;
     }
 
     #endregion
 
     #region Translate Methods
 
-    public static Transform TranslateX(this Transform tr, float x)
+    public static Transform TranslateX(this Transform transform, float x)
     {
-        tr.Translate(x, 0f, 0f);
-        return tr;
+        transform.Translate(x, 0f, 0f);
+        return transform;
     }
 
-    public static Transform TranslateY(this Transform tr, float y)
+    public static Transform TranslateY(this Transform transform, float y)
     {
-        tr.Translate(0f, y, 0f);
-        return tr;
+        transform.Translate(0f, y, 0f);
+        return transform;
     }
 
-    public static Transform TranslateZ(this Transform tr, float z)
+    public static Transform TranslateZ(this Transform transform, float z)
     {
-        tr.Translate(0f, 0f, z);
-        return tr;
+        transform.Translate(0f, 0f, z);
+        return transform;
     }
 
     #endregion
