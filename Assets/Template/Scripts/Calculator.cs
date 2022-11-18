@@ -15,8 +15,8 @@ public static class Calculator
     /// <returns>Index</returns>
     public static int RandomIndex(float[] num)
     {
-        float[] probability = { };
-        float sum = num.Sum();
+        float[] probability = null;
+        var sum = num.Sum();
         var limitCount = 1;
         Array.Resize(ref probability, num.Length);
         for (int index = 0; index < num.Length; index++)
@@ -48,7 +48,7 @@ public static class Calculator
     /// <returns>Index</returns>
     public static int RandomIndex(int[] num)
     {
-        float[] probability = { };
+        float[] probability = null;
         float sum = num.Sum();
         var limitCount = 1;
         Array.Resize(ref probability, num.Length);
