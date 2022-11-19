@@ -4,9 +4,9 @@
 /// </summary>
 /// <typeparam name="TScriptName">Script‚Ì–¼‘O</typeparam>
 /// <typeparam name="T">’lŒ^</typeparam>
-public interface IProbabilityInArrayOrList<TScriptName, T>
+public interface IProbabilityInT<TScriptName, T>
     where T : struct
-    where TScriptName : IProbabilityInArrayOrList<TScriptName, T>
+    where TScriptName : IProbabilityInT<TScriptName, T>
 {
     public T[] AllValue(TScriptName num);
     //return num.TŒ^.ToArray();
