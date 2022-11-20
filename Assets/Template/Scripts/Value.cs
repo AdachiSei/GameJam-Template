@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,11 +10,11 @@ public struct Value<T>
     public T MaxValue => _maxValue;
 
     [SerializeField]
-    [Header("è¨Ç≥Ç¢íl")]
+    [Header("Â∞è„Åï„ÅÑÂÄ§")]
     private T _minValue;
 
     [SerializeField]
-    [Header("ëÂÇ´Ç¢íl")]
+    [Header("Â§ß„Åç„ÅÑÂÄ§")]
     private T _maxValue;
 
     public void ChangeValue(T minValue, T maxValue)
