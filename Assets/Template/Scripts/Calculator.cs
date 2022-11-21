@@ -1,9 +1,11 @@
-using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ŒvŽZ‹@
+/// </summary>
 public static class Calculator
 {
     const float MAX_VALUE = 100f;
@@ -18,7 +20,7 @@ public static class Calculator
         float[] probability = null;
         var sum = num.Sum();
         var limitCount = 1;
-        Array.Resize(ref probability, num.Length);
+        System.Array.Resize(ref probability, num.Length);
         for (int index = 0; index < num.Length; index++)
         {
             for (int count = 0; count < limitCount; count++)
@@ -28,11 +30,11 @@ public static class Calculator
             Debug.Log(index + "”Ô–Ú " + probability[index]);
             limitCount++;
         }
-        var random = UnityEngine.Random.Range(0f, MAX_VALUE);
-        Debug.Log("—” " + random);
+        var randomValue = Random.Range(0f, MAX_VALUE);
+        Debug.Log("—” " + randomValue);
         for (int i = 0; i < probability.Length; i++)
         {
-            if (probability[i] > random)
+            if (probability[i] > randomValue)
             {
                 Debug.Log("Œ‹‰Ê‚Í" + i);
                 return i;
@@ -51,7 +53,7 @@ public static class Calculator
         float[] probability = null;
         float sum = num.Sum();
         var limitCount = 1;
-        Array.Resize(ref probability, num.Length);
+        System.Array.Resize(ref probability, num.Length);
         for (int index = 0; index < num.Length; index++)
         {
             for (int count = 0; count < limitCount; count++)
@@ -61,11 +63,11 @@ public static class Calculator
             Debug.Log(index + "”Ô–Ú " + probability[index]);
             limitCount++;
         }
-        var random = UnityEngine.Random.Range(0f, MAX_VALUE);
-        Debug.Log("—” " + random);
+        var randomValue = Random.Range(0f, MAX_VALUE);
+        Debug.Log("—” " + randomValue);
         for (int i = 0; i < probability.Length; i++)
         {
-            if (probability[i] > random)
+            if (probability[i] > randomValue)
             {
                 Debug.Log("Œ‹‰Ê‚Í" + i);
                 return i;
