@@ -8,9 +8,11 @@ using UnityEngine;
 /// </summary>
 public static class Calculator
 {
-    #region Const Member
+    #region Const Members
 
-    const float MAX_VALUE = 100f;
+    const int MAX_VALUE = 100;
+
+    const float MAX_VALUE_F = 100f;
 
     #endregion
 
@@ -31,12 +33,12 @@ public static class Calculator
         {
             for (int count = 0; count < limitCount; count++)
             {
-                probability[index] += num[count] * MAX_VALUE / sum;
+                probability[index] += num[count] * MAX_VALUE_F / sum;
             }
             Debug.Log(index + "番目 " + probability[index]);
             limitCount++;
         }
-        var randomValue = Random.Range(0f, MAX_VALUE);
+        var randomValue = Random.Range(0f, MAX_VALUE_F);
         Debug.Log("乱数 " + randomValue);
         for (int i = 0; i < probability.Length; i++)
         {
@@ -64,12 +66,12 @@ public static class Calculator
         {
             for (int count = 0; count < limitCount; count++)
             {
-                probability[index] += num[count] * MAX_VALUE / sum;
+                probability[index] += num[count] * MAX_VALUE_F / sum;
             }
             Debug.Log(index + "番目 " + probability[index]);
             limitCount++;
         }
-        var randomValue = Random.Range(0f, MAX_VALUE);
+        var randomValue = Random.Range(0f, MAX_VALUE_F);
         Debug.Log("乱数 " + randomValue);
         for (int i = 0; i < probability.Length; i++)
         {
@@ -162,6 +164,36 @@ public static class Calculator
     public static int RandomIndex<T>(T num, bool isInt = false) where T : IProbabilityInT<T, float>, new()
     {
         return RandomIndex(new T().AllValue(num));
+    }
+
+    #endregion
+
+    #region RandomBool Methods
+
+    /// <summary>
+    /// 確率でboolを返す関数
+    /// </summary>
+    /// <param name="probability">確率</param>
+    /// <returns>TrueかFalse</returns>
+    public static bool RandomBool(int probability)
+    {
+        probability = Mathf.Clamp(probability, 0, MAX_VALUE);
+        var randomValue = Random.Range(0,MAX_VALUE);
+        if (probability > randomValue) return true;
+        return false;
+    }
+
+    /// <summary>
+    /// 確率でboolを返す関数
+    /// </summary>
+    /// <param name="probability">確率</param>
+    /// <returns>TrueかFalse</returns>
+    public static bool? RandomBool(float probability)
+    {
+        probability = Mathf.Clamp(probability, 0, MAX_VALUE_F);
+        var randomValue = Random.Range(0f, MAX_VALUE_F);
+        if (probability > randomValue) return true;
+        return false;
     }
 
     #endregion
