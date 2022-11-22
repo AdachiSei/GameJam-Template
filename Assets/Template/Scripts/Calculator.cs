@@ -8,7 +8,13 @@ using UnityEngine;
 /// </summary>
 public static class Calculator
 {
+    #region Const Member
+
     const float MAX_VALUE = 100f;
+
+    #endregion
+
+    #region RandomIndex Methods
 
     /// <summary>
     /// ÉKÉ`ÉÉÇÃÇÊÇ§Ç»ä÷êî
@@ -157,4 +163,6 @@ public static class Calculator
     {
         return RandomIndex(new T().AllValue(num));
     }
+
+    #endregion
 }
