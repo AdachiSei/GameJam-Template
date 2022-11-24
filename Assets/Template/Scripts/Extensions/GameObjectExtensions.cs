@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class GameObjectExtensions
 {
-    static void ChangeActive(this GameObject gameObject)
+    public static void ChangeActive(this GameObject gameObject)
     {
         var activeSelf = gameObject.activeSelf;
         if (activeSelf == true) gameObject.SetActive(false);
