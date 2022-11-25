@@ -116,10 +116,13 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// </summary>
     /// <param name="name">Dataに設定した音楽(BGM)の名前</param>
     /// <param name="volume">音の大きさ</param>
-    async public void PlayBGM(string name,float volume = 1)
+    public void PlayBGM(string name,float volume = 1)
     {
         //最初にBGMを止める
-        await StopBGM();
+        foreach (var audio in _bGMAudios)
+        {
+            audio.Stop();
+        }
         //再生したい音を格納しているオブジェクトから絞り込む
         foreach (var audio in _bGMAudios)
         {
