@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class ObjectPool : MonoBehaviour
 {
+    #region Pooling Methods
+
     /// <summary>
     /// オブジェクトを生成してList格納する関数
     /// </summary>
@@ -53,4 +55,6 @@ public class ObjectPool : MonoBehaviour
         castedList.Add(pool);
         return pool;
     }
+
+    #endregion
 }

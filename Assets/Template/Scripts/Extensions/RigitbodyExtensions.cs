@@ -8,12 +8,16 @@ using UnityEngine;
 /// </summary>
 public static class RigitbodyExtensions
 {
+    #region Method
+
     public static Rigidbody ChangeConstraints(this Rigidbody rb,Freeze type)
     {
         var constraints = (RigidbodyConstraints)type;
         rb.constraints = constraints;
         return rb;
     }
+
+    #endregion
 }
 public enum Freeze
 { 
