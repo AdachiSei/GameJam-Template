@@ -15,11 +15,11 @@ public class BackGroundScroller : MonoBehaviour
 
     [SerializeField]
     [Header("スクロールスピード")]
-    float _speed = 0.03f;
+    float _speed = -0.03f;
 
     [SerializeField]
     [Header("この地点を超えたら左にワープする")]
-    float _limitPosX = 25.5f;
+    float _limitPosX = -12f;
 
     #endregion
 
