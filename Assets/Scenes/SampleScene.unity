@@ -343,13 +343,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68e93a78a4d8b0445b4353e81501852c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _text: {fileID: 0}
-  rb: {fileID: 0}
-  freeze: 0
-  _a: 0
-  _b: 
-  _c: 0
-  _d: 0
+  _prefab: {fileID: 0}
+  _poolObjects: []
 --- !u!4 &618967007
 Transform:
   m_ObjectHideFlags: 0
@@ -641,6 +636,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isDontDestroy: 0
   _name: Test
+  _fadeTime: 0
   _bGMData: {fileID: 11400000, guid: 5eb54cf227498484f9ec6f1b26d1c880, type: 2}
   _sFXData: {fileID: 11400000, guid: 61d353ace826a534ea39a6a97e2fc409, type: 2}
   _bGMParent: {fileID: 859039382}
@@ -664,6 +660,52 @@ Transform:
   - {fileID: 534407539}
   m_Father: {fileID: 0}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1688441799
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1688441801}
+  - component: {fileID: 1688441800}
+  m_Layer: 0
+  m_Name: ScoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1688441800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688441799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4e7ad80fe214fb4e908a2475142f8a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isDontDestroy: 0
+  _score: 0
+--- !u!4 &1688441801
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688441799}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.2619033, y: 6.4247766, z: 0.2172516}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1987161139
 GameObject:
