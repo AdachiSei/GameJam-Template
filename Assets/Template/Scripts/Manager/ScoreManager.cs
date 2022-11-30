@@ -7,11 +7,21 @@ using UnityEngine;
 /// </summary>
 public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
 {
+    #region Public Property
+
     public int Score => _score;
+
+    #endregion
+
+    #region Inspector Member
 
     [SerializeField]
     [Header("ÉXÉRÉA")]
     private int _score;
+
+    #endregion
+
+    #region Public Methods
 
     public void AddScore(int score)
     {
@@ -22,4 +32,6 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
     {
         _score = 0;
     }
+
+    #endregion
 }
