@@ -9,11 +9,21 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SFXData", menuName = "ScriptableObjects/SFXData", order = 1)]
 public class SFXData : ScriptableObject
 {
+    #region Public Property
+
     public SFX[] SFXes => _sFX;
+
+    #endregion
+
+    #region Inspector Member
 
     [SerializeField]
     [Header("Œø‰Ê‰¹")]
     private SFX[] _sFX;
+
+    #endregion
+
+    #region Serializable Class
 
     [Serializable]
     public class SFX
@@ -29,4 +39,6 @@ public class SFXData : ScriptableObject
         [Header("SFX‚ÌƒNƒŠƒbƒv")]
         private AudioClip _audioClip;
     }
+
+    #endregion
 }

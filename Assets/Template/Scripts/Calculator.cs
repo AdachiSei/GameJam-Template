@@ -111,7 +111,7 @@ public static class Calculator
     /// </summary>
     /// <param name="num">確率</param>
     /// <returns>Index</returns>
-    public static int RandomIndex<T>(T[] num) where T : IProbabilityT<T,int>,new()
+    public static int RandomIndex<T>(T[] num) where T : IProbability<T,int>,new()
     {
         return RandomIndex(new T().AllValue(num));
     }
@@ -121,7 +121,7 @@ public static class Calculator
     /// </summary>
     /// <param name="num">確率</param>
     /// <returns>Index</returns>
-    public static int RandomIndex<T>(T[] num,int isInt = 0) where T : IProbabilityT<T, float>, new()
+    public static int RandomIndex<T>(T[] num,int isInt = 0) where T : IProbability<T, float>, new()
     {
         return RandomIndex(new T().AllValue(num));
     }
@@ -131,7 +131,7 @@ public static class Calculator
     /// </summary>
     /// <param name="num">確率</param>
     /// <returns>Index</returns>
-    public static int RandomIndex<T>(IReadOnlyList<T> num) where T : IProbabilityT<T, int>, new()
+    public static int RandomIndex<T>(IReadOnlyList<T> num) where T : IProbability<T, int>, new()
     {
         return RandomIndex(new T().AllValue(num.ToArray()));
     }
@@ -141,7 +141,7 @@ public static class Calculator
     /// </summary>
     /// <param name="num">確率</param>
     /// <returns>Index</returns>
-    public static int RandomIndex<T>(IReadOnlyList<T> num, bool isInt = false) where T : IProbabilityT<T, float>, new()
+    public static int RandomIndex<T>(IReadOnlyList<T> num, bool isInt = false) where T : IProbability<T, float>, new()
     {
         return RandomIndex(new T().AllValue(num.ToArray()));
     }
@@ -151,7 +151,7 @@ public static class Calculator
     /// </summary>
     /// <param name="num">確率</param>
     /// <returns>Index</returns>
-    public static int RandomIndex<T>(T num) where T : IProbabilityInT<T, int>, new()
+    public static int RandomIndex<T>(T num) where T : IProbabilityInArray<T, int>, new()
     {
         return RandomIndex(new T().AllValue(num));
     }
@@ -161,7 +161,7 @@ public static class Calculator
     /// </summary>
     /// <param name="num">確率</param>
     /// <returns>Index</returns>
-    public static int RandomIndex<T>(T num, bool isInt = false) where T : IProbabilityInT<T, float>, new()
+    public static int RandomIndex<T>(T num, bool isInt = false) where T : IProbabilityInArray<T, float>, new()
     {
         return RandomIndex(new T().AllValue(num));
     }
