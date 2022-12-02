@@ -18,7 +18,7 @@ public class TimeManager : SingletonMonoBehaviour<TimeManager>
 
     [SerializeField]
     [Header("タイマー")]
-    private float _timer;
+    private float _timer = 0f;
 
     #endregion
 

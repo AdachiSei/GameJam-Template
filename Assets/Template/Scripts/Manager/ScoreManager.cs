@@ -17,7 +17,7 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
 
     [SerializeField]
     [Header("ÉXÉRÉA")]
-    private int _score;
+    private int _score = 0;
 
     #endregion
 

@@ -26,27 +26,27 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     [SerializeField]
     [Header("音が消えるまでの時間")]
-    float _fadeTime;
+    float _fadeTime = 0.5f;
 
     [SerializeField]
     [Header("音楽")]
-    private BGMData _bGMData;
+    private BGMData _bGMData = null;
 
     [SerializeField]
     [Header("効果音")]
-    private SFXData _sFXData;
+    private SFXData _sFXData = null;
 
     [SerializeField]
     [Header("音楽を格納するオブジェクト")]
-    private GameObject _bGMParent;
+    private GameObject _bGMParent = null;
 
     [SerializeField]
     [Header("効果音を格納するオブジェクト")]
-    private GameObject _sFXParent;
+    private GameObject _sFXParent = null;
 
     [SerializeField]
     [Header("オーディオソースがついているプレファブ")]
-    private AudioSource _audioPrefab;
+    private AudioSource _audioPrefab = null;
 
     [SerializeField]
     [Header("BGM用のオーディオ")]
