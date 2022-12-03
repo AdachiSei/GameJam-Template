@@ -15,25 +15,27 @@ using Cysharp.Threading.Tasks;
 /// </summary>
 public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 {
-    #region Public Property
-
-    public bool IsGetSceneName => _isGetSceneName;
-
-    #endregion
-
     #region Inspecter Member
 
     [SerializeField]
+    [Header("ローディング時にくるくるする絵")]
     Image _loadingImage;
 
     [SerializeField]
-    Image _panel;
+    [Header("ローディング時に表示するパネル")]
+    Image _loadingPanel;
 
     [SerializeField]
-    private float _fadeTime = 0.5f;
+    [Header("フェードの種類")]
+    bool _isSlide;
 
     [SerializeField]
-    private float _loadSpeed = 1f;
+    [Header("フェードするまでの時間")]
+    private float _fadeTime = 1f;
+
+    [SerializeField]
+    [Header("くるくるする絵の回転速度")]
+    private float _loadingImageSpeed = 1f;
 
     [SerializeField]
     [Header("全てのシーンの名前")]
@@ -43,7 +45,6 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     #region Private Member
 
-    private bool _isGetSceneName = false;
     private  Vector3 _rotDir = new(0f,0f,-360);
 
     #endregion
@@ -52,6 +53,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     private const int OFFSET = 1;
     private const int LOOP = -1;
+    private const float MAX_ALPFA = 1f;
     private const float FADE_POS = 800;
 
     #endregion
@@ -62,7 +64,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     {
         base.Awake();
         CheckScenesName();
-        _panel?.rectTransform.DOLocalMoveX(-FADE_POS, _fadeTime);
+        FadeIn(_isSlide);
         _loadingImage?.gameObject.SetActive(false);
     }
 
@@ -76,15 +78,11 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     /// <param name="name">Sceneの名前</param>
     async public void LoadScene(string name)
     {
-        if (_panel)
-        {
-            _panel.rectTransform.DOLocalMoveX(0f, _fadeTime);
-            await UniTask.Delay(TimeSpan.FromSeconds(_fadeTime));
-        }
+        if (_loadingPanel) await FadeOut(_isSlide);
         _loadingImage?.gameObject.SetActive(true);
         _loadingImage?
             .transform
-                .DORotate(_rotDir, _loadSpeed, RotateMode.FastBeyond360)
+                .DORotate(_rotDir, _loadingImageSpeed, RotateMode.FastBeyond360)
                 .SetEase(Ease.Linear)
                 .SetLoops(LOOP);
         await SceneManager.LoadSceneAsync(name);
@@ -167,7 +165,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     /// <summary>
     /// BuildSettingsとSceneLoaderのSceneが違ったら呼びなおす関数
     /// </summary>
-    void CheckScenesName()
+    private void CheckScenesName()
     {   
         if (_sceneNames.Length != EditorBuildSettings.scenes.Length)
         {
@@ -191,7 +189,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     /// 読み込みたいScene
     /// </summary>
     /// <param name="_isNext">次のSceneか</param>
-    void WantToLoadScene(bool _isNext)
+    private void WantToLoadScene(bool _isNext)
     {
         var offset = -1;
         if (_isNext) offset = 1;
@@ -204,6 +202,33 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
                 return;
             }
         }
+    }
+
+    private void FadeIn(bool a)
+    {
+        switch (a)
+        {
+            case false:
+                _loadingPanel?.DOFade(0f, _fadeTime);
+                break;
+            case true:
+                _loadingPanel?.rectTransform.DOLocalMoveX(-FADE_POS, _fadeTime);
+                break;
+        }
+    }
+
+    async private UniTask FadeOut(bool isSlide)
+    {
+        switch (isSlide)
+        {
+            case false:
+                _loadingPanel.DOFade(MAX_ALPFA, _fadeTime);
+                break;
+            case true:
+                _loadingPanel.rectTransform.DOLocalMoveX(0f, _fadeTime);
+                break;
+        }
+        await UniTask.Delay(TimeSpan.FromSeconds(_fadeTime));
     }
 
     #endregion
