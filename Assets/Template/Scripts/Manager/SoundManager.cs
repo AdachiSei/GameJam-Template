@@ -221,7 +221,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
             audio.DOFade(0, _fadeTime);
         }
         //await UniTask.NextFrame();
-        await UniTask.Delay(TimeSpan.FromSeconds(_fadeTime));
+        for (float i = 0; i < _fadeTime; i += Time.deltaTime)
+        {
+            await UniTask.NextFrame();
+        }
         foreach (var audio in _bGMAudios)
         {
             audio.Stop();
