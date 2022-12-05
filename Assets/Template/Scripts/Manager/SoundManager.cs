@@ -26,7 +26,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     [SerializeField]
     [Header("音が消えるまでの時間")]
-    float _fadeTime = 0.5f;
+    float _fadeTime = 2f;
 
     [SerializeField]
     [Header("音楽")]
@@ -75,7 +75,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     #region Unity Method
 
-    protected override void Awake()
+    async protected override void Awake()
     {
         base.Awake();
         if (_audioPrefab == null)//オーディオのプレファブが無かったら
@@ -94,8 +94,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         //ポーズ用
         PauseManager.Instance.OnPause += Pause;
         PauseManager.Instance.OnResume += Resume;
-        PlayBGM("Test");
-        PlaySFX("Test");
     }
 
     private void OnDisable()
@@ -118,10 +116,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <param name="volume">音の大きさ</param>
     public void PlayBGM(string name,float volume = 1)
     {
-        //最初にBGMを止める
+        //BGMを止める
         foreach (var audio in _bGMAudios)
         {
-            audio.Stop();
+            if(!audio.isPlaying) audio.Stop();
         }
         //再生したい音を格納しているオブジェクトから絞り込む
         foreach (var audio in _bGMAudios)
@@ -212,22 +210,29 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <summary>
     /// BGMを止める関数
     /// </summary>
-    async public UniTask StopBGM()
+    async public UniTask FadeBGM()
     {
-        //最初にBGMを止める
+        //BGMの音量を少しずつ下げる
         foreach (var audio in _bGMAudios)
         {
             //audio.Stop();
-            audio.DOFade(0, _fadeTime);
+            if (!audio.isPlaying)
+            {
+                audio.DOFade(0, _fadeTime);
+            }
         }
         //await UniTask.NextFrame();
-        for (float i = 0; i < _fadeTime; i += Time.deltaTime)
-        {
-            await UniTask.NextFrame();
-        }
+
+        await UniTaskForFloat.Delay(_fadeTime);
+
+        //BGMを止める
         foreach (var audio in _bGMAudios)
         {
-            audio.Stop();
+            if (!audio.isPlaying)
+            {
+                audio.Stop();
+                audio.volume = 1;
+            }
         }
     }
 
@@ -381,7 +386,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         {
             var children = _bGMParent.transform;
             var empty = children.childCount == 0;
-            Debug.Log(children.childCount);
             if (empty) break;
             var DestroyGO = children.GetChild(0).gameObject;
             DestroyImmediate(DestroyGO);
