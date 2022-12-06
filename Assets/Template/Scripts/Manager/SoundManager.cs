@@ -63,7 +63,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     private int _audioCount;
     private int _newAudioNum;
     private bool _isStopCreate;
-    private bool _isPause;
 
     #endregion
 
@@ -75,7 +74,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     #region Unity Method
 
-    async protected override void Awake()
+    protected override void Awake()
     {
         base.Awake();
         if (_audioPrefab == null)//オーディオのプレファブが無かったら
@@ -94,6 +93,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         //ポーズ用
         PauseManager.Instance.OnPause += Pause;
         PauseManager.Instance.OnResume += Resume;
+        PlaySFX("Test");
     }
 
     private void OnDisable()
@@ -177,7 +177,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                         var privName = audio.name;
                         audio.name = sFX.Name;
                         audio.Play();
-                        await UniTaskSeconds(sFX.AudioClip.length);
+                        await PauseManager.Instance.UniTaskSeconds(sFX.AudioClip.length);
                         audio.name = privName;
                         audio.clip = null;
                         return;
@@ -198,7 +198,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                 var newPrivName = newAudio.name;
                 newAudio.name = sFX.Name;
                 newAudio.Play();
-                await UniTaskSeconds(sFX.AudioClip.length);
+                await PauseManager.Instance.UniTaskSeconds(sFX.AudioClip.length);
                 newAudio.name = newPrivName;
                 newAudio.clip = null;
                 return;
@@ -361,22 +361,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     }
 
     /// <summary>
-    /// ポーズ対応の非同期で待ってくれる関数
-    /// </summary>
-    /// <param name="time">待つ時間</param>
-    async private UniTask UniTaskSeconds(float time)
-    {
-        for (float i = 0f; i < time; i += Time.deltaTime)
-        {
-            while (_isPause)
-            {
-                await UniTask.NextFrame();
-            }
-            await UniTask.NextFrame();
-        }
-    }
-
-    /// <summary>
     /// BGM用のPrefabを全削除する関数
     /// </summary>
     private void InitBGM()
@@ -414,7 +398,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// </summary>
     private void Pause()
     {
-        _isPause = true;
         foreach (var bGMAudio in _bGMAudios)
         {
             if (bGMAudio.isPlaying)
@@ -436,7 +419,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// </summary>
     private void Resume()
     {
-        _isPause = false;
         foreach (var bGMAudio in _bGMAudios)
         {
             bGMAudio.UnPause();

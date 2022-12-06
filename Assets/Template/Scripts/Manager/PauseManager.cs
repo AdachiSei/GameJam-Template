@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,6 +38,26 @@ public class PauseManager : SingletonMonoBehaviour<PauseManager>
                 _isPause = false;
                 OnResume();
             }
+        }
+    }
+
+    #endregion
+
+    #region Public Method
+
+    /// <summary>
+    /// ƒ|[ƒY‘Î‰‚Ì”ñ“¯Šú‚Å‘Ò‚Á‚Ä‚­‚ê‚éŠÖ”
+    /// </summary>
+    /// <param name="time">‘Ò‚ÂŠÔ</param>
+    async public UniTask UniTaskSeconds(float time)
+    {
+        for (float i = 0f; i < time; i += Time.deltaTime)
+        {
+            while (_isPause)
+            {
+                await UniTask.NextFrame();
+            }
+            await UniTask.NextFrame();
         }
     }
 
