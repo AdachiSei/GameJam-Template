@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public static class HierarchyGUIShowComponent
@@ -37,6 +38,8 @@ public static class HierarchyGUIShowComponent
                 i.GetType() == typeof(RectTransform),
                 i.GetType() == typeof(CanvasRenderer),
                 i.GetType() == typeof(CanvasScaler),
+                i.GetType() == typeof(StandaloneInputModule),
+                i.GetType() == typeof(GraphicRaycaster)
             };
 
             for (int j = 0; j < isType.Length; j++)
