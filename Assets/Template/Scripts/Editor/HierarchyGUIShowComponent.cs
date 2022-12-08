@@ -48,7 +48,8 @@ public static class HierarchyGUIShowComponent
                 component.GetType() == typeof(CanvasRenderer),
                 component.GetType() == typeof(CanvasScaler),
                 component.GetType() == typeof(StandaloneInputModule),
-                component.GetType() == typeof(GraphicRaycaster)
+                component.GetType() == typeof(GraphicRaycaster),
+                component.GetType() == typeof(AudioListener)
             };
 
             for (int index = 0; index < isType.Length; index++)
