@@ -43,6 +43,7 @@ public static class HierarchyGUIShowComponent
         {
             bool[] isType =
             {
+                //false
                 component.GetType() == typeof(Transform),
                 component.GetType() == typeof(RectTransform),
                 component.GetType() == typeof(CanvasRenderer),
@@ -68,6 +69,7 @@ public static class HierarchyGUIShowComponent
         {
             // コンポーネントのアイコン画像を取得
             var texture2D = AssetPreview.GetMiniThumbnail(component);
+            //texture2D = AssetDatabase.LoadAssetAtPath("Assets/AssetStoreTools/unknown.png", typeof(Texture2D)) as Texture2D;
             GUI.DrawTexture(selectionRect, texture2D);
             selectionRect.x += ICON_SIZE;
         }
