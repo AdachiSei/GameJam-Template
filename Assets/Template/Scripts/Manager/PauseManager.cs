@@ -49,14 +49,11 @@ public class PauseManager : SingletonMonoBehaviour<PauseManager>
     /// ƒ|[ƒY‘Î‰‚Ì”ñ“¯Šú‚Å‘Ò‚Á‚Ä‚­‚ê‚éŠÖ”
     /// </summary>
     /// <param name="time">‘Ò‚ÂŠÔ</param>
-    async public UniTask UniTaskSeconds(float time)
+    async public UniTask UniTaskForPause(float time)
     {
         for (float i = 0f; i < time; i += Time.deltaTime)
         {
-            while (_isPause)
-            {
-                await UniTask.NextFrame();
-            }
+            if (_isPause) await UniTask.WaitUntil(() => !_isPause);
             await UniTask.NextFrame();
         }
     }
