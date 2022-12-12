@@ -112,7 +112,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         //BGMを止める
         foreach (var audio in _bGMAudios)
         {
-            if(!audio.isPlaying) audio.Stop();
+            audio.Stop();
         }
         //再生したい音を格納しているオブジェクトから絞り込む
         foreach (var audio in _bGMAudios)
