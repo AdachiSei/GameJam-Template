@@ -23,6 +23,7 @@ public class ObjectPool : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             var newPool = Instantiate(prefab as GameObject);
+            newPool.gameObject.SetActive(false);
             newPool.transform.SetParent(parent?.transform);
             var pool = newPool as T;
             castedList.Add(pool);
