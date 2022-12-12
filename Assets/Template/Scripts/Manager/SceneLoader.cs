@@ -15,6 +15,12 @@ using Cysharp.Threading.Tasks;
 /// </summary>
 public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 {
+    #region Public Property
+
+    public string[] SceneNames => _sceneNames;
+
+    #endregion
+
     #region Inspecter Member
 
     [SerializeField]
@@ -63,7 +69,6 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     protected override void Awake()
     {
         base.Awake();
-        CheckScenesName();
         FadeIn(_isSlide);
         _loadingImage?.gameObject.SetActive(false);
     }
@@ -115,75 +120,21 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     #endregion
 
-    #region Inspector Method
+    #region Editor Method
 
-    /// <summary>
-    /// Assetフォルダの中にあるSceneの名前を全てとってくる関数
-    /// </summary>
-    public void GetSceneName()
+    public void ResizeSceneNames(int length)
     {
-        var offset = 0;
-        var isPlaying = EditorApplication.isPlaying;
-        if (isPlaying == false)
-        {
-            offset = 1;
-        }
-        Array.Resize(ref _sceneNames, EditorBuildSettings.scenes.Length + offset);
-        List<string> sceneNames = new();
-        //BuildSetingsに入っているSceneの名前を全てとってくる
-        foreach (var scene in EditorBuildSettings.scenes)
-        {
-            var name = Path.GetFileNameWithoutExtension(scene.path);
-            sceneNames.Add(name);
-        }
-        //重複している要素を消してから並び替え
-        sceneNames = new(sceneNames.Distinct());
-        sceneNames = new(sceneNames.OrderBy(name =>
-       {
-           var sceneNum = name.Split("Scene");
-           if (sceneNum[OFFSET] == "")
-           {
-               sceneNum = new[] { sceneNum[0], "0" };
-           }
-           return int.Parse(sceneNum[OFFSET]);
-       }));
+        Array.Resize(ref _sceneNames, length);
+    }
 
-        for (int i = 0; i < sceneNames.Count; i++)
-        {
-            _sceneNames[i] = sceneNames[i];
-        }
-        if (isPlaying == false)
-        {
-            _sceneNames[_sceneNames.Length - offset] = "RemoveThis";
-        }
+    public void AddSceneName(int index, string name)
+    {
+        _sceneNames[index] = name;
     }
 
     #endregion
 
     #region Private Mehod
-
-    /// <summary>
-    /// BuildSettingsとSceneLoaderのSceneが違ったら呼びなおす関数
-    /// </summary>
-    private void CheckScenesName()
-    {   
-        if (_sceneNames.Length != EditorBuildSettings.scenes.Length)
-        {
-            GetSceneName();
-        }
-        else
-        {
-            foreach (var scene in EditorBuildSettings.scenes)
-            {
-                var sceneName = Path.GetFileNameWithoutExtension(scene.path).ToString();
-                if (_sceneNames.Any(name => name == sceneName) == false)
-                {
-                    GetSceneName();
-                    return;
-                }
-            }
-        }
-    }
 
     /// <summary>
     /// 読み込みたいScene
@@ -204,9 +155,9 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         }
     }
 
-    private void FadeIn(bool a)
+    private void FadeIn(bool isSlide)
     {
-        switch (a)
+        switch (isSlide)
         {
             case false:
                 _loadingPanel?.DOFade(0f, _fadeTime);
