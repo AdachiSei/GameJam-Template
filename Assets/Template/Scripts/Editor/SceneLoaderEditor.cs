@@ -9,9 +9,10 @@ using System.Linq;
 [CustomEditor(typeof(SceneLoader))]
 public class SceneLoaderEditor : Editor
 {
-    #region Private Static Member
+    #region Private Member
 
-    private static bool _isOpening;
+    bool _isSetting;
+    bool _isRemoving;
 
     #endregion
 
@@ -26,18 +27,24 @@ public class SceneLoaderEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
+        var sceneLoader = target as SceneLoader;
         var style = new GUIStyle(EditorStyles.label);
         style.richText = true;
-        _isOpening = EditorGUILayout.Foldout(_isOpening, "Settings");
-        if (_isOpening)
-        {
-            EditorGUILayout.Space();
 
-            EditorGUILayout.LabelField("<b>Sceneの名前を全てとってくる</b>",style);
-            if (GUILayout.Button("GetSceneName"))
-            {
-                GetSceneName();
-            }
+        EditorGUILayout.Space();
+
+        EditorGUILayout.LabelField("<b>Sceneの名前を全てとってくる</b>", style);
+        if (GUILayout.Button("GetSceneName"))
+        {
+            GetSceneName();
+            _isSetting = true;
+            _isRemoving = sceneLoader.SceneNames.Contains("RemoveThis");
+        }
+
+        if (_isSetting && _isRemoving)
+        {
+            _isRemoving = sceneLoader.SceneNames.Contains("RemoveThis");
+            EditorGUILayout.HelpBox("This is a warning-help message.", MessageType.Warning);
         }
     }
 

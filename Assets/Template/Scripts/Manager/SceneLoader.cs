@@ -1,9 +1,6 @@
 using System;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
@@ -24,7 +21,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     #region Inspecter Member
 
     [SerializeField]
-    [Header("ƒ[ƒfƒBƒ“ƒO‚É‚­‚é‚­‚é‚·‚éŠG")]
+    [Header("ƒ[ƒfƒBƒ“ƒO‚É‰ñ“]‚·‚éŠG")]
     Image _loadingImage;
 
     [SerializeField]
@@ -40,7 +37,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     private float _fadeTime = 1f;
 
     [SerializeField]
-    [Header("‚­‚é‚­‚é‚·‚éŠG‚Ì‰ñ“]‘¬“x")]
+    [Header("‰ñ“]‚·‚éŠG‚Ì‰ñ“]‘¬“x")]
     private float _loadingImageSpeed = 1f;
 
     [SerializeField]
