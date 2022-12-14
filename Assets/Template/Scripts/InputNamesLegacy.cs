@@ -1,7 +1,7 @@
 /// <summary>
 /// Input用のstring型の定数を扱えるスタティックなクラス
 /// </summary>
-public static class InputName
+public static class InputNamesLegacy
 {
     public const string HORIZONTAL = "Horizontal";
     public const string VERTICAL = "Vertical";

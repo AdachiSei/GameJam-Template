@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -117,7 +118,9 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         //Ä¶‚µ‚½‚¢‰¹‚ğŠi”[‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚©‚çi‚è‚Ş
         foreach (var audio in _bGMAudios)
         {
-            if (audio.name == name)
+            var audioName = audio.name == name;
+            var clipName = audio.clip.name == name;
+            if (audioName || clipName)
             {
                 audio.volume = volume;
                 audio.Play();
@@ -128,7 +131,9 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         //Ä¶‚µ‚½‚¢‰¹‚ğData‚©‚çi‚è‚Ş
         foreach (var bGM in _bGMData.BGMs)
         {
-            if (bGM.Name == name)
+            var bGMName = bGM.Name == name;
+            var clipName = bGM.AudioClip.name == name;
+            if (bGMName || clipName)
             {
                 //Ä¶‚µ‚½‚¢‰¹‚ğ‚ÌAudio‚ğ¶¬
                 var newAudio = Instantiate(_audioPrefab);
@@ -155,7 +160,9 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         //Ä¶‚µ‚½‚¢‰¹‚ğData‚©‚ç‚ği‚è‚Ş
         foreach (var sFX in _sFXData.SFXes)
         {
-            if (sFX.Name == name)
+            var sFXName = sFX.Name == name;
+            var clipName = sFX.AudioClip.name == name;
+            if (sFXName || clipName)
             {
                 //Clip‚ªnull‚ÌAudio‚ğ’T‚·
                 foreach (var audio in _sFXAudios)
@@ -174,11 +181,11 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                     }
                 }
                 //–³‚©‚Á‚½‚çV‚µ‚­ì‚é
-                var gameObject = Instantiate(_audioPrefab);
-                gameObject.transform.SetParent(_sFXParent.transform);
-                gameObject.name = "NewSFX " + _newAudioNum;
+                var audioSource = Instantiate(_audioPrefab);
+                audioSource.transform.SetParent(_sFXParent.transform);
+                audioSource.name = "NewSFX " + _newAudioNum;
                 _newAudioNum++;
-                _sFXAudios.Add(gameObject);
+                _sFXAudios.Add(audioSource);
                 var newAudio = _sFXAudios[_sFXAudios.Count - OFFSET];
                 newAudio.clip = sFX.AudioClip;
                 newAudio.volume = volume;
@@ -206,7 +213,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
             if (!audio.isPlaying) audio.DOFade(0, _fadeTime);
         }
         //await UniTask.NextFrame();
-
         await UniTaskForFloat.Delay(_fadeTime);
 
         //BGM‚ğ~‚ß‚é

@@ -26,7 +26,7 @@ public class PauseManager : SingletonMonoBehaviour<PauseManager>
 
     void Update()
     {
-        if (Input.GetButtonDown(InputName.CANCEL))
+        if (Input.GetButtonDown(InputNamesLegacy.CANCEL))
         {
             if (!_isPause)
             {
