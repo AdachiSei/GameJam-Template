@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEditor;
@@ -48,24 +49,32 @@ public static class AudioNamesCreator
 		builder.AppendFormat("public static class {0}", FILENAME_WITHOUT_EXTENSION).AppendLine();
 		builder.AppendLine("{");
 
-		//指定したパスのリソースを全て取得
-		object[] bgmList = Resources.LoadAll("Audio/BGM");
-		object[] seList = Resources.LoadAll("Audio/SFX");
+		var bGMList = new List<AudioClip>();
+		var sFXList = new List<AudioClip>();
+		//エディター
+		foreach (var guid in AssetDatabase.FindAssets("t:AudioClip"))
+        {
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            var pathName = AssetDatabase.LoadMainAssetAtPath(path);
+			var audioClip = pathName as AudioClip;
+			if (audioClip.length > 10f) bGMList.Add(audioClip);
+			else sFXList.Add(audioClip);
+        }
 
-		foreach (AudioClip bgm in bgmList)
+		foreach (AudioClip bgm in bGMList)
 		{
 			builder
 				.Append("\t")
 				.AppendFormat
 					(@"  public const string BGM_{0} = ""{1}"";",
-						bgm.name.Replace(" ","_").ToUpper(),
+						bgm.name.Replace(" ", "_").ToUpper(),
 						bgm.name)
 				.AppendLine();
 		}
 
 		builder.AppendLine("\t");
 
-		foreach (AudioClip sfx in seList)
+		foreach (AudioClip sfx in sFXList)
 		{
 			builder
 				.Append("\t")
@@ -76,7 +85,7 @@ public static class AudioNamesCreator
 				.AppendLine();
 		}
 
-		builder.AppendLine("}");
+        builder.AppendLine("}");
 
 		string directoryName = Path.GetDirectoryName(EXPORT_PATH);
 		if (!Directory.Exists(directoryName))
