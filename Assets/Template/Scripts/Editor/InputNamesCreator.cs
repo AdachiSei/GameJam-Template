@@ -3,7 +3,6 @@ using UnityEditor;
 using System;
 using System.Collections;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +24,8 @@ public class InputNamesCreator : AssetPostprocessor
     /// InputManagerを変更したら作成する
     /// </summary>
     private static void OnPostprocessAllAssets
-        (string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromPath)
+        (string[] importedAssets,string[] deletedAssets,
+            string[] movedAssets, string[] movedFromPath)
     {
         // InputManagerの変更チェック
         var inputManagerPath = 
@@ -37,10 +37,12 @@ public class InputNamesCreator : AssetPostprocessor
 
         // InputManagerの設定情報読み込み
         var serializedObjects =
-            AssetDatabase.LoadAllAssetsAtPath(inputManagerPath);
+            AssetDatabase
+                .LoadAllAssetsAtPath(inputManagerPath);
 
         var serializedObject =
-            new SerializedObject(AssetDatabase.LoadAllAssetsAtPath(inputManagerPath)[0]);
+            new SerializedObject
+                (AssetDatabase.LoadAllAssetsAtPath(inputManagerPath)[0]);
 
         var axesProperty = serializedObject.FindProperty("m_Axes");
 
@@ -51,8 +53,10 @@ public class InputNamesCreator : AssetPostprocessor
         builder.AppendLine("/// <summary>");
         builder.AppendLine("/// インプット名を定数で管理するクラス");
         builder.AppendLine("/// </summary>");
-        builder.AppendFormat("public static class {0}", FILENAME_WITHOUT_EXTENSION).AppendLine();
+        builder.AppendFormat("public struct {0}", FILENAME_WITHOUT_EXTENSION).AppendLine();
         builder.AppendLine("{");
+        builder.Append("\t").AppendLine("#region Constants");
+        builder.AppendLine("\t");
 
         List<string> inputNames = new();
         //全部取ってくる
@@ -71,15 +75,17 @@ public class InputNamesCreator : AssetPostprocessor
         inputNames = new(inputNames.Distinct());
         foreach (var name in inputNames)
         {
-                builder
-                    .Append("\t")
-                    .AppendFormat
-                        (@"  public const string {0} = ""{1}"";",
-                            name.Replace(" ","_").ToUpper(),
-                            name)
-                    .AppendLine();
+            builder
+                .Append("\t")
+                .AppendFormat
+                    (@"  public const string {0} = ""{1}"";",
+                        name.Replace(" ","_").ToUpper(),
+                        name)
+                .AppendLine();
         }
 
+        builder.AppendLine("\t");
+        builder.Append("\t").AppendLine("#endregion");
         builder.AppendLine("}");
 
         string directoryName = Path.GetDirectoryName(EXPORT_PATH);

@@ -1,8 +1,6 @@
-using System;
 using System.IO;
 using System.Text;
 using UnityEditor;
-using UnityEditorInternal;
 using UnityEngine;
 
 /// <summary>
@@ -11,7 +9,7 @@ using UnityEngine;
 public static class SceneNamesCreator
 {
 	// コマンド名
-	private const string COMMAND_NAME = "Tools/CreateConstants/Scene Name";
+	private const string COMMAND_NAME = "Tools/CreateConstants/Scene Names";
 
 	//作成したスクリプトを保存するパス
 	private const string EXPORT_PATH = "Assets/Scripts/Constants/SceneNames.cs";
@@ -45,8 +43,10 @@ public static class SceneNamesCreator
 		builder.AppendLine("/// <summary>");
 		builder.AppendLine("/// シーン名を定数で管理するクラス");
 		builder.AppendLine("/// </summary>");
-		builder.AppendFormat("public static class {0}", FILENAME_WITHOUT_EXTENSION).AppendLine();
+		builder.AppendFormat("public struct {0}", FILENAME_WITHOUT_EXTENSION).AppendLine();
 		builder.AppendLine("{");
+		builder.Append("\t").AppendLine("#region Constants");
+		builder.AppendLine("\t");
 
 		//BuildSetingsに入っているSceneの名前を全てとってくる
 		foreach (var scene in EditorBuildSettings.scenes)
@@ -61,9 +61,11 @@ public static class SceneNamesCreator
 				.AppendLine();
 		}
 
+		builder.AppendLine("\t");
+		builder.Append("\t").AppendLine("#endregion");
 		builder.AppendLine("}");
 
-		string directoryName = Path.GetDirectoryName(EXPORT_PATH);
+        string directoryName = Path.GetDirectoryName(EXPORT_PATH);
 		if (!Directory.Exists(directoryName))
 		{
 			Directory.CreateDirectory(directoryName);
@@ -79,6 +81,9 @@ public static class SceneNamesCreator
 	[MenuItem(COMMAND_NAME, true)]
 	private static bool CanCreate()
 	{
-		return !EditorApplication.isPlaying && !Application.isPlaying && !EditorApplication.isCompiling;
+		var isPlayingEditor = !EditorApplication.isPlaying;
+		var isPlaying = !Application.isPlaying;
+		var isCompiling = !EditorApplication.isCompiling;
+		return isPlayingEditor && isPlaying && isCompiling;
 	}
 }

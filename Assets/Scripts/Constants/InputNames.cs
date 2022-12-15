@@ -1,8 +1,10 @@
 ﻿/// <summary>
 /// インプット名を定数で管理するクラス
 /// </summary>
-public static class InputNames
+public struct InputNames
 {
+	#region Constants
+	
 	  public const string HORIZONTAL = "Horizontal";
 	  public const string VERTICAL = "Vertical";
 	  public const string FIRE1 = "Fire1";
@@ -24,4 +26,6 @@ public static class InputNames
 	  public const string DEBUG_MULTIPLIER = "Debug Multiplier";
 	  public const string DEBUG_HORIZONTAL = "Debug Horizontal";
 	  public const string DEBUG_VERTICAL = "Debug Vertical";
+	
+	#endregion
 }
