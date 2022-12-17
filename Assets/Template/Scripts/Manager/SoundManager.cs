@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,12 +8,13 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 
 /// <summary>
-/// ƒTƒEƒ“ƒh‚ğŠÇ—‚·‚éScript
+/// ã‚µã‚¦ãƒ³ãƒ‰ã‚’ç®¡ç†ã™ã‚‹Script
 /// </summary>
 public class SoundManager : SingletonMonoBehaviour<SoundManager>
 {
     #region Public Property
 
+    public float BGMLength => _bgmLength;
     public int AudioCount => _audioCount;
     public bool IsStopCreate => _isStopCreate;
 
@@ -22,45 +23,46 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     #region Inspector Menber
 
     [SerializeField]
-    [Header("Å‰‚É—¬‚·BGM")]
+    [Header("æœ€åˆã«æµã™BGM")]
     private string _name;
 
     [SerializeField]
-    [Header("‰¹‚ªÁ‚¦‚é‚Ü‚Å‚ÌŠÔ")]
+    [Header("éŸ³ãŒæ¶ˆãˆã‚‹ã¾ã§ã®æ™‚é–“")]
     float _fadeTime = 2f;
 
     [SerializeField]
-    [Header("‰¹Šy")]
-    private BGMData _bGMData = null;
-
-    [SerializeField]
-    [Header("Œø‰Ê‰¹")]
-    private SFXData _sFXData = null;
-
-    [SerializeField]
-    [Header("‰¹Šy‚ğŠi”[‚·‚éƒIƒuƒWƒFƒNƒg")]
+    [Header("éŸ³æ¥½ã‚’æ ¼ç´ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ")]
     private GameObject _bGMParent = null;
 
     [SerializeField]
-    [Header("Œø‰Ê‰¹‚ğŠi”[‚·‚éƒIƒuƒWƒFƒNƒg")]
+    [Header("åŠ¹æœéŸ³ã‚’æ ¼ç´ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ")]
     private GameObject _sFXParent = null;
 
     [SerializeField]
-    [Header("ƒI[ƒfƒBƒIƒ\[ƒX‚ª‚Â‚¢‚Ä‚¢‚éƒvƒŒƒtƒ@ƒu")]
+    [Header("ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚½ãƒ¼ã‚¹ãŒã¤ã„ã¦ã„ã‚‹ãƒ—ãƒ¬ãƒ•ã‚¡ãƒ–")]
     private AudioSource _audioPrefab = null;
 
     [SerializeField]
-    [Header("BGM—p‚ÌƒI[ƒfƒBƒI")]
-    private List<AudioSource> _bGMAudios = new();
+    [Header("éŸ³æ¥½ã®ã‚¯ãƒªãƒƒãƒ—")]
+    AudioClip[] _bgmClips;
 
     [SerializeField]
-    [Header("SFX—p‚ÌƒI[ƒfƒBƒI")]
-    private List<AudioSource> _sFXAudios = new();
+    [Header("åŠ¹æœéŸ³ã®ã‚¯ãƒªãƒƒãƒ—")]
+    AudioClip[] _sfxClips;
+
+    [SerializeField]
+    [Header("BGMç”¨ã®ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚½ãƒ¼ã‚¹")]
+    private List<AudioSource> _bGMAudioSources = new();
+
+    [SerializeField]
+    [Header("SFXç”¨ã®ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚½ãƒ¼ã‚¹")]
+    private List<AudioSource> _sFXAudioSources = new();
 
     #endregion
 
     #region Private Menber
 
+    public float _bgmLength = 10f;
     private int _audioCount;
     private int _newAudioNum;
     private bool _isStopCreate;
@@ -78,16 +80,19 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     protected override void Awake()
     {
         base.Awake();
-        //ƒI[ƒfƒBƒI‚ÌƒvƒŒƒtƒ@ƒu‚ª–³‚©‚Á‚½‚ç
+        //ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã®ãƒ—ãƒ¬ãƒ•ã‚¡ãƒ–ãŒç„¡ã‹ã£ãŸã‚‰
         if (_audioPrefab == null) CreateAudio();
-        //BGM‚ğŠi”[‚·‚éƒIƒuƒWƒFƒNƒg‚ª–³‚©‚Á‚½‚ç
+        //BGMã‚’æ ¼ç´ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒç„¡ã‹ã£ãŸã‚‰
         if (_bGMParent == null) CreateBGMParent();
-        //SFX‚ğŠi”[‚·‚éƒIƒuƒWƒFƒNƒg‚ª–³‚©‚Á‚½‚ç
+        //SFXã‚’æ ¼ç´ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒç„¡ã‹ã£ãŸã‚‰
         if (_sFXParent == null) CreateSFXParent();
         _audioPrefab.playOnAwake = false;
-        //ƒ|[ƒY—p
+        //ãƒãƒ¼ã‚ºç”¨
         PauseManager.Instance.OnPause += Pause;
         PauseManager.Instance.OnResume += Resume;
+        PlayBGM(_name);
+        PlayBGM(BGMNames.GAMEOVER);
+
     }
 
     private void OnDisable()
@@ -104,123 +109,130 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     #region Public Methods
 
     /// <summary>
-    /// ‰¹Šy(BGM)‚ğÄ¶‚·‚éŠÖ”
+    /// éŸ³æ¥½(BGM)ã‚’å†ç”Ÿã™ã‚‹é–¢æ•°
     /// </summary>
-    /// <param name="name">Data‚Éİ’è‚µ‚½‰¹Šy(BGM)‚Ì–¼‘O</param>
-    /// <param name="volume">‰¹‚Ì‘å‚«‚³</param>
+    /// <param name="name">Dataã«è¨­å®šã—ãŸéŸ³æ¥½(BGM)ã®åå‰</param>
+    /// <param name="volume">éŸ³ã®å¤§ãã•</param>
     public void PlayBGM(string name,float volume = 1)
     {
-        //BGM‚ğ~‚ß‚é
-        foreach (var audio in _bGMAudios)
+        //BGMã‚’æ­¢ã‚ã‚‹
+        foreach (var audio in _bGMAudioSources)
         {
-            audio.Stop();
+            if (audio.isPlaying)
+            {
+                audio.Stop();
+                audio.name = audio.clip.name;
+            }
         }
-        //Ä¶‚µ‚½‚¢‰¹‚ğŠi”[‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚©‚çi‚è‚Ş
-        foreach (var audio in _bGMAudios)
+        if (name == "") return;
+        //å†ç”Ÿã—ãŸã„éŸ³ã‚’æ ¼ç´ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰çµã‚Šè¾¼ã‚€
+        foreach (var audio in _bGMAudioSources)
         {
             var audioName = audio.name == name;
             var clipName = audio.clip.name == name;
             if (audioName || clipName)
             {
+                audio.name = $"â™ª {audio.name}";
                 audio.volume = volume;
                 audio.Play();
                 return;
             }
         }
-        //Ä¶‚µ‚½‚¢‰¹‚ğŠi”[‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚ª–³‚©‚Á‚½‚ç
-        //Ä¶‚µ‚½‚¢‰¹‚ğData‚©‚çi‚è‚Ş
-        foreach (var bGM in _bGMData.BGMs)
+        //å†ç”Ÿã—ãŸã„éŸ³ã‚’æ ¼ç´ã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒç„¡ã‹ã£ãŸã‚‰
+        //å†ç”Ÿã—ãŸã„éŸ³ã‚’Dataã‹ã‚‰çµã‚Šè¾¼ã‚€
+        foreach (var clip in _bgmClips/*_bGMData.BGMs*/)
         {
-            var bGMName = bGM.Name == name;
-            var clipName = bGM.AudioClip.name == name;
-            if (bGMName || clipName)
+            //var bGMName = bgm.Name == name;
+            var clipName = clip.name == name;
+            if (clipName)
             {
-                //Ä¶‚µ‚½‚¢‰¹‚ğ‚ÌAudio‚ğ¶¬
+                //å†ç”Ÿã—ãŸã„éŸ³ã‚’ã®Audioã‚’ç”Ÿæˆ
                 var newAudio = Instantiate(_audioPrefab);
                 newAudio.transform.SetParent(_bGMParent.transform);
-                _bGMAudios.Add(newAudio);
+                _bGMAudioSources.Add(newAudio);
                 newAudio.volume = volume;
-                newAudio.clip = bGM.AudioClip;
-                newAudio.name = bGM.Name;
+                newAudio.clip = clip;
+                newAudio.name = $"New {clip.name}";
                 newAudio.loop = true;
                 newAudio.Play();
                 return;
             }
         }
-        Debug.Log("BGM‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½");
+        Debug.Log("BGMãŒè¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸ");
     }
 
     /// <summary>
-    /// Œø‰Ê‰¹(SFX)‚ğÄ¶‚·‚éŠÖ”
+    /// åŠ¹æœéŸ³(SFX)ã‚’å†ç”Ÿã™ã‚‹é–¢æ•°
     /// </summary>
-    /// <param name="name">Data‚Éİ’è‚µ‚½Œø‰Ê‰¹(SFX)‚Ì–¼‘O</param>
-    /// <param name="volume">‰¹‚Ì‘å‚«‚³</param>
+    /// <param name="name">Dataã«è¨­å®šã—ãŸåŠ¹æœéŸ³(SFX)ã®åå‰</param>
+    /// <param name="volume">éŸ³ã®å¤§ãã•</param>
     async public void PlaySFX(string name, float volume = 1)
     {
-        //Ä¶‚µ‚½‚¢‰¹‚ğData‚©‚ç‚ği‚è‚Ş
-        foreach (var sFX in _sFXData.SFXes)
+        //å†ç”Ÿã—ãŸã„éŸ³ã‚’Dataã‹ã‚‰ã‚’çµã‚Šè¾¼ã‚€
+        foreach (var clip in _sfxClips/*_sFXData.SFXes*/)
         {
-            var sFXName = sFX.Name == name;
-            var clipName = sFX.AudioClip.name == name;
-            if (sFXName || clipName)
+            //var sFXName = sfx.Name == name;
+            var clipName = clip.name == name;
+            if (clipName)
             {
-                //Clip‚ªnull‚ÌAudio‚ğ’T‚·
-                foreach (var audio in _sFXAudios)
+                //ClipãŒnullã®Audioã‚’æ¢ã™
+                foreach (var audio in _sFXAudioSources)
                 {
                     if (audio.clip == null)
                     {
-                        audio.clip = sFX.AudioClip;
+                        audio.clip = clip;
                         audio.volume = volume;
                         var privName = audio.name;
-                        audio.name = sFX.Name;
+                        audio.name = clip.name;
                         audio.Play();
-                        await PauseManager.Instance.UniTaskForPause(sFX.AudioClip.length);
+                        await PauseManager.Instance.UniTaskForPause(clip.length);
                         audio.name = privName;
                         audio.clip = null;
                         return;
                     }
                 }
-                //–³‚©‚Á‚½‚çV‚µ‚­ì‚é
+                //ç„¡ã‹ã£ãŸã‚‰æ–°ã—ãä½œã‚‹
                 var audioSource = Instantiate(_audioPrefab);
                 audioSource.transform.SetParent(_sFXParent.transform);
                 audioSource.name = "NewSFX " + _newAudioNum;
                 _newAudioNum++;
-                _sFXAudios.Add(audioSource);
-                var newAudio = _sFXAudios[_sFXAudios.Count - OFFSET];
-                newAudio.clip = sFX.AudioClip;
+                _sFXAudioSources.Add(audioSource);
+                var newAudio = _sFXAudioSources[_sFXAudioSources.Count - OFFSET];
+                newAudio.clip = clip;
                 newAudio.volume = volume;
                 var newPrivName = newAudio.name;
-                newAudio.name = sFX.Name;
+                newAudio.name = clip.name;
                 newAudio.Play();
-                await PauseManager.Instance.UniTaskForPause(sFX.AudioClip.length);
+                await PauseManager.Instance.UniTaskForPause(clip.length);
                 newAudio.name = newPrivName;
                 newAudio.clip = null;
                 return;
             }
         }
-        Debug.Log("SFX‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½");
+        Debug.Log("SFXãŒè¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸ");
     }
 
     /// <summary>
-    /// BGM‚ğ~‚ß‚éŠÖ”
+    /// BGMã‚’ãƒ•ã‚§ãƒ¼ãƒ‰ã™ã‚‹é–¢æ•°
     /// </summary>
     async public UniTask FadeBGM()
     {
-        //BGM‚Ì‰¹—Ê‚ğ­‚µ‚¸‚Â‰º‚°‚é
-        foreach (var audio in _bGMAudios)
+        //BGMã®éŸ³é‡ã‚’å°‘ã—ãšã¤ä¸‹ã’ã‚‹
+        foreach (var audio in _bGMAudioSources)
         {
             //audio.Stop();
-            if (!audio.isPlaying) audio.DOFade(0, _fadeTime);
+            if (audio.isPlaying) audio.DOFade(0, _fadeTime);
         }
         //await UniTask.NextFrame();
         await UniTaskForFloat.Delay(_fadeTime);
 
-        //BGM‚ğ~‚ß‚é
-        foreach (var audio in _bGMAudios)
+        //BGMã‚’æ­¢ã‚ã‚‹
+        foreach (var audio in _bGMAudioSources)
         {
-            if (!audio.isPlaying)
+            if (audio.isPlaying)
             {
                 audio.Stop();
+                audio.name = audio.clip.name;
                 audio.volume = 1;
             }
         }
@@ -231,43 +243,43 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     #region Inspector Methods
 
     /// <summary>
-    /// ¶¬‚·‚éSFX—pAudio‚Ì”‚ğ•ÏX‚·‚éŠÖ”
+    /// ç”Ÿæˆã™ã‚‹SFXç”¨Audioã®æ•°ã‚’å¤‰æ›´ã™ã‚‹é–¢æ•°
     /// </summary>
-    /// <param name="count">¶¬‚·‚éAudio‚Ì”</param>
+    /// <param name="count">ç”Ÿæˆã™ã‚‹Audioã®æ•°</param>
     public void ChangeAudioCount(int count) =>
         _audioCount = count;
 
     /// <summary>
-    /// BGM—p‚ÌPrefab‚ğ¶¬‚·‚éŠÖ”
+    /// BGMç”¨ã®Prefabã‚’ç”Ÿæˆã™ã‚‹é–¢æ•°
     /// </summary>
     public void CreateBGM()
     {
         if (_audioPrefab == null)CreateAudio();
         if(_bGMParent == null)CreateBGMParent();
         _isStopCreate = false;
-        _bGMAudios.Clear();
+        _bGMAudioSources.Clear();
         InitBGM();
-        for (var i = 0; i < _bGMData.BGMs.Length; i++)
+        for (var i = 0; i < _bgmClips.Length; i++)
         {
             var audio = Instantiate(_audioPrefab);
             audio.transform.SetParent(_bGMParent.transform);
-            _bGMAudios.Add(audio);
-            audio.name = _bGMData.BGMs[i].Name;
-            audio.clip = _bGMData.BGMs[i].AudioClip;
+            _bGMAudioSources.Add(audio);
+            audio.name = _bgmClips[i].name;
+            audio.clip = _bgmClips[i];
             audio.loop = true;
         }
-        _bGMAudios = new(_bGMAudios.Distinct());
+        _bGMAudioSources = new(_bGMAudioSources.Distinct());
     }
     
     /// <summary>
-    /// SFX—p‚ÌPrefab‚ğ¶¬‚·‚éŠÖ”
+    /// SFXç”¨ã®Prefabã‚’ç”Ÿæˆã™ã‚‹é–¢æ•°
     /// </summary>
     public void CreateSFX()
     {
         if (_audioPrefab == null)CreateAudio();
         if(_sFXParent == null)CreateSFXParent();
         _isStopCreate = false;
-        _sFXAudios.Clear();
+        _sFXAudioSources.Clear();
         InitSFX();
         for (var i = 0; i < _audioCount; i++)
         {
@@ -277,20 +289,49 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
             if (i < 10) audio.name = "SFX " + "00" + i;
             else if (i < 100) audio.name = "SFX " + "0" + i;
             else audio.name = "SFX " + i;
-            _sFXAudios.Add(audio);
+            _sFXAudioSources.Add(audio);
         }
     }
 
     /// <summary>
-    /// BGM&SFX—p‚ÌPrefab‚ğ‘Síœ‚·‚éŠÖ”
+    /// BGM&SFXç”¨ã®Prefabã‚’å…¨å‰Šé™¤ã™ã‚‹é–¢æ•°
     /// </summary>
     public void Init()
     {
         _isStopCreate = true;
-        _bGMAudios.Clear();
-        _sFXAudios.Clear();
+        _bGMAudioSources.Clear();
+        _sFXAudioSources.Clear();
         InitBGM();
         InitSFX();
+    }
+
+    #endregion
+
+    #region Editor Methods
+
+    public void ChangeAudioLength(float length)
+    {
+        _bgmLength = length;
+    }
+
+    public void ResizeBGMClips(int length)
+    {
+        Array.Resize(ref _bgmClips, length);
+    }
+
+    public void ResizeSFXClips(int length)
+    {
+        Array.Resize(ref _sfxClips, length);
+    }
+
+    public void AddBGMClip(int index, AudioClip clip)
+    {
+        _bgmClips[index] = clip;
+    }
+
+    public void AddSFXClip(int index, AudioClip clip)
+    {
+        _sfxClips[index] = clip;
     }
 
     #endregion
@@ -298,7 +339,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     #region Private Methods
 
     /// <summary>
-    /// ‰¹Šy‚ğŠi”[‚·‚éƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éŠÖ”
+    /// éŸ³æ¥½ã‚’æ ¼ç´ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹é–¢æ•°
     /// </summary>
     private void CreateBGMParent()
     {
@@ -308,7 +349,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     }
 
     /// <summary>
-    /// Œø‰Ê‰¹‚ğŠi”[‚·‚éƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éŠÖ”
+    /// åŠ¹æœéŸ³ã‚’æ ¼ç´ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹é–¢æ•°
     /// </summary>
     private void CreateSFXParent()
     {
@@ -318,7 +359,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     }
 
     /// <summary>
-    /// ƒI[ƒfƒBƒIƒ\[ƒX‚ª•t‚«ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éŠÖ”
+    /// ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚½ãƒ¼ã‚¹ãŒä»˜ãã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹é–¢æ•°
     /// </summary>
     private void CreateAudio()
     {
@@ -330,7 +371,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     }
 
     /// <summary>
-    /// BGM—p‚ÌPrefab‚ğ‘Síœ‚·‚éŠÖ”
+    /// BGMç”¨ã®Prefabã‚’å…¨å‰Šé™¤ã™ã‚‹é–¢æ•°
     /// </summary>
     private void InitBGM()
     {
@@ -346,7 +387,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     }
 
     /// <summary>
-    /// SFX—p‚ÌPrefab‚ğ‘Síœ‚·‚éŠÖ”
+    /// SFXç”¨ã®Prefabã‚’å…¨å‰Šé™¤ã™ã‚‹é–¢æ•°
     /// </summary>
     private void InitSFX()
     {
@@ -363,27 +404,27 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
 
     /// <summary>
-    /// ƒ|[ƒY—p‚ÌŠÖ”
+    /// ãƒãƒ¼ã‚ºç”¨ã®é–¢æ•°
     /// </summary>
     private void Pause()
     {
-        foreach (var bGMAudio in _bGMAudios)
+        foreach (var bGMAudio in _bGMAudioSources)
         {
             if (bGMAudio.isPlaying) bGMAudio.Pause();
         }
-        foreach (var sFXAudio in _sFXAudios)
+        foreach (var sFXAudio in _sFXAudioSources)
         {
             if (sFXAudio.isPlaying)sFXAudio.Pause();
         }
     }
 
     /// <summary>
-    /// ƒ|[ƒY‰ğœ—p‚ÌŠÖ”
+    /// ãƒãƒ¼ã‚ºè§£é™¤ç”¨ã®é–¢æ•°
     /// </summary>
     private void Resume()
     {
-        foreach (var bGMAudio in _bGMAudios) bGMAudio.UnPause();
-        foreach (var sFXAudio in _sFXAudios) sFXAudio.UnPause();
+        foreach (var bGMAudio in _bGMAudioSources) bGMAudio.UnPause();
+        foreach (var sFXAudio in _sFXAudioSources) sFXAudio.UnPause();
     }
 
     #endregion

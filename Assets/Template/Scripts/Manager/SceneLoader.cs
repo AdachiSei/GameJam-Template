@@ -54,7 +54,6 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     #region Const Member
 
-    private const int OFFSET = 1;
     private const int LOOP = -1;
     private const float MAX_ALPFA = 1f;
     private const float FADE_POS = 800;

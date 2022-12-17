@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1244674214508401351}
   - component: {fileID: -2636995887087475959}
   m_Layer: 0
-  m_Name: AudioSorce
+  m_Name: AudioSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

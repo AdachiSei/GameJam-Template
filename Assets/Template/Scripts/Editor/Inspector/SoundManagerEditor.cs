@@ -8,6 +8,7 @@ public class SoundManagerEditor : Editor
 {
     #region Private Member
 
+    private float _maxLength = 20f;
     private int _maxValue = 1000;
 
     #endregion
@@ -23,7 +24,7 @@ public class SoundManagerEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        var soundM = target as SoundManager;
+        var soundManager = target as SoundManager;
         var style = new GUIStyle(EditorStyles.label);
         style.richText = true;
 
@@ -34,41 +35,87 @@ public class SoundManagerEditor : Editor
         {
             EditorGUILayout.Space();
 
+            //全フォルダから音をとってくる
+            EditorGUILayout.LabelField("<b>全フォルダから音をとってくる</b>", style);
+            var floatField = EditorGUILayout.FloatField("BGMの長さ(?秒以上)", soundManager.BGMLength);
+            var lessThanZeroF = floatField < 0;
+            var overHundredF = floatField > _maxLength;
+            if (lessThanZeroF) floatField = 0f;
+            else if (overHundredF) floatField = _maxLength;
+            soundManager.ChangeAudioLength(floatField);
+            if (GUILayout.Button("GetAudioClips"))
+            {
+                GetAudioClips(floatField);
+            }
+
+            EditorGUILayout.Space();
+
             //BGM用のPrefabを作成
             EditorGUILayout.LabelField("<b>BGM用のPrefabを生成</b>", style);
 
             if (GUILayout.Button("CreateBGM"))
             {
-                soundM.CreateBGM();
+                soundManager.CreateBGM();
             }
 
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("<b>SFX用のPrefabを生成</b>", style);
-            var intField =　EditorGUILayout.IntField("生成数", soundM.AudioCount);
-            var lessThanZero = soundM.AudioCount < 0;
-            var overHundred = soundM.AudioCount > _maxValue;
+            var intField = EditorGUILayout.IntField("生成数", soundManager.AudioCount);
+            var lessThanZero = soundManager.AudioCount < 0;
+            var overHundred = soundManager.AudioCount > _maxValue;
             if (lessThanZero) intField = 0;
-            else if (overHundred)intField = _maxValue;
+            else if (overHundred) intField = _maxValue;
 
-            soundM.ChangeAudioCount(intField);
+            soundManager.ChangeAudioCount(intField);
 
             if (GUILayout.Button("CreateSFX"))
             {
-                soundM.CreateSFX();
+                soundManager.CreateSFX();
             }
 
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("<b>BGM&SFX用のPrefabを全削除</b>", style);
-            EditorGUI.BeginDisabledGroup(soundM.IsStopCreate);
+            EditorGUI.BeginDisabledGroup(soundManager.IsStopCreate);
 
             if (GUILayout.Button("Init"))
             {
-                soundM.Init();
+                soundManager.Init();
             }
 
             EditorGUI.EndDisabledGroup();
+        }
+    }
+
+    #endregion
+
+    #region PrivateMethods
+
+    private void GetAudioClips(float audioLength)
+    {
+        var soundManager = target as SoundManager;
+        var bgmList = new List<AudioClip>();
+        var sfxList = new List<AudioClip>();
+
+        foreach (var guid in AssetDatabase.FindAssets("t:AudioClip"))
+        {
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            var pathName = AssetDatabase.LoadMainAssetAtPath(path);
+            var audioClip = pathName as AudioClip;
+            var isLong = audioClip.length >= audioLength;
+            if (isLong) bgmList.Add(audioClip);
+            else sfxList.Add(audioClip);
+        }
+        soundManager.ResizeBGMClips(bgmList.Count);
+        soundManager.ResizeSFXClips(sfxList.Count);
+        for (int i = 0; i < bgmList.Count; i++)
+        {
+            soundManager.AddBGMClip(i, bgmList[i]);
+        }
+        for (int i = 0; i < sfxList.Count; i++)
+        {
+            soundManager.AddSFXClip(i, sfxList[i]);
         }
     }
 
