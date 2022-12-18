@@ -38,10 +38,8 @@ public class SoundManagerEditor : Editor
             //全フォルダから音をとってくる
             EditorGUILayout.LabelField("<b>全フォルダから音をとってくる</b>", style);
             var floatField = EditorGUILayout.FloatField("BGMの長さ(?秒以上)", soundManager.BGMLength);
-            var lessThanZeroF = floatField < 0;
-            var overHundredF = floatField > _maxLength;
-            if (lessThanZeroF) floatField = 0f;
-            else if (overHundredF) floatField = _maxLength;
+            if (floatField < 0) floatField = 0f;
+            else if (floatField > _maxLength) floatField = _maxLength;
             soundManager.ChangeAudioLength(floatField);
             if (GUILayout.Button("GetAudioClips"))
             {

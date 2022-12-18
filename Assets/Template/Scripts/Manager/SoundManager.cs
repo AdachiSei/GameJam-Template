@@ -62,10 +62,11 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     #region Private Menber
 
-    public float _bgmLength = 10f;
+    private float _bgmLength = 10f;
     private int _audioCount;
-    private int _newAudioNum;
+    private int _newAudioSourceNum;
     private bool _isStopCreate;
+    private bool _isPausing;
 
     #endregion
 
@@ -91,8 +92,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         PauseManager.Instance.OnPause += Pause;
         PauseManager.Instance.OnResume += Resume;
         PlayBGM(_name);
-        PlayBGM(BGMNames.GAMEOVER);
-
+        PlaySFX(BGMNames.GAMEOVER);
     }
 
     private void OnDisable()
@@ -118,11 +118,8 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         //BGMを止める
         foreach (var audio in _bGMAudioSources)
         {
-            if (audio.isPlaying)
-            {
-                audio.Stop();
-                audio.name = audio.clip.name;
-            }
+            audio.Stop();
+            audio.name = audio.clip.name;
         }
         if (name == "") return;
         //再生したい音を格納しているオブジェクトから絞り込む
@@ -185,7 +182,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                         var privName = audio.name;
                         audio.name = clip.name;
                         audio.Play();
-                        await PauseManager.Instance.UniTaskForPause(clip.length);
+                        await UniTask.WaitUntil(() => !audio.isPlaying && !_isPausing);
                         audio.name = privName;
                         audio.clip = null;
                         return;
@@ -194,8 +191,8 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                 //無かったら新しく作る
                 var audioSource = Instantiate(_audioPrefab);
                 audioSource.transform.SetParent(_sFXParent.transform);
-                audioSource.name = "NewSFX " + _newAudioNum;
-                _newAudioNum++;
+                audioSource.name = "NewSFX " + _newAudioSourceNum;
+                _newAudioSourceNum++;
                 _sFXAudioSources.Add(audioSource);
                 var newAudio = _sFXAudioSources[_sFXAudioSources.Count - OFFSET];
                 newAudio.clip = clip;
@@ -203,7 +200,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                 var newPrivName = newAudio.name;
                 newAudio.name = clip.name;
                 newAudio.Play();
-                await PauseManager.Instance.UniTaskForPause(clip.length);
+                await UniTask.WaitUntil(() => !newAudio.isPlaying && !_isPausing);
                 newAudio.name = newPrivName;
                 newAudio.clip = null;
                 return;
@@ -285,7 +282,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         {
             var audio = Instantiate(_audioPrefab);
             audio.transform.SetParent(_sFXParent.transform);
-            audio.loop = true;
+            audio.loop = false;
             if (i < 10) audio.name = "SFX " + "00" + i;
             else if (i < 100) audio.name = "SFX " + "0" + i;
             else audio.name = "SFX " + i;
@@ -402,12 +399,12 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         }
     }
 
-
     /// <summary>
     /// ポーズ用の関数
     /// </summary>
     private void Pause()
     {
+        _isPausing = true;
         foreach (var bGMAudio in _bGMAudioSources)
         {
             if (bGMAudio.isPlaying) bGMAudio.Pause();
@@ -423,8 +420,9 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// </summary>
     private void Resume()
     {
-        foreach (var bGMAudio in _bGMAudioSources) bGMAudio.UnPause();
-        foreach (var sFXAudio in _sFXAudioSources) sFXAudio.UnPause();
+        _isPausing = false;
+        foreach (var bgm in _bGMAudioSources) bgm.UnPause();
+        foreach (var sfx in _sFXAudioSources) sfx.UnPause();
     }
 
     #endregion
