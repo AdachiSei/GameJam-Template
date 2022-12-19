@@ -2305,6 +2305,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isDontDestroy: 0
   _name: 
+  _masterVolume: 0
+  _bgmVolume: 0
+  _sfxVolume: 0
   _fadeTime: 2
   _bGMParent: {fileID: 230179757}
   _sFXParent: {fileID: 2079320778}
@@ -2319,13 +2322,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5cfc47af7f7b1fb4a83ef6cb0dc7ef9f, type: 3}
   - {fileID: 8300000, guid: f664670f08191744788a933bdec98d3b, type: 3}
   - {fileID: 8300000, guid: 324b104cc84f3fb40ac4c73dbf7dd234, type: 3}
-  - {fileID: 8300000, guid: f19e51f729af57d4083f0afe01af3510, type: 3}
-  _bGMAudioSources:
-  - {fileID: 1088739820}
-  - {fileID: 325337965}
-  - {fileID: 1442602858}
-  - {fileID: 967944683}
-  - {fileID: 537820071}
+  _bGMAudioSources: []
   _sFXAudioSources:
   - {fileID: 162958272}
   - {fileID: 407071039}

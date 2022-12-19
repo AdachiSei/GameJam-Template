@@ -27,6 +27,21 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     private string _name;
 
     [SerializeField]
+    [Header("マスター音量")]
+    [Range(0,1)]
+    private float _masterVolume;
+
+    [SerializeField]
+    [Header("音楽の音量")]
+    [Range(0, 1)]
+    private float _bgmVolume;
+
+    [SerializeField]
+    [Header("効果音の音量")]
+    [Range(0, 1)]
+    private float _sfxVolume;
+
+    [SerializeField]
     [Header("音が消えるまでの時間")]
     float _fadeTime = 2f;
 
@@ -97,7 +112,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     private void OnDisable()
     {
-        if (IsDontDestroy)
+        if (PauseManager.Instance.IsDontDestroy)
         {
             PauseManager.Instance.OnPause -= Pause;
             PauseManager.Instance.OnResume -= Resume;
@@ -115,6 +130,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <param name="volume">音の大きさ</param>
     public void PlayBGM(string name,float volume = 1)
     {
+        var bgmVolume = volume * _masterVolume * _bgmVolume;
         //BGMを止める
         foreach (var audio in _bGMAudioSources)
         {
@@ -130,7 +146,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
             if (audioName || clipName)
             {
                 audio.name = $"♪ {audio.name}";
-                audio.volume = volume;
+                audio.volume = bgmVolume;
                 audio.Play();
                 return;
             }
@@ -147,7 +163,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                 var newAudio = Instantiate(_audioPrefab);
                 newAudio.transform.SetParent(_bGMParent.transform);
                 _bGMAudioSources.Add(newAudio);
-                newAudio.volume = volume;
+                newAudio.volume = bgmVolume;
                 newAudio.clip = clip;
                 newAudio.name = $"New {clip.name}";
                 newAudio.loop = true;
@@ -165,6 +181,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <param name="volume">音の大きさ</param>
     async public void PlaySFX(string name, float volume = 1)
     {
+        var sfxVolume = volume * _masterVolume * _sfxVolume;
         //再生したい音をDataからを絞り込む
         foreach (var clip in _sfxClips/*_sFXData.SFXes*/)
         {
@@ -178,7 +195,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                     if (audio.clip == null)
                     {
                         audio.clip = clip;
-                        audio.volume = volume;
+                        audio.volume = sfxVolume;
                         var privName = audio.name;
                         audio.name = clip.name;
                         audio.Play();
@@ -196,7 +213,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                 _sFXAudioSources.Add(audioSource);
                 var newAudio = _sFXAudioSources[_sFXAudioSources.Count - OFFSET];
                 newAudio.clip = clip;
-                newAudio.volume = volume;
+                newAudio.volume = sfxVolume;
                 var newPrivName = newAudio.name;
                 newAudio.name = clip.name;
                 newAudio.Play();
