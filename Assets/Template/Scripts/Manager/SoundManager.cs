@@ -296,7 +296,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     }
 
     /// <summary>
-    /// 再生している全ての音の音量を変更を反映する関数
+    /// 再生している全ての音の音量の変更を反映する関数
     /// </summary>
     public void ReflectMasterVolume()
     {
