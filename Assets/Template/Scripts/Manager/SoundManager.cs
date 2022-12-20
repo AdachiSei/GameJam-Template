@@ -12,11 +12,45 @@ using DG.Tweening;
 /// </summary>
 public class SoundManager : SingletonMonoBehaviour<SoundManager>
 {
-    #region Public Property
+    #region Public Properties
 
     public float BGMLength => _bgmLength;
     public int AudioCount => _audioCount;
     public bool IsStopCreate => _isStopCreate;
+
+    #endregion
+
+    #region Private Properties
+
+    private float MasterVolume
+    {
+        get => _masterVolume;
+        set
+        {
+            _masterVolume = Mathf.Clamp01(_masterVolume);
+            ReflectAllVolume();
+        }
+    }
+
+    private float BGMVolume
+    {
+        get => _bgmVolume;
+        set
+        {
+            _bgmVolume = Mathf.Clamp01(value);
+            ReflectBGMVolume();
+        }
+    }
+
+    private float SFXVolume
+    {
+        get => _sfxVolume;
+        set
+        {
+            _sfxVolume = Mathf.Clamp01(value);
+            ReflectSFXVolume();
+        }
+    }
 
     #endregion
 
@@ -248,6 +282,70 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                 audio.Stop();
                 audio.name = audio.clip.name;
                 audio.volume = 1;
+            }
+        }
+    }
+
+    /// <summary>
+    /// マスター音量を変更して反映する関数
+    /// </summary>
+    /// <param name="masterVolume">マスター音量</param>
+    public void ChangeAllVolume(float masterVolume)
+    {
+        MasterVolume = masterVolume;
+    }
+
+    /// <summary>
+    /// 音楽の音量を変更して反映する関数
+    /// </summary>
+    /// <param name="bgmVolume">音楽の音量</param>
+    public void ChangeBGMVolume(float bgmVolume)
+    {
+        BGMVolume = bgmVolume;
+    }
+
+    /// <summary>
+    /// 効果音の音量を変更して反映する関数
+    /// </summary>
+    /// <param name="sfxVolume">効果音の音量</param>
+    public void ChangeSFXVolume(float sfxVolume)
+    {
+        SFXVolume = sfxVolume;
+    }
+
+    /// <summary>
+    /// 再生している全ての音の音量を変更を反映する関数
+    /// </summary>
+    public void ReflectAllVolume()
+    {
+        ReflectBGMVolume();
+        ReflectSFXVolume();
+    }
+
+    /// <summary>
+    /// 再生している全ての音楽の音量を反映する関数
+    /// </summary>
+    public void ReflectBGMVolume()
+    {
+        foreach (var audioSource in _bGMAudioSources)
+        {
+            if(audioSource.isPlaying)
+            {
+                audioSource.volume = _masterVolume * _bgmVolume; 
+            }
+        }
+    }
+
+    /// <summary>
+    /// 再生している全ての効果音の音量を変更を反映する関数
+    /// </summary>
+    public void ReflectSFXVolume()
+    {
+        foreach (var audioSource in _bGMAudioSources)
+        {
+            if (audioSource.isPlaying)
+            {
+                audioSource.volume = _masterVolume * _sfxVolume;
             }
         }
     }
