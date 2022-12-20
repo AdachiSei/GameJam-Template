@@ -11,7 +11,9 @@ public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 
     [SerializeField]
     [Header("ƒV[ƒ“‚ªˆÚ“®‚µ‚Ä‚à•Û‚·‚é‚©")]
-    bool _isDontDestroy;
+    private bool _isDontDestroy;
+
+    private static T _instance;
 
     public static T Instance
     {
@@ -31,8 +33,6 @@ public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
-    static T _instance;
-
     virtual protected void Awake()
     {
         if (_isDontDestroy) DontDestroyOnLoad(this);
@@ -50,10 +50,7 @@ public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
         {
             return true;
         }
-        else
-        {
-            Destroy(this);
-            return false;
-        }
+        Destroy(this);
+        return false;
     }
 }

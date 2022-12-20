@@ -20,40 +20,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     #endregion
 
-    #region Private Properties
-
-    private float MasterVolume
-    {
-        get => _masterVolume;
-        set
-        {
-            _masterVolume = Mathf.Clamp01(_masterVolume);
-            ReflectAllVolume();
-        }
-    }
-
-    private float BGMVolume
-    {
-        get => _bgmVolume;
-        set
-        {
-            _bgmVolume = Mathf.Clamp01(value);
-            ReflectBGMVolume();
-        }
-    }
-
-    private float SFXVolume
-    {
-        get => _sfxVolume;
-        set
-        {
-            _sfxVolume = Mathf.Clamp01(value);
-            ReflectSFXVolume();
-        }
-    }
-
-    #endregion
-
     #region Inspector Menber
 
     [SerializeField]
@@ -141,7 +107,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         PauseManager.Instance.OnPause += Pause;
         PauseManager.Instance.OnResume += Resume;
         PlayBGM(_name);
-        PlaySFX(BGMNames.GAMEOVER);
     }
 
     private void OnDisable()
@@ -290,9 +255,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// マスター音量を変更して反映する関数
     /// </summary>
     /// <param name="masterVolume">マスター音量</param>
-    public void ChangeAllVolume(float masterVolume)
+    public void ChangeMasterVolume(float masterVolume)
     {
-        MasterVolume = masterVolume;
+        _masterVolume = masterVolume;
+        ReflectMasterVolume();
     }
 
     /// <summary>
@@ -301,7 +267,8 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <param name="bgmVolume">音楽の音量</param>
     public void ChangeBGMVolume(float bgmVolume)
     {
-        BGMVolume = bgmVolume;
+        _bgmVolume = bgmVolume;
+        ReflectBGMVolume();
     }
 
     /// <summary>
@@ -310,13 +277,14 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <param name="sfxVolume">効果音の音量</param>
     public void ChangeSFXVolume(float sfxVolume)
     {
-        SFXVolume = sfxVolume;
+        _sfxVolume = sfxVolume;
+        ReflectSFXVolume();
     }
 
     /// <summary>
     /// 再生している全ての音の音量を変更を反映する関数
     /// </summary>
-    public void ReflectAllVolume()
+    public void ReflectMasterVolume()
     {
         ReflectBGMVolume();
         ReflectSFXVolume();

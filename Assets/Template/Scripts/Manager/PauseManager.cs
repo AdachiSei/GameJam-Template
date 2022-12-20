@@ -11,7 +11,7 @@ public class PauseManager : SingletonMonoBehaviour<PauseManager>
 {
     #region private Member
 
-    private bool _isPause;
+    private bool _isPausing;
 
     #endregion
 
@@ -26,35 +26,18 @@ public class PauseManager : SingletonMonoBehaviour<PauseManager>
 
     void Update()
     {
-        if (Input.GetButtonDown(InputNamesLegacy.CANCEL))
+        if (Input.GetButtonDown(InputNames.CANCEL))
         {
-            if (!_isPause)
+            if (!_isPausing)
             {
-                _isPause = true;
+                _isPausing = true;
                 OnPause();
             }
             else
             {
-                _isPause = false;
+                _isPausing = false;
                 OnResume();
             }
-        }
-    }
-
-    #endregion
-
-    #region Public Method
-
-    /// <summary>
-    /// ƒ|[ƒY‘Î‰‚Ì”ñ“¯Šú‚Å‘Ò‚Á‚Ä‚­‚ê‚éŠÖ”
-    /// </summary>
-    /// <param name="time">‘Ò‚ÂŠÔ</param>
-    async public UniTask UniTaskForPause(float time)
-    {
-        for (float i = 0f; i < time; i += Time.deltaTime)
-        {
-            if (_isPause) await UniTask.WaitUntil(() => !_isPause);
-            await UniTask.NextFrame();
         }
     }
 
