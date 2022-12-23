@@ -9,7 +9,7 @@ public class SoundManagerEditor : Editor
     #region Private Member
 
     private float _maxLength = 20f;
-    private int _maxValue = 1000;
+    private int _maxValue = 100;
 
     #endregion
 
@@ -59,9 +59,13 @@ public class SoundManagerEditor : Editor
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("<b>SFXópÇÃPrefabÇê∂ê¨</b>", style);
-            var intField = EditorGUILayout.IntField("ê∂ê¨êî", soundManager.AudioCount);
-            var lessThanZero = soundManager.AudioCount < 0;
-            var overHundred = soundManager.AudioCount > _maxValue;
+            var intField =
+                EditorGUILayout
+                    .IntField
+                        ("ê∂ê¨êî", soundManager.AudioSourceNumber);
+
+            var lessThanZero = intField < 0;
+            var overHundred = intField > _maxValue;
             if (lessThanZero) intField = 0;
             else if (overHundred) intField = _maxValue;
 
@@ -75,7 +79,7 @@ public class SoundManagerEditor : Editor
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("<b>BGM&SFXópÇÃPrefabÇëSçÌèú</b>", style);
-            EditorGUI.BeginDisabledGroup(soundManager.IsStopCreate);
+            EditorGUI.BeginDisabledGroup(soundManager.IsStopToCreate);
 
             if (GUILayout.Button("Init"))
             {
@@ -88,7 +92,7 @@ public class SoundManagerEditor : Editor
 
     #endregion
 
-    #region PrivateMethods
+    #region Private Methods
 
     private void GetAudioClips(float audioLength)
     {

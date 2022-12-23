@@ -11,7 +11,7 @@ using UnityEngine.UI;
 /// </summary>
 public static class HierarchyGUIShowComponent
 {
-    #region Const Member
+    #region Constants
 
     /// <summary>
     /// アイコンのサイズ
@@ -56,7 +56,7 @@ public static class HierarchyGUIShowComponent
             for (int index = 0; index < isType.Length; index++)
             {
                 if (isType[index]) break;
-                if (index == isType.Length - OFFSET) componentsList.Add(component);
+                if (index == isType.OffsetLength()) componentsList.Add(component);
                 continue;
             }
         }
@@ -70,6 +70,7 @@ public static class HierarchyGUIShowComponent
         {
             // コンポーネントのアイコン画像を取得
             var texture2D = AssetPreview.GetMiniThumbnail(component);
+            if (texture2D == null) texture2D = default;
             //texture2D = AssetDatabase.LoadAssetAtPath("Assets/AssetStoreTools/unknown.png", typeof(Texture2D)) as Texture2D;
             GUI.DrawTexture(selectionRect, texture2D);
             selectionRect.x += ICON_SIZE;

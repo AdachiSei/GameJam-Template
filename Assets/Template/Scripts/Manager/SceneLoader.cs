@@ -14,6 +14,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 {
     #region Public Property
 
+    public string CurrentScene => SceneManager.GetActiveScene().name;
     public string[] SceneNames => _sceneNames;
 
     #endregion
@@ -48,14 +49,14 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     #region Private Member
 
-    private  Vector3 _rotDir = new(0f,0f,-360);
+    private  Vector3 _rotDir = new Vector3(0f,0f,-360);
 
     #endregion
 
-    #region Const Member
+    #region Constants
 
-    private const int LOOP = -1;
-    private const float MAX_ALPFA = 1f;
+    private const int LOOP_VALUE = -1;
+    private const float MAX_ALPFA_VALUE = 1f;
     private const float FADE_POS = 800;
 
     #endregion
@@ -85,7 +86,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
             .transform
                 .DORotate(_rotDir, _loadingImageSpeed, RotateMode.FastBeyond360)
                 .SetEase(Ease.Linear)
-                .SetLoops(LOOP);
+                .SetLoops(LOOP_VALUE);
         await SceneManager.LoadSceneAsync(name);
     }
 
@@ -114,8 +115,6 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         WantToLoadScene(false);
     }  
 
-    #endregion
-
     #region Editor Method
 
     public void ResizeSceneNames(int length)
@@ -127,6 +126,8 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     {
         _sceneNames[index] = name;
     }
+
+    #endregion
 
     #endregion
 
@@ -169,7 +170,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         switch (isSlide)
         {
             case false:
-                _loadingPanel.DOFade(MAX_ALPFA, _fadeTime);
+                _loadingPanel.DOFade(MAX_ALPFA_VALUE, _fadeTime);
                 break;
             case true:
                 _loadingPanel.rectTransform.DOLocalMoveX(0f, _fadeTime);

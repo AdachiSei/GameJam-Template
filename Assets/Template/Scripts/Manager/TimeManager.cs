@@ -24,11 +24,17 @@ public class TimeManager : SingletonMonoBehaviour<TimeManager>
 
     #region Private Member
 
-    private bool _isCounting = true;
+    private bool _isCounting = false;
 
     #endregion
 
     #region Unity Method
+
+    protected override void Awake()
+    {
+        base.Awake();
+        StartTimer();
+    }
 
     //private void Update()
     //{
@@ -67,8 +73,8 @@ public class TimeManager : SingletonMonoBehaviour<TimeManager>
     {
         while(_isCounting)
         {
-            await UniTask.NextFrame();
             _timer += Time.deltaTime;
+            await UniTask.NextFrame();
         }
     }
 

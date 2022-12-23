@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using UniRx;
 
 /// <summary>
 /// サウンドを管理するScript
@@ -14,9 +15,12 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 {
     #region Public Properties
 
+    public float MasterVolume => _masterVolume;
+    public float BGMVolume => _bgmVolume;
+    public float SFXVolume => _sfxVolume;
     public float BGMLength => _bgmLength;
-    public int AudioCount => _audioCount;
-    public bool IsStopCreate => _isStopCreate;
+    public int AudioSourceNumber => _audioSourceNumber;
+    public bool IsStopToCreate => _isStopingToCreate;
 
     #endregion
 
@@ -78,16 +82,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     #region Private Menber
 
     private float _bgmLength = 10f;
-    private int _audioCount;
-    private int _newAudioSourceNum;
-    private bool _isStopCreate;
+    private int _audioSourceNumber;
+    private int _newAudioSourceNumber;
+    private bool _isStopingToCreate;
     private bool _isPausing;
-
-    #endregion
-
-    #region Const Member
-
-    private const int OFFSET = 1;
 
     #endregion
 
@@ -108,29 +106,49 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
         if(_audioPrefab.playOnAwake)_audioPrefab.playOnAwake = false;
 
+        var soundManager = this;
+
+        soundManager
+            .ObserveEveryValueChanged
+                (soundManager => soundManager.MasterVolume)
+            .Subscribe
+                (volume => ReflectMasterVolume());
+
+        soundManager
+            .ObserveEveryValueChanged
+                (soundManager => soundManager.BGMVolume)
+            .Subscribe
+                (volume => ReflectBGMVolume());
+
+        soundManager
+            .ObserveEveryValueChanged
+                (soundManager => soundManager.SFXVolume)
+            .Subscribe
+                (volume => ReflectSFXVolume());
+
         //ポーズ用
         PauseManager.Instance.OnPause += Pause;
         PauseManager.Instance.OnResume += Resume;
 
         PlayBGM(_name);
+        PlaySFX(SFXNames.ONOFFELECTRICITY);
     }
 
+    //private void OnValidate()
+    //{
+    //    ReflectMasterVolume();
+    //    ReflectBGMVolume();
+    //    ReflectSFXVolume();
+    //}
 
-    private void OnValidate()
-    {
-        ReflectMasterVolume();
-        ReflectBGMVolume();
-        ReflectSFXVolume();
-    }
-
-    private void OnDisable()
-    {
-        if (PauseManager.Instance.IsDontDestroy)
-        {
-            PauseManager.Instance.OnPause -= Pause;
-            PauseManager.Instance.OnResume -= Resume;
-        }
-    }
+    //private void OnDestroy()
+    //{
+    //    if (PauseManager.Instance.IsDontDestroy)
+    //    {
+    //        PauseManager.Instance.OnPause -= Pause;
+    //        PauseManager.Instance.OnResume -= Resume;
+    //    }
+    //}
 
     #endregion
 
@@ -139,104 +157,121 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// <summary>
     /// 音楽(BGM)を再生する関数
     /// </summary>
-    /// <param name="name">Dataに設定した音楽(BGM)の名前</param>
+    /// <param name="name">音楽(BGM)の名前</param>
+    /// <param name="isLooping"></param>
     /// <param name="volume">音の大きさ</param>
-    public void PlayBGM(string name,float volume = 1)
+    public void PlayBGM(string name,bool isLooping = true,float volume = 1)
     {
         var bgmVolume = volume * _masterVolume * _bgmVolume;
+
         //BGMを止める
-        foreach (var audio in _bgmAudioSources)
+        foreach (var audioSource in _bgmAudioSources)
         {
-            audio.Stop();
-            audio.name = audio.clip.name;
+            audioSource.Stop();
+            audioSource.name = audioSource.clip.name;
         }
+
         if (name == "") return;
+
         //再生したい音を格納しているオブジェクトから絞り込む
-        foreach (var audio in _bgmAudioSources)
+        foreach (var audioSource in _bgmAudioSources)
         {
-            var audioName = audio.name == name;
-            var clipName = audio.clip.name == name;
-            if (audioName || clipName)
+            if (audioSource.clip.name == name)
             {
-                audio.name = $"♪ {audio.name}";
-                audio.volume = bgmVolume;
-                audio.Play();
+                audioSource.name = $"♪ {audioSource.name}";
+                audioSource.volume = bgmVolume;
+                audioSource.loop = isLooping;
+
+                audioSource.Play();
+
                 return;
             }
         }
+
         //再生したい音を格納しているオブジェクトが無かったら
-        //再生したい音をDataから絞り込む
-        foreach (var clip in _bgmClips/*_bGMData.BGMs*/)
+        //再生したい音を絞り込む
+        foreach (var clip in _bgmClips)
         {
-            //var bGMName = bgm.Name == name;
-            var clipName = clip.name == name;
-            if (clipName)
+            if (clip.name == name)
             {
                 //再生したい音をのAudioを生成
-                var newAudio = Instantiate(_audioPrefab);
-                newAudio.transform.SetParent(_bGMParent.transform);
-                _bgmAudioSources.Add(newAudio);
-                newAudio.volume = bgmVolume;
-                newAudio.clip = clip;
-                newAudio.name = $"New {clip.name}";
-                newAudio.loop = true;
-                newAudio.Play();
+                var newAudioSource = Instantiate(_audioPrefab);
+                newAudioSource.transform.SetParent(_bGMParent.transform);
+                _bgmAudioSources.Add(newAudioSource);
+
+                newAudioSource.volume = bgmVolume;
+                newAudioSource.clip = clip;
+                newAudioSource.name = $"New {clip.name}";
+                newAudioSource.loop = isLooping;
+
+                newAudioSource.Play();
+
                 return;
             }
         }
-        Debug.Log("BGMが見つからなかった");
+        Debug.LogWarning("音楽が見つからなかった");
     }
 
     /// <summary>
     /// 効果音(SFX)を再生する関数
     /// </summary>
-    /// <param name="name">Dataに設定した効果音(SFX)の名前</param>
+    /// <param name="name">効果音(SFX)の名前</param>
     /// <param name="volume">音の大きさ</param>
     async public void PlaySFX(string name, float volume = 1)
     {
         var sfxVolume = volume * _masterVolume * _sfxVolume;
-        //再生したい音をDataからを絞り込む
-        foreach (var clip in _sfxClips/*_sFXData.SFXes*/)
+
+        //再生したい音を絞り込む
+        foreach (var clip in _sfxClips)
         {
-            //var sFXName = sfx.Name == name;
-            var clipName = clip.name == name;
-            if (clipName)
+            if (clip.name == name)
             {
-                //ClipがnullのAudioを探す
-                foreach (var audio in _sfxAudioSources)
+                //ClipがnullのAudioSourceを探す
+                foreach (var audioSource in _sfxAudioSources)
                 {
-                    if (audio.clip == null)
+                    if (audioSource.clip == null)
                     {
-                        audio.clip = clip;
-                        audio.volume = sfxVolume;
-                        var privName = audio.name;
-                        audio.name = clip.name;
-                        audio.Play();
-                        await UniTask.WaitUntil(() => !audio.isPlaying && !_isPausing);
-                        audio.name = privName;
-                        audio.clip = null;
+                        audioSource.clip = clip;
+                        audioSource.volume = sfxVolume;
+
+                        var privName = audioSource.name;
+                        audioSource.name = clip.name;
+                        audioSource.Play();
+
+                        var isPlaying = !audioSource.isPlaying && !_isPausing;
+                        await UniTask.WaitUntil(() => isPlaying);
+
+                        audioSource.name = privName;
+                        audioSource.clip = null;
                         return;
                     }
                 }
+
                 //無かったら新しく作る
-                var audioSource = Instantiate(_audioPrefab);
-                audioSource.transform.SetParent(_sFXParent.transform);
-                audioSource.name = "NewSFX " + _newAudioSourceNum;
-                _newAudioSourceNum++;
-                _sfxAudioSources.Add(audioSource);
-                var newAudio = _sfxAudioSources[_sfxAudioSources.Count - OFFSET];
-                newAudio.clip = clip;
-                newAudio.volume = sfxVolume;
-                var newPrivName = newAudio.name;
-                newAudio.name = clip.name;
-                newAudio.Play();
-                await UniTask.WaitUntil(() => !newAudio.isPlaying && !_isPausing);
-                newAudio.name = newPrivName;
-                newAudio.clip = null;
+                var newAudioSource = Instantiate(_audioPrefab);
+                newAudioSource.transform.SetParent(_sFXParent.transform);
+
+                newAudioSource.name = $"NewSFX {_newAudioSourceNumber}";
+                _newAudioSourceNumber++;
+                _sfxAudioSources.Add(newAudioSource);
+
+                newAudioSource.clip = clip;
+                newAudioSource.volume = sfxVolume;
+
+                var newPrivName = newAudioSource.name;
+                newAudioSource.name = clip.name;
+
+                newAudioSource.Play();
+
+                var isPlayingNew = !newAudioSource.isPlaying && !_isPausing;
+                await UniTask.WaitUntil(() => isPlayingNew);
+
+                newAudioSource.name = newPrivName;
+                newAudioSource.clip = null;
                 return;
             }
         }
-        Debug.Log("SFXが見つからなかった");
+        Debug.LogWarning("効果音が見つからなかった");
     }
 
     /// <summary>
@@ -266,33 +301,30 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     }
 
     /// <summary>
-    /// マスター音量を変更して反映する関数
+    /// マスター音量を変更する関数
     /// </summary>
     /// <param name="masterVolume">マスター音量</param>
     public void ChangeMasterVolume(float masterVolume)
     {
         _masterVolume = masterVolume;
-        ReflectMasterVolume();
     }
 
     /// <summary>
-    /// 音楽の音量を変更して反映する関数
+    /// 音楽の音量を変更する関数
     /// </summary>
     /// <param name="bgmVolume">音楽の音量</param>
     public void ChangeBGMVolume(float bgmVolume)
     {
         _bgmVolume = bgmVolume;
-        ReflectBGMVolume();
     }
 
     /// <summary>
-    /// 効果音の音量を変更して反映する関数
+    /// 効果音の音量を変更する関数
     /// </summary>
     /// <param name="sfxVolume">効果音の音量</param>
     public void ChangeSFXVolume(float sfxVolume)
     {
         _sfxVolume = sfxVolume;
-        ReflectSFXVolume();
     }
 
     /// <summary>
@@ -332,16 +364,16 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         }
     }
 
-    #endregion
-
     #region Inspector Methods
 
     /// <summary>
     /// 生成するSFX用Audioの数を変更する関数
     /// </summary>
-    /// <param name="count">生成するAudioの数</param>
-    public void ChangeAudioCount(int count) =>
-        _audioCount = count;
+    /// <param name="number">生成するAudioの数</param>
+    public void ChangeAudioCount(int number)
+    {
+        _audioSourceNumber = number;
+    }
 
     /// <summary>
     /// BGM用のPrefabを生成する関数
@@ -350,18 +382,24 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     {
         if (_audioPrefab == null)CreateAudio();
         if(_bGMParent == null)CreateBGMParent();
-        _isStopCreate = false;
+
+        _isStopingToCreate = false;
+
         _bgmAudioSources.Clear();
+
         InitBGM();
+
         for (var i = 0; i < _bgmClips.Length; i++)
         {
             var audio = Instantiate(_audioPrefab);
             audio.transform.SetParent(_bGMParent.transform);
             _bgmAudioSources.Add(audio);
+
             audio.name = _bgmClips[i].name;
             audio.clip = _bgmClips[i];
             audio.loop = true;
         }
+
         _bgmAudioSources = new(_bgmAudioSources.Distinct());
     }
     
@@ -372,17 +410,21 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     {
         if (_audioPrefab == null)CreateAudio();
         if(_sFXParent == null)CreateSFXParent();
-        _isStopCreate = false;
+
+        _isStopingToCreate = false;
+
         _sfxAudioSources.Clear();
+
         InitSFX();
-        for (var i = 0; i < _audioCount; i++)
+
+        for (var i = 0; i < _audioSourceNumber; i++)
         {
             var audio = Instantiate(_audioPrefab);
             audio.transform.SetParent(_sFXParent.transform);
+
             audio.loop = false;
-            if (i < 10) audio.name = "SFX " + "00" + i;
-            else if (i < 100) audio.name = "SFX " + "0" + i;
-            else audio.name = "SFX " + i;
+            audio.name = $"SFX {i.ToString("D3")}";
+
             _sfxAudioSources.Add(audio);
         }
     }
@@ -392,9 +434,11 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// </summary>
     public void Init()
     {
-        _isStopCreate = true;
+        _isStopingToCreate = true;
+
         _bgmAudioSources.Clear();
         _sfxAudioSources.Clear();
+
         InitBGM();
         InitSFX();
     }
@@ -427,6 +471,8 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     {
         _sfxClips[index] = clip;
     }
+
+    #endregion
 
     #endregion
 
