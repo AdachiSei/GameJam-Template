@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,24 +6,22 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-#ROOTNAMESPACEBEGIN#
 /// <summary>
 /// スクリプト
 /// </summary>
-public class #SCRIPTNAME# : MonoBehaviour
+public class NewFile : MonoBehaviour
 {
     #region Unity Methods
 
     private void Start()
     {
-            #NOTRIM#
+            
     }
 
     private void Update()
     {
-            #NOTRIM#
+            
     }
 
     #endregion
 }
-#ROOTNAMESPACEEND#
