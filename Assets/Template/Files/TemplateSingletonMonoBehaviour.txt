@@ -4,15 +4,16 @@ using UnityEngine;
 
 #ROOTNAMESPACEBEGIN#
 /// <summary>
-/// スクリプト
+/// シングルトンを継承したスクリプト
 /// </summary>
-public class #SCRIPTNAME# : MonoBehaviour
+public class #SCRIPTNAME# : SingletonMonoBehaviour<#SCRIPTNAME#>
 {
     #region Unity Methods
 
-    private void Awake()
+    protected override void Awake()
     {
-            #NOTRIM#
+        base.Awake();
+        #NOTRIM#
     }
 
     private void Update()

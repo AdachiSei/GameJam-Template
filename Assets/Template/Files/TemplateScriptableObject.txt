@@ -1,0 +1,14 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+#ROOTNAMESPACEBEGIN#
+/// <summary>
+/// スクリプタブルオブジェクト
+/// </summary>
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Data", order = 0)]
+public class #SCRIPTNAME# : ScriptableObject
+{
+    
+}
+#ROOTNAMESPACEEND#
