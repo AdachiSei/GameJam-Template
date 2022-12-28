@@ -17,7 +17,7 @@ namespace Template.Plugins
         private const string NEW_FILENAME = "NewScript.cs";
         private const string NEW_MANAGER = "Manager.cs";
         private const string NEW_DATA = "Data.cs";
-        private const string NEW_INTERFACE = "I";
+        private const string NEW_INTERFACE = "I.cs";
 
         private const string MONOBEHAVIOUR = "MonoBehaviour";
         private const string MONOBEHAIVOUR_WITH_UI = "MonoBehaviour (UI)";
