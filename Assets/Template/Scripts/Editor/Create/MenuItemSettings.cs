@@ -18,6 +18,7 @@ namespace Template.Plugins
         private const string NEW_MANAGER = "Manager.cs";
         private const string NEW_DATA = "Data.cs";
         private const string NEW_INTERFACE = "I.cs";
+        private const string NEW_ENUM = "NewEnum.cs";
 
         private const string MONOBEHAVIOUR = "MonoBehaviour";
         private const string MONOBEHAIVOUR_WITH_UI = "MonoBehaviour (UI)";
@@ -25,6 +26,7 @@ namespace Template.Plugins
         private const string SCRIPTABLEOBJECT = "ScriptableObject";
         private const string SERIALIZABLE = "Serializable";
         private const string INTERFACE = "Interface";
+        private const string ENUM = "Enum";
 
         [MenuItem(MENU_ITEM_ROOT + MONOBEHAVIOUR, priority = SCRIPT_PRIOPRITY)]
         private static void CreateMonoBehaviour()=>
@@ -49,6 +51,10 @@ namespace Template.Plugins
         [MenuItem(MENU_ITEM_ROOT + INTERFACE, priority = SCRIPT_PRIOPRITY)]
         private static void CreateInterface() =>
             CreateScript("TemplateInterface.txt", NEW_INTERFACE);
+
+        [MenuItem(MENU_ITEM_ROOT + ENUM, priority = SCRIPT_PRIOPRITY)]
+        private static void CreateEnum() =>
+            CreateScript("TemplateEnum.txt", NEW_ENUM);
 
         private static void CreateScript
             (string templateFileName, string newFileName)
