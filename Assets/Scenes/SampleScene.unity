@@ -718,6 +718,62 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1699302529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1699302531}
+  - component: {fileID: 1699302530}
+  m_Layer: 0
+  m_Name: SceneLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1699302530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699302529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d643473522f8cb4f9ceaa10635aaca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isDontDestroy: 0
+  _loadingImage: {fileID: 599333720}
+  _loadingPanel: {fileID: 1987161141}
+  _isSlide: 0
+  _fadeTime: 1
+  _loadingImageSpeed: 1
+  _sceneNames:
+  - SampleScene
+  - TestScene
+  - TestScene1
+  - TestScene 3
+  - New Scene 10
+--- !u!4 &1699302531
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699302529}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1987161139
 GameObject:
   m_ObjectHideFlags: 0
@@ -826,208 +882,3 @@ Transform:
   m_Father: {fileID: 1609600771}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &2732645183842396991
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2732645185278376990, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376990, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376990, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376990, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376990, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376990, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376990, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376990, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376990, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376990, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376990, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _panel
-      value: 
-      objectReference: {fileID: 1987161141}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 67e22afe950440644837b1f5300dec96, type: 3}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _isSlide
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _fadeTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _loadingImage
-      value: 
-      objectReference: {fileID: 599333720}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _loadingPanel
-      value: 
-      objectReference: {fileID: 1987161141}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _spriteRenderer
-      value: 
-      objectReference: {fileID: 5371149664707803303, guid: 32673864b7209944485a94c957327b24, type: 3}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _spriteRendererPrefab
-      value: 
-      objectReference: {fileID: 5371149664707803303, guid: 32673864b7209944485a94c957327b24, type: 3}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[0]
-      value: SampleScene
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[1]
-      value: TestScene
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[2]
-      value: TestScene1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[3]
-      value: TestScene 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[4]
-      value: New Scene 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[5]
-      value: RemoveThis
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[6]
-      value: TestScene2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[7]
-      value: TestScene2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[8]
-      value: TestScene2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[9]
-      value: TestScene2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[10]
-      value: DrawSceneOperations
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[11]
-      value: SceneVariables
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[12]
-      value: SceneSingleton
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[13]
-      value: GetSceneVariable
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[14]
-      value: ISceneVariableUnit
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[15]
-      value: IsSceneVariableDefined
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[16]
-      value: SetSceneVariable
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[17]
-      value: New Scene
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[18]
-      value: SampleScene
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[19]
-      value: TestScene
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[20]
-      value: SetSceneVariable
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[21]
-      value: SetSceneVariable
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[22]
-      value: SetSceneVariable
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[23]
-      value: SetSceneVariable
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[24]
-      value: SetSceneVariable
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[25]
-      value: SetSceneVariable
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376991, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: _sceneNames.Array.data[26]
-      value: SetSceneVariable
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376992, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: m_Name
-      value: SceneLoader
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732645185278376992, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d43bd7993e038d045aebea9dfe6804f0, type: 3}
