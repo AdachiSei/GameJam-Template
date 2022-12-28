@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+#ROOTNAMESPACEBEGIN#
+/// <summary>
+/// インターフェース
+/// </summary>
+public interface #SCRIPTNAME#
+{
+    
+}
+#ROOTNAMESPACEEND#

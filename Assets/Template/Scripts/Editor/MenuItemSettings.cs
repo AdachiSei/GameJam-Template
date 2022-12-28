@@ -17,12 +17,14 @@ namespace Template.Plugins
         private const string NEW_FILENAME = "NewScript.cs";
         private const string NEW_MANAGER = "Manager.cs";
         private const string NEW_DATA = "Data.cs";
+        private const string NEW_INTERFACE = "I";
 
         private const string MONOBEHAVIOUR = "MonoBehaviour";
         private const string MONOBEHAIVOUR_WITH_UI = "MonoBehaviour (UI)";
         private const string SINGLETON = "SingletonMonoBehaviour";
         private const string SCRIPTABLEOBJECT = "ScriptableObject";
         private const string SERIALIZABLE = "Serializable";
+        private const string INTERFACE = "Interface";
 
         [MenuItem(MENU_ITEM_ROOT + MONOBEHAVIOUR, priority = SCRIPT_PRIOPRITY)]
         private static void CreateMonoBehaviour()=>
@@ -43,6 +45,10 @@ namespace Template.Plugins
         [MenuItem(MENU_ITEM_ROOT + SERIALIZABLE, priority = SCRIPT_PRIOPRITY)]
         private static void CreateSerizalizable() =>
             CreateScript("TemplateSerializable.txt", NEW_DATA);
+
+        [MenuItem(MENU_ITEM_ROOT + INTERFACE, priority = SCRIPT_PRIOPRITY)]
+        private static void CreateInterface() =>
+            CreateScript("TemplateInterface.txt", NEW_INTERFACE);
 
         private static void CreateScript
             (string templateFileName, string newFileName)
