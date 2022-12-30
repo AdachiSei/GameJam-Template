@@ -1,9 +1,7 @@
-﻿#ROOTNAMESPACEBEGIN#
-/// <summary>
+﻿/// <summary>
 /// インターフェース
 /// </summary>
 public interface #SCRIPTNAME#
 {
     
 }
-#ROOTNAMESPACEEND#

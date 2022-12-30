@@ -6,13 +6,13 @@ using UnityEngine;
 
 namespace Template.Plugins
 {
-    static internal class MenuItemSettings
+    internal static class MenuItemSettings
     {
         private const int SCRIPT_PRIOPRITY = 10;
 
         private const string PLUGIN_PATH = "Assets/Template/Files/";
 
-        private const string MENU_ITEM_ROOT = "Assets/Create/Add Script Files/";
+        private const string MENU_ITEM_ROOT = "Assets/Create/Template C# Script/";
 
         private const string NEW_FILENAME = "NewScript.cs";
         private const string NEW_MANAGER = "Manager.cs";
