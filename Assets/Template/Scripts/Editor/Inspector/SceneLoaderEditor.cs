@@ -50,6 +50,8 @@ public class SceneLoaderEditor : Editor
 
     #endregion
 
+    #region Private Method
+
     /// <summary>
     /// Assetフォルダの中にあるSceneの名前を全てとってくる関数
     /// </summary>
@@ -92,4 +94,6 @@ public class SceneLoaderEditor : Editor
             sceneLoader.AddSceneName(sceneLoader.SceneNames.Length - offset, "RemoveThis");
         }
     }
+
+    #endregion
 }
