@@ -17,7 +17,9 @@ public class ObjectPool : MonoBehaviour
     /// <param name="prefab">オブジェクトのプレファブ</param>
     /// <param name="count">生成するオブジェクトの数</param>
     /// <param name="parent">オブジェクトを格納する親オブジェクト</param>
-    public static void CreatePool<T>(IReadOnlyList<T> pools,T prefab, int count,Transform parent = null) where T : class
+    public static void CreatePool<T>
+        (IReadOnlyList<T> pools,T prefab, int count,Transform parent = null)
+        where T : class
     {
         var castedList = pools as List<T>;
         for (int i = 0; i < count; i++)
@@ -38,7 +40,9 @@ public class ObjectPool : MonoBehaviour
     /// <param name="prefab">オブジェクトのプレファブ</param>
     /// <param name="parent">オブジェクトを格納する親オブジェクト</param>
     /// <returns>非アクティブだったオブジェクト</returns>
-    public static T UseObject<T>(IReadOnlyList<T> pools,T prefab ,Transform parent = null) where T : class
+    public static T UseObject<T>
+        (IReadOnlyList<T> pools,T prefab ,Transform parent = null)
+        where T : class
     {
         var poolObjects = pools as List<GameObject>;
         for (int index = 0; index < poolObjects.Count; index++)
