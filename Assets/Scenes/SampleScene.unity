@@ -374,6 +374,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a92f259702fbc81429fc53cc57e0f08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  a: []
+  _a: {fileID: 0}
   _folder: Assets/AssetStoreTools
   _defaultAsset: {fileID: 102900000, guid: 042709f537adddb499699891a4a522ed, type: 3}
 --- !u!4 &740840910
