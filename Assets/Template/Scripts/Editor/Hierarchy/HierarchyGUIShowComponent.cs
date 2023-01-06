@@ -35,6 +35,7 @@ public static class HierarchyGUIShowComponent
         // instanceID をオブジェクト参照に変換
         var go = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
         if (go == null) return;
+        var removedCount = GameObjectUtility.RemoveMonoBehavioursWithMissingScript(go);
 
         // オブジェクトが所持しているコンポーネント一覧を取得
         var components = go.GetComponents<Component>();

@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// オブジェクトプール用のScript
 /// </summary>
-public class ObjectPool : MonoBehaviour
+public class ObjectPooler : MonoBehaviour
 {
     #region Pooling Methods
 
