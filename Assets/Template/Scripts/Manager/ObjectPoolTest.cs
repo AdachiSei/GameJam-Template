@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// シングルトンを継承したスクリプト
 /// </summary>
-public class ObjectPool : SingletonMonoBehaviour<ObjectPool>
+public class ObjectPoolTest : SingletonMonoBehaviour<ObjectPoolTest>
 {
     #region Inspector Member
 
