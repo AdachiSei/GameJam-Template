@@ -286,7 +286,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
             if (audio.isPlaying) audio.DOFade(0, _fadeTime);
         }
         //await UniTask.NextFrame();
-        await UniTaskForFloat.Delay(_fadeTime);
+        await UniTask.Delay(TimeSpan.FromSeconds(_fadeTime));
 
         //BGMを止める
         foreach (var audio in _bgmAudioSources)

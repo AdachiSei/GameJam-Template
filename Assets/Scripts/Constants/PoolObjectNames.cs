@@ -1,11 +1,11 @@
 ﻿/// <summary>
 /// プールオブジェクトで管理するオブジェクトプール
 /// </summary>
-public struct ObjectPool
+public struct PoolObjectNames
 {
 	#region Constants
 	
-	  public const string GAMEOBJECT = "GameObject";
+	  public const string POOLOBJECT = "PoolObject";
 	
 	#endregion
 }

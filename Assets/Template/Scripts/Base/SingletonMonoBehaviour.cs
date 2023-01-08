@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// シングルトンパターンを実装したい時に継承するジェネリックな基底クラス
 /// </summary>
-public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 {
     public bool IsDontDestroy => _isDontDestroy;
 
