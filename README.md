@@ -1,4 +1,4 @@
-# Any game name(←ゲーム名を入力してください)
+# Any game name(ゲーム名)
 
 ## プレイ動画
 
