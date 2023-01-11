@@ -9,10 +9,10 @@ using UnityEngine;
 public static class PoolObjectNamesCreator
 {
 	// コマンド名
-	private const string COMMAND_NAME = "Tools/CreateConstants/PoolObjectNames";
+	private const string COMMAND_NAME = "Tools/CreateConstants/Pool Names";
 
 	//作成したスクリプトを保存するパス
-	private const string EXPORT_PATH = "Assets/Scripts/Constants/PoolObjectNames.cs";
+	private const string EXPORT_PATH = "Assets/Scripts/Constants/PoolNames.cs";
 
 	// ファイル名(拡張子あり、なし)
 	private static readonly string FILENAME = Path.GetFileName(EXPORT_PATH);
@@ -29,7 +29,7 @@ public static class PoolObjectNamesCreator
 
 		CreateScript();
 
-		Debug.Log("ObjectPoolを作成完了");
+		Debug.Log("Pool Namesを作成完了");
 		//EditorUtility.DisplayDialog(FILENAME, "作成が完了しました", "OK");
 	}
 
