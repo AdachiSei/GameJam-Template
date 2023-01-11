@@ -7,17 +7,21 @@ using UnityEngine;
 /// </summary>
 public class ObjectPool : SingletonMonoBehaviour<ObjectPool>
 {
-    #region Inspector Member
+    #region Public Property
 
-    [SerializeField]
-    [Header("生成数の初期値")]
-    int _poolCount = 10;
+    public int PoolCount => _poolCount;
+
+    #endregion
+
+    #region Inspector Member
 
     [SerializeField]
     [Header("プールオブジェクト")]
     List<PoolObjectData> _pools = new List<PoolObjectData>();
 
     #endregion
+
+    int _poolCount = 10;
 
     #region Unity Methods
 
@@ -75,6 +79,11 @@ public class ObjectPool : SingletonMonoBehaviour<ObjectPool>
         }
         Debug.LogError("その名前のオブジェクトは存在しません");
         return null;
+    }
+
+    public void ChangePoolCount(int count)
+    {
+        _poolCount = count;
     }
 
     public void GetPoolObject(PoolObjectBase poolPrefab)

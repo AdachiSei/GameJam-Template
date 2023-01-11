@@ -40,6 +40,18 @@ public class ObjectPoolEditor : Editor
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("<b>プールオブジェクトのプレファブを全てとってくる</b>", style);
+            var intField =
+                EditorGUILayout
+                    .IntField
+                        ("生成数(初期値)", objectPool.PoolCount);
+
+            var lessThanZero = intField < 0;
+            var overHundred = intField > 100;
+            if (lessThanZero) intField = 0;
+            else if (overHundred) intField = 100;
+
+            objectPool.ChangePoolCount(intField);
+
             if (GUILayout.Button("GetPoolObject"))
             {
                 foreach (var guid in AssetDatabase.FindAssets("t:Prefab"))
