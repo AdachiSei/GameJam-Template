@@ -23,7 +23,12 @@ public class StageSelectSettingsEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        EditorGUI.BeginDisabledGroup(true);
+        EditorGUILayout.ObjectField("Editor", MonoScript.FromScriptableObject(this), typeof(MonoScript), false);
+        EditorGUI.EndDisabledGroup();
+
         base.OnInspectorGUI();
+
         var settings = target as StageSelectSettings;
         var style = new GUIStyle(EditorStyles.label);
         style.richText = true;

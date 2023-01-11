@@ -26,7 +26,12 @@ public class SceneLoaderEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        EditorGUI.BeginDisabledGroup(true);
+        EditorGUILayout.ObjectField("Editor", MonoScript.FromScriptableObject(this), typeof(MonoScript), false);
+        EditorGUI.EndDisabledGroup();
+
         base.OnInspectorGUI();
+
         var sceneLoader = target as SceneLoader;
         var style = new GUIStyle(EditorStyles.label);
         style.richText = true;

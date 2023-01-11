@@ -30,6 +30,11 @@ public class PoolObjectData
     [Header("生成数")]
     private int _poolCount;
 
+    public void GetPoolPrefab(PoolObjectBase prefab)
+    {
+        _poolPrefab = prefab;
+    }
+
     public void AddCreatedPool(PoolObjectBase pool)
     {
         _createdPool.Add(pool);
@@ -38,5 +43,10 @@ public class PoolObjectData
     public void GetPoolParent(Transform transform)
     {
         _poolParent = transform;
+    }
+
+    public void ChangePoolCount(int count)
+    {
+        _poolCount = count;
     }
 }

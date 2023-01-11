@@ -424,15 +424,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isDontDestroy: 0
-  _pools:
-  - _poolPrefab: {fileID: 2821204213330099478, guid: d4613edc8ebd6184ca47321b12fd8b7b, type: 3}
-    _createdPool: []
-    _poolParent: {fileID: 0}
-    _poolCount: 1
-  - _poolPrefab: {fileID: 2821204213330099478, guid: d4613edc8ebd6184ca47321b12fd8b7b, type: 3}
-    _createdPool: []
-    _poolParent: {fileID: 0}
-    _poolCount: 2
+  _poolCount: 10
+  _pools: []
 --- !u!4 &784124277
 Transform:
   m_ObjectHideFlags: 0
