@@ -11,52 +11,29 @@ using System.IO;
 /// </summary>
 public class SceneLaunchWindow : EditorWindow
 {
+    #region Private Member
+
     private string[] _buildScenePaths = null;
     private string[] _othersScenePaths = null;
     private Vector2 _scrollPosition = Vector2.zero;
 
-    [MenuItem("AllScene/Scene Launcher")]
-    private static void ShowWindow()
-    {
-        // ウィンドウを表示！
-        GetWindow<SceneLaunchWindow>("Scene Launcher");
-    }
+    #endregion
 
-    private void OnFocus() =>
-        Reload();  
+    #region Constants
 
-    private void Reload()
-    {
-        _buildScenePaths =
-            EditorBuildSettings
-                .scenes
-                .Select(scene => scene.path)
-                .ToArray();
+    private const float LABEL_SPACE = 10f;
+    private const float BUTTON_SPACE = 5f;
 
-        // コードを分かりやすくするため、一度 ToArray() を使ってローカル変数化してるけど、
-        // 別にまとめちゃってもいいよ(……というか処理的にはそっちのほうがいいはず),
-        var guids =
-            AssetDatabase
-                .FindAssets("t:Scene", new string[] { "Assets" });
-        var paths =
-            guids
-                .Select(guid => AssetDatabase.GUIDToAssetPath(guid));
-        _othersScenePaths =
-            paths
-                .Where(path =>
-                        !_buildScenePaths
-                            .Any(buildPath =>
-                                    buildPath == path))
-                .ToArray();
-    }
+    #endregion
+
+    #region Unity Methods
 
     private void OnGUI()
     {
         // OnFocus() より前に呼ばれる対策(あるのかな？)
-        var isBuildScene = _buildScenePaths == null;
-        var isOthersScene = _othersScenePaths == null;
-        if (isBuildScene && isOthersScene)
-            Reload();
+        var isExistingPaths =
+            _buildScenePaths == null && _othersScenePaths == null;
+        if (isExistingPaths) Reload();
 
         // この波括弧は見やすくするためだけにあるよ.
         EditorGUI.BeginDisabledGroup(EditorApplication.isPlaying);
@@ -68,7 +45,7 @@ public class SceneLaunchWindow : EditorWindow
                 EditorGUILayout.LabelField("Scenes in build");
                 GenerateButtons(_buildScenePaths);
 
-                GUILayout.Space(10f);
+                GUILayout.Space(LABEL_SPACE);
 
                 EditorGUILayout.LabelField("Others");
                 GenerateButtons(_othersScenePaths);
@@ -79,9 +56,49 @@ public class SceneLaunchWindow : EditorWindow
         EditorGUI.EndDisabledGroup();
     }
 
+    private void OnFocus() =>
+        Reload();
+
+    #endregion
+
+    #region Private Methods
+
+    [MenuItem("AllScenes/Scene Launcher")]
+    private static void ShowWindow()
+    {
+        // ウィンドウを表示！
+        GetWindow<SceneLaunchWindow>("Scene Launcher");
+    }
+
+    private void Reload()
+    {
+        _buildScenePaths =
+            EditorBuildSettings
+                .scenes
+                .Select(scene => scene.path)
+                .ToArray();
+
+        // コードを分かりやすくするため、一度 ToArray() を使ってローカル変数化してるけど、
+        // 別にまとめちゃってもいいよ(……というか処理的にはそっちのほうがいいはず),
+
+        _othersScenePaths =
+            AssetDatabase
+                .FindAssets//guids
+                    ("t:Scene", new string[] { "Assets" })
+                .Select//paths
+                    (guid => AssetDatabase.GUIDToAssetPath(guid))
+                .Where
+                    (path => !_buildScenePaths
+                        .Any(buildPath => buildPath == path))
+                .ToArray();
+    }
+
+
     private void GenerateButtons(string[] scenePaths)
     {
-        if (scenePaths != null && scenePaths.Length > 0)
+        var isExisting =
+            scenePaths != null && scenePaths.Length > 0;
+        if (isExisting)
         {
             foreach (var path in scenePaths)
             {
@@ -98,7 +115,7 @@ public class SceneLaunchWindow : EditorWindow
                         EditorSceneManager.OpenScene(path);
                     }
                 }
-                GUILayout.Space(5.0f);
+                GUILayout.Space(BUTTON_SPACE);
             }
         }
         else EditorGUILayout.LabelField("シーンがありません");
@@ -114,4 +131,6 @@ public class SceneLaunchWindow : EditorWindow
         }
         return scenes.ToArray();
     }
-} 
+
+    #endregion
+}
