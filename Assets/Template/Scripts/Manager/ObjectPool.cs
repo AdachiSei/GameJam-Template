@@ -17,11 +17,15 @@ public class ObjectPool : SingletonMonoBehaviour<ObjectPool>
 
     [SerializeField]
     [Header("プールオブジェクト")]
-    List<PoolObjectData> _pools = new List<PoolObjectData>();
+    private List<PoolObjectData> _pools = new List<PoolObjectData>();
 
     #endregion
 
-    int _poolCount = 10;
+    #region Private Member
+
+    private int _poolCount = 10;
+
+    #endregion
 
     #region Unity Methods
 
@@ -97,17 +101,8 @@ public class ObjectPool : SingletonMonoBehaviour<ObjectPool>
 
     public void Init()
     {
-        foreach (var pool in _pools)
-        {
-            foreach (var poolObject in pool.CreatedPool)
-            {
-                DestroyImmediate(poolObject.gameObject);
-            }
-        }
-
         foreach (Transform child in transform)
         {
-            Debug.Log(child.name);
             DestroyImmediate(child.gameObject);
         }
 
