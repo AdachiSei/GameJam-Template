@@ -53,6 +53,7 @@ public class ObjectPool : SingletonMonoBehaviour<ObjectPool>
             for (int i = 0; i < pool.PoolCount; i++)
             {
                 var newPool = Instantiate(pool.PoolPrefab);
+                newPool.gameObject.SetActive(false);
                 newPool.transform.SetParent(pool.PoolParent.transform);
                 pool.AddCreatedPool(newPool);
             }
