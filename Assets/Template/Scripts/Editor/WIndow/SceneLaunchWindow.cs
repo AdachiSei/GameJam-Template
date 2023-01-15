@@ -66,7 +66,7 @@ public class SceneLaunchWindow : EditorWindow
     [MenuItem("AllScenes/Scene Launcher")]
     private static void ShowWindow()
     {
-        // ウィンドウを表示！
+        // ウィンドウを表示
         GetWindow<SceneLaunchWindow>("Scene Launcher");
     }
 
@@ -77,9 +77,6 @@ public class SceneLaunchWindow : EditorWindow
                 .scenes
                 .Select(scene => scene.path)
                 .ToArray();
-
-        // コードを分かりやすくするため、一度 ToArray() を使ってローカル変数化してるけど、
-        // 別にまとめちゃってもいいよ(……というか処理的にはそっちのほうがいいはず),
 
         _othersScenePaths =
             AssetDatabase
