@@ -151,7 +151,7 @@ public static class Calculator
     /// </summary>
     /// <param name="num">Šm—¦</param>
     /// <returns>Index</returns>
-    public static int RandomIndex<T>(T num) where T : IProbabilityInArray<T, int>, new()
+    public static int RandomIndex<T>(T num) where T : IProbabilityInElement<T, int>, new()
     {
         return RandomIndex(new T().AllValue(num));
     }
@@ -161,7 +161,7 @@ public static class Calculator
     /// </summary>
     /// <param name="num">Šm—¦</param>
     /// <returns>Index</returns>
-    public static int RandomIndex<T>(T num, bool isInt = false) where T : IProbabilityInArray<T, float>, new()
+    public static int RandomIndex<T>(T num, bool isInt = false) where T : IProbabilityInElement<T, float>, new()
     {
         return RandomIndex(new T().AllValue(num));
     }
@@ -188,7 +188,7 @@ public static class Calculator
     /// </summary>
     /// <param name="probability">Šm—¦</param>
     /// <returns>True‚©False</returns>
-    public static bool? RandomBool(float probability)
+    public static bool RandomBool(float probability)
     {
         probability = Mathf.Clamp(probability, 0, MAX_VALUE_F);
         var randomValue = Random.Range(0f, MAX_VALUE_F);
