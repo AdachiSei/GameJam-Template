@@ -378,6 +378,12 @@ MonoBehaviour:
   a: []
   _a: {fileID: 0}
   _folder: Assets/AssetStoreTools
+  _minMaxFloat:
+    minValue: 0
+    maxValue: 0
+  _value:
+    _minValue: 0
+    _maxValue: 0
   _defaultAsset: {fileID: 102900000, guid: 042709f537adddb499699891a4a522ed, type: 3}
 --- !u!4 &740840910
 Transform:

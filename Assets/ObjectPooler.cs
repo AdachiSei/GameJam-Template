@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
+/// 没
 /// オブジェクトプール用のScript
 /// </summary>
 public class ObjectPooler : MonoBehaviour
