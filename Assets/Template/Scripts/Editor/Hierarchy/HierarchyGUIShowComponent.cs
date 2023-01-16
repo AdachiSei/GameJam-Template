@@ -44,7 +44,6 @@ public static class HierarchyGUIShowComponent
         {
             bool[] isType =
             {
-                //false
                 component?.GetType() == typeof(Transform),
                 component?.GetType() == typeof(RectTransform),
                 component?.GetType() == typeof(CanvasRenderer),
@@ -61,7 +60,6 @@ public static class HierarchyGUIShowComponent
                 continue;
             }
         }
-        //if (componentsList[0] == null) return;
         if (componentsList.Count == 0) return;
 
         selectionRect.x = selectionRect.xMax - ICON_SIZE * componentsList.Count;
