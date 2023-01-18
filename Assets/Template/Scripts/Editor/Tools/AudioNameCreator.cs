@@ -12,7 +12,7 @@ public static class AudioNameCreator
 	/// <summary>
 	/// ‰¹‚Ì’·‚³
 	/// </summary>
-	private const float BGM_LENGTH = 10f;
+	public const float BGM_LENGTH = 10f;
 
 	// ƒRƒ}ƒ“ƒh–¼
 	private const string COMMAND_NAME = "Tools/CreateConstants/Audio Name";
