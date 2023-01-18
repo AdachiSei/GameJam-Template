@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// 音楽名を定数で管理するクラス
 /// </summary>
-public struct BGMNames
+public struct BGMName
 {
 	#region Constants
 	

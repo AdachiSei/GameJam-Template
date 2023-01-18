@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// シーン名を定数で管理するクラス
 /// </summary>
-public struct SceneNames
+public struct SceneName
 {
 	#region Constants
 	

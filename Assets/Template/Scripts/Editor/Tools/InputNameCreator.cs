@@ -10,10 +10,10 @@ using System.Linq;
 /// <summary>
 /// インプット名を定数で管理するクラスを作成するスクリプト
 /// </summary>
-public class InputNamesCreator : AssetPostprocessor
+public class InputNameCreator : AssetPostprocessor
 {
     //作成したスクリプトを保存するパス
-    private const string EXPORT_PATH = "Assets/Scripts/Constants/InputNames.cs";
+    private const string EXPORT_PATH = "Assets/Scripts/Constants/InputName.cs";
 
     // ファイル名(拡張子あり、なし)
     private static readonly string FILENAME = Path.GetFileName(EXPORT_PATH);

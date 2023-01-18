@@ -131,7 +131,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         PauseManager.Instance.OnResume += Resume;
 
         PlayBGM(_name);
-        PlaySFX(SFXNames.ONOFFELECTRICITY);
     }
 
     //private void OnValidate()

@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// インプット名を定数で管理するクラス
 /// </summary>
-public struct InputNames
+public struct InputName
 {
 	#region Constants
 	

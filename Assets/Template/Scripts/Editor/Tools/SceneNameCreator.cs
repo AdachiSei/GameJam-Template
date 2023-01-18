@@ -6,13 +6,13 @@ using UnityEngine;
 /// <summary>
 /// ビルドセッティングスのシーン名を定数で管理するクラスを作成するスクリプト
 /// </summary>
-public static class SceneNamesCreator
+public static class SceneNameCreator
 {
 	// コマンド名
-	private const string COMMAND_NAME = "Tools/CreateConstants/Scene Names";
+	private const string COMMAND_NAME = "Tools/CreateConstants/Scene Name";
 
 	//作成したスクリプトを保存するパス
-	private const string EXPORT_PATH = "Assets/Scripts/Constants/SceneNames.cs";
+	private const string EXPORT_PATH = "Assets/Scripts/Constants/SceneName.cs";
 
 	// ファイル名(拡張子あり、なし)
 	private static readonly string FILENAME = Path.GetFileName(EXPORT_PATH);

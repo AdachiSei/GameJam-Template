@@ -7,7 +7,7 @@ using UnityEngine;
 /// <summary>
 /// オーディオクリップのファイル名を定数で管理するクラスを作成するスクリプト
 /// </summary>
-public static class AudioNamesCreator
+public static class AudioNameCreator
 {
 	/// <summary>
 	/// 音の長さ
@@ -15,14 +15,14 @@ public static class AudioNamesCreator
 	private const float BGM_LENGTH = 10f;
 
 	// コマンド名
-	private const string COMMAND_NAME = "Tools/CreateConstants/Audio Names";
+	private const string COMMAND_NAME = "Tools/CreateConstants/Audio Name";
 
 	//作成したスクリプトを保存するパス(全て)
-	private const string EXPORT_PATH = "Assets/Scripts/Constants/AudioNames.cs";
+	private const string EXPORT_PATH = "Assets/Scripts/Constants/AudioName.cs";
 	//作成したスクリプトを保存するパス(BGM)
-	private const string EXPORT_PATH_BGM = "Assets/Scripts/Constants/BGMNames.cs";
+	private const string EXPORT_PATH_BGM = "Assets/Scripts/Constants/BGMName.cs";
 	//作成したスクリプトを保存するパス(SFX)
-	private const string EXPORT_PATH_SFX = "Assets/Scripts/Constants/SFXNames.cs";
+	private const string EXPORT_PATH_SFX = "Assets/Scripts/Constants/SFXName.cs";
 
 	// ファイル名(拡張子あり、なし)
 	private static readonly string FILENAME = Path.GetFileName(EXPORT_PATH);

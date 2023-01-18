@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// プールオブジェクトで管理するオブジェクトプール
 /// </summary>
-public struct PoolObjectNames
+public struct PoolName
 {
 	#region Constants
 	

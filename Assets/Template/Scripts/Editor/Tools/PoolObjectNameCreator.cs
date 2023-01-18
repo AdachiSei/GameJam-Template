@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -6,13 +5,13 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-public static class PoolObjectNamesCreator
+public static class PoolObjectNameCreator
 {
 	// コマンド名
-	private const string COMMAND_NAME = "Tools/CreateConstants/Pool Names";
+	private const string COMMAND_NAME = "Tools/CreateConstants/Pool Name";
 
 	//作成したスクリプトを保存するパス
-	private const string EXPORT_PATH = "Assets/Scripts/Constants/PoolNames.cs";
+	private const string EXPORT_PATH = "Assets/Scripts/Constants/PoolName.cs";
 
 	// ファイル名(拡張子あり、なし)
 	private static readonly string FILENAME = Path.GetFileName(EXPORT_PATH);
