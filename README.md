@@ -19,6 +19,11 @@
 
 ## 導入済みアセット、素材
 
-### アセット名、素材名 (用途)
+### UniTask
+> https://github.com/Cysharp/UniTask
 
-> URLをここに挿入
+### UniTask
+> https://github.com/neuecc/UniRx
+
+### DOTween
+> https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676?locale=ja-JP
