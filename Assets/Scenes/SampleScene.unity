@@ -324,6 +324,8 @@ GameObject:
   m_Component:
   - component: {fileID: 740840910}
   - component: {fileID: 740840909}
+  - component: {fileID: 740840912}
+  - component: {fileID: 740840911}
   m_Layer: 0
   m_Name: Test
   m_TagString: Untagged
@@ -369,6 +371,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &740840911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740840908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8eace7ae70271c46a64124506ef5c32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _monoScript: {fileID: 0}
+  a: []
+  _a: {fileID: 0}
+  _folder: 
+  _minMaxFloat:
+    minValue: 0
+    maxValue: 0
+  _value:
+    _minValue: 0
+    _maxValue: 0
+  _defaultAsset: {fileID: 0}
+--- !u!114 &740840912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740840908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0567cfddb07727c4691c38355db408b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _monoScript: {fileID: 0}
+  a: []
+  _a: {fileID: 0}
+  _folder: 
+  _minMaxFloat:
+    minValue: 0
+    maxValue: 0
+  _value:
+    _minValue: 0
+    _maxValue: 0
+  _defaultAsset: {fileID: 0}
 --- !u!1 &784124275
 GameObject:
   m_ObjectHideFlags: 0

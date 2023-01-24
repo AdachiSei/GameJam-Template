@@ -25,21 +25,23 @@ public static class TypeExtensions
     {
         for (var baseType = self.BaseType; null != baseType; baseType = baseType.BaseType)
         {
-            if(baseType == type)
+            Debug.Log(baseType);
+            if (baseType == type)
             return true;
-            if (baseType == typeof(MonoBehaviour))
-            return false;
+            //if (baseType == typeof(MonoBehaviour))
+            //return false;
         }
         return false;
     }
 
     /// <summary>
-    /// 指定された Type の継承元にベースクラスの有無でboolで返します
+    /// 指定された Type の継承元に派生クラスの有無でboolで返します
     /// </summary>
     public static bool IsGetDeclaringTypes(this Type self, Type type)
     {
         for (var declaringType = self.DeclaringType; null != declaringType; declaringType = declaringType.DeclaringType)
         {
+            Debug.Log(declaringType);
             if (declaringType == type)
                 return true;
         }
