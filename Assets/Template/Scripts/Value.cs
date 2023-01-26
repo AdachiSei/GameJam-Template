@@ -27,7 +27,7 @@ public struct Value<T>
 
     #region Public Method
 
-    public void ChangeValue(T minValue, T maxValue)
+    public void SetValue(T minValue, T maxValue)
     {
         _minValue = minValue;
         _maxValue = maxValue;

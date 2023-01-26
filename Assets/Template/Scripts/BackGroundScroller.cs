@@ -52,11 +52,11 @@ public class BackGroundScroller : MonoBehaviour
 
             if (_background[0].gameObject.transform.position.x <= _limitPosX)
             {
-                _background[0].gameObject.transform.ChangePosX(-_limitPosX);
+                _background[0].gameObject.transform.SetPosX(-_limitPosX);
             }
             else if (_background[ONE_OTHER].gameObject.transform.position.x <= _limitPosX)
             {
-                _background[ONE_OTHER].gameObject.transform.ChangePosX(-_limitPosX);
+                _background[ONE_OTHER].gameObject.transform.SetPosX(-_limitPosX);
             }
         }
     }

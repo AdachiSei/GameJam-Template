@@ -9,7 +9,7 @@ public static class TransformExtensions
 {
     #region Position Methods
 
-    public static Transform ChangePosX(this Transform transform, float x)
+    public static Transform SetPosX(this Transform transform, float x)
     {
         var pos = transform.position;
         pos.x = x;
@@ -17,7 +17,7 @@ public static class TransformExtensions
         return transform;
     }
 
-    public static Transform ChangePosY(this Transform trandform, float y)
+    public static Transform SetPosY(this Transform trandform, float y)
     {
         var pos = trandform.position;
         pos.y = y;
@@ -25,7 +25,7 @@ public static class TransformExtensions
         return trandform;
     }
 
-    public static Transform ChangePosZ(this Transform trandform, float z)
+    public static Transform SetPosZ(this Transform trandform, float z)
     {
         var pos = trandform.position;
         pos.z = z;
@@ -33,7 +33,7 @@ public static class TransformExtensions
         return trandform;
     }
 
-    public static Transform ChangePosAll(this Transform transform, float x, float y, float z = 0f)
+    public static Transform SetPosAll(this Transform transform, float x, float y, float z = 0f)
     {
         var pos = transform.position;
         pos.x = x;
@@ -81,7 +81,7 @@ public static class TransformExtensions
 
     #region Rotation Methods
 
-    public static Transform ChangeRotX(this Transform transform, float x)
+    public static Transform SetRotX(this Transform transform, float x)
     {
         var rot = transform.rotation;
         rot.x = x;
@@ -89,7 +89,7 @@ public static class TransformExtensions
         return transform;
     }
 
-    public static Transform ChangeRotY(this Transform trandform, float y)
+    public static Transform SetRotY(this Transform trandform, float y)
     {
         var rot = trandform.rotation;
         rot.y = y;
@@ -97,7 +97,7 @@ public static class TransformExtensions
         return trandform;
     }
 
-    public static Transform ChangeRotZ(this Transform transform, float z)
+    public static Transform SetRotZ(this Transform transform, float z)
     {
         var rot = transform.rotation;
         rot.z = z;
@@ -105,7 +105,7 @@ public static class TransformExtensions
         return transform;
     }
 
-    public static Transform ChangeRotAll(this Transform transform, float x, float y, float z)
+    public static Transform SetRotAll(this Transform transform, float x, float y, float z)
     {
         var rot = transform.rotation;
         rot.x = x;
@@ -153,7 +153,7 @@ public static class TransformExtensions
 
     #region Scale Method
 
-    public static Transform ChangeScaleAll(this Transform transform, float all)
+    public static Transform SetScaleAll(this Transform transform, float all)
     {
         var scale = transform.localScale;
         scale.x = all;
