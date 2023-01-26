@@ -1,4 +1,4 @@
-# Any game name(ゲーム名)
+# Any Game Name(ゲーム名)
 
 ## プレイ動画
 
