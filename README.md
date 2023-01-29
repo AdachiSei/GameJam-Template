@@ -17,7 +17,7 @@
 | ---------- | ----------- |
 | Unity      | [こちらを参照して下さい](ProjectSettings/ProjectVersion.txt#L1) |
 
-## 導入済みアセット、素材
+## 導入済みアセット
 
 ### UniTask
 > https://github.com/Cysharp/UniTask
@@ -27,3 +27,6 @@
 
 ### DOTween
 > https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676?locale=ja-JP
+
+
+## 素材
