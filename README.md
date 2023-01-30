@@ -1,3 +1,5 @@
+[このテンプレートについて](https://github.com/AdachiSei/GameJamTemplate/wiki)
+
 # Any Game Name
 
 ## プレイ動画
