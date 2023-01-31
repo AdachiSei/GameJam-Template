@@ -1,4 +1,6 @@
-[このテンプレートについて](https://github.com/AdachiSei/GameJamTemplate/wiki)
+### このテンプレートについて
+
+> https://github.com/AdachiSei/GameJamTemplate/wiki
 
 # Any Game Name
 
