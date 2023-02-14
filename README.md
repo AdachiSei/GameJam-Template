@@ -31,7 +31,8 @@
 
 ## 素材
 
+>　
 
-## このテンプレートについて
+### このテンプレートについて
 
 > https://github.com/AdachiSei/GameJamTemplate/wiki
