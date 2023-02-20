@@ -8,52 +8,81 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// インプット名を定数で管理するクラスを作成するスクリプト
+/// インプット名を定数で管理する構造体を作成するスクリプト
 /// </summary>
 public class InputNameCreator : AssetPostprocessor
 {
-    //作成したスクリプトを保存するパス
-    private const string EXPORT_PATH = "Assets/Scripts/Constants/InputName.cs";
-
-    // ファイル名(拡張子あり、なし)
-    private static readonly string FILENAME = Path.GetFileName(EXPORT_PATH);
-    private static readonly string FILENAME_WITHOUT_EXTENSION =
-        Path.GetFileNameWithoutExtension(EXPORT_PATH);
+    #region Private Member
 
     /// <summary>
-    /// InputManagerを変更したら作成する
+    /// ファイル名
     /// </summary>
+    private static readonly string FILENAME =
+        Path.GetFileNameWithoutExtension(EXPORT_PATH);
+
+    #endregion
+
+    #region Constant
+
+    /// <summary>
+    /// 作成したスクリプトを保存するパス
+    /// </summary>
+    private const string EXPORT_PATH = "Assets/Scripts/Constants/InputName.cs";
+
+    #endregion
+
+    #region Unity Method
+
     private static void OnPostprocessAllAssets
-        (string[] importedAssets,string[] deletedAssets,
+        (string[] importedAssets, string[] deletedAssets,
             string[] movedAssets, string[] movedFromPath)
     {
+        CreateScriptInputName(importedAssets);
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private static SerializedProperty GetChildProperty(SerializedProperty parent, string name)
+    {
+        SerializedProperty child = parent.Copy();
+        child.Next(true);
+        do if (child.name == name) return child;
+        while (child.Next(false));
+        return null;
+    }
+
+    /// <summary>
+    /// インプット名を定数で管理する構造体を作成する関数
+    /// </summary>
+    /// <param name="importedAssets"></param>
+    private static void CreateScriptInputName(string[] importedAssets)
+    {
         // InputManagerの変更チェック
-        var inputManagerPath = 
+        var inputManagerPath =
             Array
                 .Find(importedAssets,
                     path => Path.GetFileName(path) == "InputManager.asset");
 
-        if (inputManagerPath == null)return;　
+        if (inputManagerPath == null) return;
 
         // InputManagerの設定情報読み込み
         var serializedObjects =
             AssetDatabase
                 .LoadAllAssetsAtPath(inputManagerPath);
 
-        var serializedObject =
-            new SerializedObject
-                (AssetDatabase.LoadAllAssetsAtPath(inputManagerPath)[0]);
-
-        var axesProperty = serializedObject.FindProperty("m_Axes");
-
-        var axesSize = axesProperty.arraySize;
+        var axesSize =
+            new SerializedObject(AssetDatabase.LoadAllAssetsAtPath(inputManagerPath)[0])
+                    .FindProperty("m_Axes")
+                    .arraySize;
 
         StringBuilder builder = new StringBuilder();
 
         builder.AppendLine("/// <summary>");
         builder.AppendLine("/// インプット名を定数で管理するクラス");
         builder.AppendLine("/// </summary>");
-        builder.AppendFormat("public struct {0}", FILENAME_WITHOUT_EXTENSION).AppendLine();
+        builder.AppendFormat("public struct {0}", FILENAME).AppendLine();
         builder.AppendLine("{");
         builder.Append("\t").AppendLine("#region Constants");
         builder.AppendLine("\t");
@@ -69,7 +98,7 @@ public class InputNameCreator : AssetPostprocessor
                 var newAxisProperty = newAxesProperty.GetArrayElementAtIndex(i);
                 var inputName = GetChildProperty(newAxisProperty, "m_Name").stringValue;
                 inputNames.Add(inputName);
-            } 
+            }
         }
         //重複する要素を消す
         inputNames = new(inputNames.Distinct());
@@ -79,7 +108,7 @@ public class InputNameCreator : AssetPostprocessor
                 .Append("\t")
                 .AppendFormat
                     (@"  public const string {0} = ""{1}"";",
-                        name.Replace(" ","_").ToUpper(),
+                        name.Replace(" ", "_").ToUpper(),
                         name)
                 .AppendLine();
         }
@@ -99,15 +128,5 @@ public class InputNameCreator : AssetPostprocessor
         Debug.Log("InputNamesを作成完了");
     }
 
-    private static SerializedProperty GetChildProperty(SerializedProperty parent, string name)
-    {
-        SerializedProperty child = parent.Copy();
-        child.Next(true);
-        do
-        {
-            if (child.name == name) return child;
-        }
-        while (child.Next(false));
-        return null;
-    }
+    #endregion
 }
