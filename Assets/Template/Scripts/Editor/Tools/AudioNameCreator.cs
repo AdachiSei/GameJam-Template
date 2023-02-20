@@ -9,62 +9,94 @@ using UnityEngine;
 /// </summary>
 public static class AudioNameCreator
 {
-	/// <summary>
-	/// 音の長さ
-	/// </summary>
-	public const float BGM_LENGTH = 10f;
+    #region Private Member
 
-	// コマンド名
-	private const string COMMAND_NAME = "Tools/CreateConstants/Audio Name";
-
-	//作成したスクリプトを保存するパス(全て)
-	private const string EXPORT_PATH = "Assets/Scripts/Constants/AudioName.cs";
-	//作成したスクリプトを保存するパス(BGM)
-	private const string EXPORT_PATH_BGM = "Assets/Scripts/Constants/BGMName.cs";
-	//作成したスクリプトを保存するパス(SFX)
-	private const string EXPORT_PATH_SFX = "Assets/Scripts/Constants/SFXName.cs";
-
-	// ファイル名(拡張子あり、なし)
-	private static readonly string FILENAME = Path.GetFileName(EXPORT_PATH);
-	private static readonly string FILENAME_WITHOUT_EXTENSION =
-		Path.GetFileNameWithoutExtension(EXPORT_PATH);
+    // ファイル名(拡張子あり、なし)
+    private static readonly string FILENAME_AUDIO =
+		Path.GetFileNameWithoutExtension(EXPORT_PATH_AUDIO);
 
 	// BGM用ファイル名(拡張子あり、なし)
-	private static readonly string FILENAME_BGM = Path.GetFileName(EXPORT_PATH_BGM);
-	private static readonly string FILENAME_BGM_WITHOUT_EXTENSION =
+	private static readonly string FILENAME_BGM =
 		Path.GetFileNameWithoutExtension(EXPORT_PATH_BGM);
 
 	// SFX用ファイル名(拡張子あり、なし)
-	private static readonly string FILENAME_SFX = Path.GetFileName(EXPORT_PATH_SFX);
-	private static readonly string FILENAME_SFX_WITHOUT_EXTENSION =
+	private static readonly string FILENAME_SFX =
 		Path.GetFileNameWithoutExtension(EXPORT_PATH_SFX);
 
+    #endregion
+
+    #region Constants
+
+    /// <summary>
+    /// 音の長さ
+    /// </summary>
+    public const float BGM_LENGTH = 10f;
+
 	/// <summary>
-	/// オーディオのファイル名を定数で管理するクラスを作成します
+	/// コマンド名
 	/// </summary>
-	[MenuItem(COMMAND_NAME)]
-	public static void Create()
+	private const string COMMAND_NAME = "Tools/CreateConstants/Audio Name";
+
+	/// <summary>
+	/// 作成したスクリプトを保存するパス(全て)
+	/// </summary>
+	private const string EXPORT_PATH_AUDIO = "Assets/Scripts/Constants/AudioName.cs";
+	/// <summary>
+	/// 作成したスクリプトを保存するパス(BGM)
+	/// </summary>
+	private const string EXPORT_PATH_BGM = "Assets/Scripts/Constants/BGMName.cs";
+	/// <summary>
+	/// 作成したスクリプトを保存するパス(SFX)
+	/// </summary>
+	private const string EXPORT_PATH_SFX = "Assets/Scripts/Constants/SFXName.cs";
+
+    #endregion
+
+    #region MenuItem Methods
+
+    /// <summary>
+    /// 定数で管理する構造体を作成します
+    /// </summary>
+    [MenuItem(COMMAND_NAME)]
+	private static void Create()
 	{
 		if (!CanCreate())return;
 
+		CreateScriptAll();
 		CreateScriptBGM();
 		CreateScriptSFX();
 
-		Debug.Log("AudioNamesを作成完了");
+		Debug.Log("AudioNameを作成完了");
 		//EditorUtility.DisplayDialog(FILENAME, "作成が完了しました", "OK");
 	}
 
-	/// <summary>
-	/// スクリプトを作成します
-	/// </summary>
-	public static void CreateScriptAll()
+    /// <summary>
+    /// オーディオのファイル名を定数で管理するクラスを作成できるかどうかを取得します
+    /// </summary>
+    [MenuItem(COMMAND_NAME, true)]
+	private static bool CanCreate()
+	{
+		var isPlayingEditor = !EditorApplication.isPlaying;
+		var isPlaying = !Application.isPlaying;
+		var isCompiling = !EditorApplication.isCompiling;
+		return isPlayingEditor && isPlaying && isCompiling;
+	}
+
+    #endregion
+
+    #region Private Methods
+
+    /// <summary>
+    /// オーディオ名を定数で管理する構造体を作成します
+    /// </summary>
+    private static void CreateScriptAll()
 	{
 		StringBuilder builder = new StringBuilder();
 
 		builder.AppendLine("/// <summary>");
 		builder.AppendLine("/// オーディオクリップ名を定数で管理するクラス");
 		builder.AppendLine("/// </summary>");
-		builder.AppendFormat("public struct {0}", FILENAME_WITHOUT_EXTENSION).AppendLine();
+		builder.AppendFormat("public struct {0}", FILENAME_AUDIO).AppendLine();
 		builder.AppendLine("{");
 		builder.Append("\t").AppendLine("#region BGM Constants");
 		builder.AppendLine("\t");
@@ -116,27 +148,27 @@ public static class AudioNameCreator
 		builder.Append("\t").AppendLine("#endregion");
 		builder.AppendLine("}");
 
-		string directoryName = Path.GetDirectoryName(EXPORT_PATH);
+		string directoryName = Path.GetDirectoryName(EXPORT_PATH_AUDIO);
 		if (!Directory.Exists(directoryName))
 		{
 			Directory.CreateDirectory(directoryName);
 		}
 
-		File.WriteAllText(EXPORT_PATH, builder.ToString(), Encoding.UTF8);
+		File.WriteAllText(EXPORT_PATH_AUDIO, builder.ToString(), Encoding.UTF8);
 		AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
 	}
 
 	/// <summary>
-	/// BGM用スクリプトを作成します
+	/// BGM名を定数で管理する構造体を作成します
 	/// </summary>
-	public static void CreateScriptBGM()
+	private static void CreateScriptBGM()
 	{
 		StringBuilder builder = new StringBuilder();
 
 		builder.AppendLine("/// <summary>");
 		builder.AppendLine("/// 音楽名を定数で管理するクラス");
 		builder.AppendLine("/// </summary>");
-		builder.AppendFormat("public struct {0}", FILENAME_BGM_WITHOUT_EXTENSION).AppendLine();
+		builder.AppendFormat("public struct {0}", FILENAME_BGM).AppendLine();
 		builder.AppendLine("{");
 		builder.Append("\t").AppendLine("#region Constants");
 		builder.AppendLine("\t");
@@ -178,16 +210,16 @@ public static class AudioNameCreator
 	}
 
 	/// <summary>
-	/// SFX用スクリプトを作成します
+	/// SFX名を定数で管理する構造体を作成します
 	/// </summary>
-	public static void CreateScriptSFX()
+	private static void CreateScriptSFX()
 	{
 		StringBuilder builder = new StringBuilder();
 
 		builder.AppendLine("/// <summary>");
 		builder.AppendLine("/// 効果音名を定数で管理するクラス");
 		builder.AppendLine("/// </summary>");
-		builder.AppendFormat("public struct {0}", FILENAME_SFX_WITHOUT_EXTENSION).AppendLine();
+		builder.AppendFormat("public struct {0}", FILENAME_SFX).AppendLine();
 		builder.AppendLine("{");
 		builder.Append("\t").AppendLine("#region Constants");
 		builder.AppendLine("\t");
@@ -228,15 +260,5 @@ public static class AudioNameCreator
 		AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
 	}
 
-	/// <summary>
-	/// オーディオのファイル名を定数で管理するクラスを作成できるかどうかを取得します
-	/// </summary>
-	[MenuItem(COMMAND_NAME, true)]
-	private static bool CanCreate()
-	{
-		var isPlayingEditor = !EditorApplication.isPlaying;
-		var isPlaying = !Application.isPlaying;
-		var isCompiling = !EditorApplication.isCompiling;
-		return isPlayingEditor && isPlaying && isCompiling;
-	}
+	#endregion
 }

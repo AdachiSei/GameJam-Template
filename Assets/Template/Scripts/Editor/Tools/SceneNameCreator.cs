@@ -8,42 +8,71 @@ using UnityEngine;
 /// </summary>
 public static class SceneNameCreator
 {
-	// コマンド名
-	private const string COMMAND_NAME = "Tools/CreateConstants/Scene Name";
+    #region Private Member
 
-	//作成したスクリプトを保存するパス
-	private const string EXPORT_PATH = "Assets/Scripts/Constants/SceneName.cs";
-
-	// ファイル名(拡張子あり、なし)
-	private static readonly string FILENAME = Path.GetFileName(EXPORT_PATH);
-	private static readonly string FILENAME_WITHOUT_EXTENSION =
+    // ファイル名
+    private static readonly string FILENAME =
 		Path.GetFileNameWithoutExtension(EXPORT_PATH);
 
+	#endregion
+
+    #region Constants
+
+    /// <summary>
+    /// コマンド名
+    /// </summary>
+    private const string COMMAND_NAME = "Tools/CreateConstants/Scene Name";
+
 	/// <summary>
-	/// シーンのファイル名を定数で管理するクラスを作成します
+	/// 作成したスクリプトを保存するパス
+	/// </summary>
+	private const string EXPORT_PATH = "Assets/Scripts/Constants/SceneName.cs";
+
+	#endregion
+
+	#region MenuItem Method
+
+	/// <summary>
+	/// 定数で管理する構造体を作成する関数
 	/// </summary>
 	[MenuItem(COMMAND_NAME)]
-	public static void Create()
+	private static void Create()
 	{
 		if (!CanCreate()) return;
 
-		CreateScript();
+		CreateScriptSceneName();
 
 		Debug.Log("SceneNamesを作成完了");
 		//EditorUtility.DisplayDialog(FILENAME, "作成が完了しました", "OK");
 	}
 
 	/// <summary>
-	/// スクリプトを作成します
+	/// シーン名を定数で管理する構造体を作成できるかどうかを取得する関数
 	/// </summary>
-	public static void CreateScript()
+	[MenuItem(COMMAND_NAME, true)]
+	private static bool CanCreate()
+	{
+		var isPlayingEditor = !EditorApplication.isPlaying;
+		var isPlaying = !Application.isPlaying;
+		var isCompiling = !EditorApplication.isCompiling;
+		return isPlayingEditor && isPlaying && isCompiling;
+	}
+
+	#endregion
+
+	#region Private Method
+
+	/// <summary>
+	/// シーン名を定数で管理する構造体を作成する関数
+	/// </summary>
+	private static void CreateScriptSceneName()
 	{
 		StringBuilder builder = new StringBuilder();
 
 		builder.AppendLine("/// <summary>");
 		builder.AppendLine("/// シーン名を定数で管理するクラス");
 		builder.AppendLine("/// </summary>");
-		builder.AppendFormat("public struct {0}", FILENAME_WITHOUT_EXTENSION).AppendLine();
+		builder.AppendFormat("public struct {0}", FILENAME).AppendLine();
 		builder.AppendLine("{");
 		builder.Append("\t").AppendLine("#region Constants");
 		builder.AppendLine("\t");
@@ -75,15 +104,5 @@ public static class SceneNameCreator
 		AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
 	}
 
-	/// <summary>
-	/// シーンのファイル名を定数で管理するクラスを作成できるかどうかを取得します
-	/// </summary>
-	[MenuItem(COMMAND_NAME, true)]
-	private static bool CanCreate()
-	{
-		var isPlayingEditor = !EditorApplication.isPlaying;
-		var isPlaying = !Application.isPlaying;
-		var isCompiling = !EditorApplication.isCompiling;
-		return isPlayingEditor && isPlaying && isCompiling;
-	}
+    #endregion
 }
