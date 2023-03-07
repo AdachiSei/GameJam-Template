@@ -45,7 +45,7 @@ public class SoundManagerEditor : Editor
             var floatField = EditorGUILayout.FloatField("BGMÇÃí∑Ç≥(?ïbà»è„)", soundManager.BGMLength);
             if (floatField < 0) floatField = 0f;
             else if (floatField > _maxLength) floatField = _maxLength;
-            soundManager.ChangeAudioLength(floatField);
+            soundManager.SetAudioLength(floatField);
             if (GUILayout.Button("GetAudioClips"))
             {
                 GetAudioClips(floatField);
@@ -74,7 +74,7 @@ public class SoundManagerEditor : Editor
             if (lessThanZero) intField = 0;
             else if (overHundred) intField = _maxValue;
 
-            soundManager.ChangeAudioCount(intField);
+            soundManager.SetAudioCount(intField);
 
             if (GUILayout.Button("CreateSFX"))
             {
@@ -108,8 +108,8 @@ public class SoundManagerEditor : Editor
         foreach (var guid in AssetDatabase.FindAssets("t:AudioClip"))
         {
             var path = AssetDatabase.GUIDToAssetPath(guid);
-            var pathName = AssetDatabase.LoadMainAssetAtPath(path);
-            var audioClip = pathName as AudioClip;
+            var asset = AssetDatabase.LoadMainAssetAtPath(path);
+            var audioClip = asset as AudioClip;
             var isLong = audioClip.length >= audioLength;
             if (isLong) bgmList.Add(audioClip);
             else sfxList.Add(audioClip);
