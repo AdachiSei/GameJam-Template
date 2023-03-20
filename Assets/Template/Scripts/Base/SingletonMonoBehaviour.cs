@@ -1,52 +1,49 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 /// <summary>
 /// シングルトンパターンを実装したい時に継承するジェネリックな基底クラス
 /// </summary>
 public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 {
-    public bool IsDontDestroy => _isDontDestroy;
-
-    [SerializeField]
-    [Header("シーンが移動しても保持するか")]
-    private bool _isDontDestroy;
-
-    private static T _instance;
-
     public static T Instance
     {
         get
         {
-            if (_instance == null)
+            if (Instance == null)
             {
-                _instance = FindObjectOfType(typeof(T)) as T;
+                Type t = typeof(T);
 
-                if (_instance == null)
+                Instance = (T)FindObjectOfType(t);
+                if (Instance == null)
                 {
-                    Debug.LogError($"{typeof(T)}をアタッチしているGameObjectがありません");
+                    Debug.LogWarning($"{t}をアタッチしているオブジェクトがありません");
                 }
             }
 
-            return _instance;
+            return Instance;
         }
+        private set => Instance = value;
     }
 
-    virtual protected void Awake()
+
+    protected virtual void Awake()
     {
-        if (_isDontDestroy) DontDestroyOnLoad(this);
         CheckInstance();
     }
 
+    /// <summary>
+    /// 他のゲームオブジェクトにアタッチされているか調べる
+    /// アタッチされている場合は破棄する。
+    /// </summary>
     protected bool CheckInstance()
     {
-        if (_instance == null)
+        if (Instance == null)
         {
-            _instance = this as T;
+            Instance = this as T;
             return true;
         }
-        else if (_instance == this)
+        else if (Instance == this)
         {
             return true;
         }
