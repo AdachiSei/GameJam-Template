@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
 public static class ArrayExtensions
 {
@@ -15,6 +13,11 @@ public static class ArrayExtensions
     public static int OffsetLength<T>(this T[] array)
     {
         return array.Length + OFFSET;
+    }
+
+    public static void ForEach<T>(this T[] array, Action<T> action)
+    {
+        foreach (var item in array) action(item);
     }
 
     #endregion
