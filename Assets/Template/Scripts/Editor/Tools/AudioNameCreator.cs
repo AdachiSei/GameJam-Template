@@ -27,11 +27,6 @@ public static class AudioNameCreator
 
     #region Constants
 
-    /// <summary>
-    /// ‰¹‚Ì’·‚³
-    /// </summary>
-    public const float BGM_LENGTH = 10f;
-
 	/// <summary>
 	/// ƒRƒ}ƒ“ƒh–¼
 	/// </summary>
@@ -109,7 +104,7 @@ public static class AudioNameCreator
             var path = AssetDatabase.GUIDToAssetPath(guid);
             var pathName = AssetDatabase.LoadMainAssetAtPath(path);
 			var audioClip = pathName as AudioClip;
-			var isLong = audioClip.length >= BGM_LENGTH;
+			var isLong = audioClip.length >= BGMLengthData.BGMLength;
 			if (isLong) bGMList.Add(audioClip);
 			else sFXList.Add(audioClip);
         }
@@ -180,7 +175,7 @@ public static class AudioNameCreator
 			var path = AssetDatabase.GUIDToAssetPath(guid);
 			var pathName = AssetDatabase.LoadMainAssetAtPath(path);
 			var audioClip = pathName as AudioClip;
-			var isLong = audioClip.length >= BGM_LENGTH;
+			var isLong = audioClip.length >= BGMLengthData.BGMLength;
 			if (isLong) bGMList.Add(audioClip);
 		}
 
@@ -231,7 +226,7 @@ public static class AudioNameCreator
 			var path = AssetDatabase.GUIDToAssetPath(guid);
 			var pathName = AssetDatabase.LoadMainAssetAtPath(path);
 			var audioClip = pathName as AudioClip;
-			var isShort = audioClip.length < BGM_LENGTH;
+			var isShort = audioClip.length < BGMLengthData.BGMLength;
 			if (isShort) sFXList.Add(audioClip);
 		}
 

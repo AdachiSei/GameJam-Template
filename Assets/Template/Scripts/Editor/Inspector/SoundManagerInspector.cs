@@ -37,10 +37,10 @@ public class SoundManagerInspector : Editor
 
             //全フォルダから音をとってくる
             EditorGUILayout.LabelField("<b>全フォルダから音をとってくる</b>", style);
-            var floatField = EditorGUILayout.FloatField("BGMの長さ(?秒以上)", soundManager.BGMLength);
+            var floatField = EditorGUILayout.FloatField("BGMの長さ(?秒以上)", BGMLengthData.BGMLength);
             if (floatField < 0) floatField = 0f;
             else if (floatField > _maxLength) floatField = _maxLength;
-            soundManager.SetAudioLength(floatField);
+            BGMLengthData.SetBGMLength(floatField);
             if (GUILayout.Button("GetAudioClips"))
             {
                 GetAudioClips(floatField);

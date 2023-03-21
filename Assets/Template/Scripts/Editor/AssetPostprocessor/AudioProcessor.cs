@@ -36,7 +36,7 @@ public class AudioProcessor : AssetPostprocessor
         //DefaultのAudioImporterSampleSettings取得
         var settings = importer.defaultSampleSettings;
 
-        var isBGM = clip.length >= AudioNameCreator.BGM_LENGTH;
+        var isBGM = clip.length >= BGMLengthData.BGMLength;
         if (isBGM)//音楽
         {
             //ロードしながら再生を行うので、メモリをほんの少ししか使わない

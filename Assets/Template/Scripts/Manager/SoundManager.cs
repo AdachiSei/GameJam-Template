@@ -429,8 +429,11 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     #region Editor Methods
 
-    public void SetAudioLength(float length) =>
+    public void SetAudioLength(float length)
+    {
         BGMLength = length;
+        BGMLengthData.SetBGMLength(length);
+    }
 
     public void ResizeBGMClips(int length) =>
         Array.Resize(ref _bgmClips, length);
