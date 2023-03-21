@@ -5,32 +5,24 @@ using UnityEngine;
 /// <summary>
 /// スコアを管理するManager
 /// </summary>
-public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
+public static class ScoreManager
 {
-    #region Public Property
+    #region Property
 
-    public int Score => _score;
-
-    #endregion
-
-    #region Inspector Member
-
-    [SerializeField]
-    [Header("スコア")]
-    private int _score = 0;
+    public static int Score { get; private set; }
 
     #endregion
 
     #region Public Methods
 
-    public void AddScore(int score)
+    public static void AddScore(int score)
     {
-        _score += score;
+        Score += score;
     }
 
-    public void Init()
+    public static void Init()
     {
-        _score = 0;
+        Score = 0;
     }
 
     #endregion
