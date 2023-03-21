@@ -12,26 +12,22 @@ using Cysharp.Threading.Tasks;
 /// </summary>
 public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 {
-    #region Public Property
+    #region Properties
 
-    public string CurrentScene => SceneManager.GetActiveScene().name;
-    public string[] SceneNames => _sceneNames;
+    public string ActiveScene => SceneManager.GetActiveScene().name;
+    public string[] AllSceneName => _allSceneName;
 
     #endregion
 
-    #region Inspecter Member
+    #region Inspecter Variables
 
     [SerializeField]
     [Header("ローディング時に回転する絵")]
-    Image _loadingImage;
+    private Image _loadingImage = null;
 
     [SerializeField]
     [Header("ローディング時に表示するパネル")]
-    Image _loadingPanel;
-
-    [SerializeField]
-    [Header("フェードの種類")]
-    bool _isSlide;
+    private Image _loadingPanel = null;
 
     [SerializeField]
     [Header("フェードするまでの時間")]
@@ -43,11 +39,11 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     [SerializeField]
     [Header("全てのシーンの名前")]
-    private string[] _sceneNames;
+    private string[] _allSceneName = null;
 
     #endregion
 
-    #region Private Member
+    #region Member Variables
 
     private  Vector3 _rotDir = new Vector3(0f,0f,-360);
 
@@ -57,16 +53,15 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     private const int LOOP_VALUE = -1;
     private const float MAX_ALPFA_VALUE = 1f;
-    private const float FADE_POS = 800;
 
     #endregion
 
-    #region Unity Method
+    #region Unity Methods
 
     protected override void Awake()
     {
         base.Awake();
-        FadeIn(_isSlide);
+        FadeIn();
         _loadingImage?.gameObject.SetActive(false);
     }
 
@@ -80,7 +75,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     /// <param name="name">Sceneの名前</param>
     async public void LoadScene(string name)
     {
-        if (_loadingPanel) await FadeOut(_isSlide);
+        if (_loadingPanel) await FadeOut();
         _loadingImage?.gameObject.SetActive(true);
         _loadingImage?
             .transform
@@ -88,6 +83,8 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
                 .SetEase(Ease.Linear)
                 .SetLoops(LOOP_VALUE);
         await SceneManager.LoadSceneAsync(name);
+        _loadingImage?.gameObject.SetActive(false);
+        _loadingImage?.DOKill();
     }
 
     /// <summary>
@@ -115,23 +112,23 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         WantToLoadScene(false);
     }  
 
-    #region Editor Method
+    #region Editor Methods
 
     public void ResizeSceneNames(int length)
     {
-        Array.Resize(ref _sceneNames, length);
+        Array.Resize(ref _allSceneName, length);
     }
 
     public void AddSceneName(int index, string name)
     {
-        _sceneNames[index] = name;
+        _allSceneName[index] = name;
     }
 
     #endregion
 
     #endregion
 
-    #region Private Mehod
+    #region Private Mehods
 
     /// <summary>
     /// 読み込みたいScene
@@ -142,41 +139,24 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         var offset = -1;
         if (_isNext) offset = 1;
         var name = SceneManager.GetActiveScene().name;
-        for (int i = 0; i < _sceneNames.Length; i++)
+        for (int i = 0; i < _allSceneName.Length; i++)
         {
-            if (_sceneNames[i] == name)
+            if (_allSceneName[i] == name)
             {
-                LoadScene(_sceneNames[i + offset]);
+                LoadScene(_allSceneName[i + offset]);
                 return;
             }
         }
     }
 
-    private void FadeIn(bool isSlide)
+    private void FadeIn()
     {
-        switch (isSlide)
-        {
-            case false:
-                _loadingPanel?.DOFade(0f, _fadeTime);
-                break;
-            case true:
-                _loadingPanel?.rectTransform.DOLocalMoveX(-FADE_POS, _fadeTime);
-                break;
-        }
+        _loadingPanel?.DOFade(0f, _fadeTime);
     }
 
-    async private UniTask FadeOut(bool isSlide)
+    async private UniTask FadeOut()
     {
-        switch (isSlide)
-        {
-            case false:
-                _loadingPanel.DOFade(MAX_ALPFA_VALUE, _fadeTime);
-                break;
-            case true:
-                _loadingPanel.rectTransform.DOLocalMoveX(0f, _fadeTime);
-                break;
-        }
-        await UniTask.Delay(TimeSpan.FromSeconds(_fadeTime));
+        await _loadingPanel?.DOFade(MAX_ALPFA_VALUE, _fadeTime).AsyncWaitForCompletion();
     }
 
     #endregion
