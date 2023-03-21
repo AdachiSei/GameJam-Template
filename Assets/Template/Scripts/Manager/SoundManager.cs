@@ -18,7 +18,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     public float MasterVolume => _masterVolume;
     public float BGMVolume => _bgmVolume;
     public float SFXVolume => _sfxVolume;
-    public float BGMLength { get; private set; } = 10f;
     public int AudioSourceCount { get; private set; }
     public bool IsStopingToCreate { get; private set; }
 
@@ -429,23 +428,25 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     #region Editor Methods
 
-    public void SetAudioLength(float length)
+    public void ResizeBGMClips(int length)
     {
-        BGMLength = length;
-        BGMLengthData.SetBGMLength(length);
+        Array.Resize(ref _bgmClips, length);
     }
 
-    public void ResizeBGMClips(int length) =>
-        Array.Resize(ref _bgmClips, length);
-
-    public void ResizeSFXClips(int length) =>
+    public void ResizeSFXClips(int length)
+    {
         Array.Resize(ref _sfxClips, length);
+    }
 
-    public void AddBGMClip(int index, AudioClip clip) =>
+    public void AddBGMClip(int index, AudioClip clip)
+    {
         _bgmClips[index] = clip;
+    }
 
-    public void AddSFXClip(int index, AudioClip clip) =>
+    public void AddSFXClip(int index, AudioClip clip)
+    {
         _sfxClips[index] = clip;
+    }
 
     #endregion
 
