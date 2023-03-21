@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public static class SceneNameCreator
 {
-    #region Private Member
+    #region Member Variables
 
     // ファイル名
     private static readonly string FILENAME =
@@ -30,7 +30,7 @@ public static class SceneNameCreator
 
 	#endregion
 
-	#region MenuItem Method
+	#region MenuItem Methods
 
 	/// <summary>
 	/// 定数で管理する構造体を作成する関数
@@ -60,7 +60,7 @@ public static class SceneNameCreator
 
 	#endregion
 
-	#region Private Method
+	#region Private Methods
 
 	/// <summary>
 	/// シーン名を定数で管理する構造体を作成する関数

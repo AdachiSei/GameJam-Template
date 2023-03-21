@@ -9,10 +9,16 @@ using UnityEngine;
 [Serializable]
 public class PoolObjectData
 {
+    #region Properties
+
     public PoolObjectBase PoolPrefab => _poolPrefab;
     public IReadOnlyList<PoolObjectBase> CreatedPool => _createdPool;
     public Transform PoolParent => _poolParent;
     public int PoolCount => _poolCount;
+
+    #endregion
+
+    #region Inspector Variables
 
     [SerializeField]
     [Header("プールオブジェクト")]
@@ -29,6 +35,10 @@ public class PoolObjectData
     [SerializeField]
     [Header("生成数")]
     private int _poolCount;
+
+    #endregion
+
+    #region Public Methods
 
     public void GetPoolPrefab(PoolObjectBase prefab)
     {
@@ -49,4 +59,6 @@ public class PoolObjectData
     {
         _poolCount = count;
     }
+
+    #endregion
 }

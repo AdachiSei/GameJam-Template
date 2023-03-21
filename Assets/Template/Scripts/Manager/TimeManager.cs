@@ -8,13 +8,13 @@ using UnityEngine;
 /// </summary>
 public class TimeManager : SingletonMonoBehaviour<TimeManager>
 {
-    #region Public Property
+    #region Properties
 
     public float Timer => _timer;
 
     #endregion
 
-    #region Inspector Member
+    #region Inspector Variables
 
     [SerializeField]
     [Header("タイマー")]
@@ -22,7 +22,7 @@ public class TimeManager : SingletonMonoBehaviour<TimeManager>
 
     #endregion
 
-    #region Private Member
+    #region Member Variables
 
     private bool _isCounting = false;
 

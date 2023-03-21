@@ -6,6 +6,8 @@ using UnityEngine;
 /// </summary>
 public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 {
+    #region Properties
+
     public static T Instance
     {
         get
@@ -23,14 +25,22 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
 
             return Instance;
         }
+
         private set => Instance = value;
     }
 
+    #endregion
+
+    #region Unity Methods
 
     protected virtual void Awake()
     {
         CheckInstance();
     }
+
+    #endregion
+
+    #region Private Methods
 
     /// <summary>
     /// 他のゲームオブジェクトにアタッチされているか調べる
@@ -50,4 +60,6 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
         Destroy(this);
         return false;
     }
+
+    #endregion
 }

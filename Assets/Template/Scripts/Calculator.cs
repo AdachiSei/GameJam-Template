@@ -8,11 +8,11 @@ using UnityEngine;
 /// </summary>
 public static class Calculator
 {
-    #region Const Members
+    #region Constants
 
-    const int MAX_VALUE = 100;
+    private const int MAX_VALUE = 100;
 
-    const float MAX_VALUE_F = 100f;
+    private const float MAX_VALUE_F = 100f;
 
     #endregion
 

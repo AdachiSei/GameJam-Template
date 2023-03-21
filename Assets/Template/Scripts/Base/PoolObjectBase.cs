@@ -7,10 +7,14 @@ using UnityEngine;
 /// </summary>
 public abstract class PoolObjectBase : MonoBehaviour
 {
+    #region Unity Methods
+
     protected abstract void OnEnable();
 
     protected virtual void OnBecameInvisible()
     {
         gameObject.SetActive(false);
     }
+
+    #endregion
 }

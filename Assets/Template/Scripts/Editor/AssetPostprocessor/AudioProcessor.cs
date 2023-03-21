@@ -12,7 +12,7 @@ using UnityEngine;
 /// </summary>
 public class AudioProcessor : AssetPostprocessor
 {
-    #region Unity Method
+    #region Unity Methods
 
     private void OnPostprocessAudio(AudioClip clip)
     {
@@ -26,7 +26,7 @@ public class AudioProcessor : AssetPostprocessor
 
     #endregion
 
-    #region Private Method
+    #region Private Methods
 
     /// <summary>
     /// 音楽や効果音を適した設定に変更する関数

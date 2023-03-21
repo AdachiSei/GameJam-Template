@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public static class AudioNameCreator
 {
-    #region Private Member
+    #region Member Variables
 
     // ファイル名(拡張子あり、なし)
     private static readonly string FILENAME_AUDIO =

@@ -4,13 +4,15 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(ObjectPool))]
-public class ObjectPoolEditor : Editor
+public class ObjectPoolInspector : Editor
 {
-    #region Private Static Member
+    #region Member Variables
 
     private static bool _isOpening;
 
     #endregion
+
+    #region Unity Methods
 
     public override void OnInspectorGUI()
     {
@@ -50,7 +52,7 @@ public class ObjectPoolEditor : Editor
             if (lessThanZero) intField = 0;
             else if (overHundred) intField = 100;
 
-            objectPool.ChangePoolCount(intField);
+            objectPool.SetPoolCount(intField);
 
             if (GUILayout.Button("GetPoolObject"))
             {
@@ -76,4 +78,6 @@ public class ObjectPoolEditor : Editor
             }
         }
     }
+
+    #endregion
 }

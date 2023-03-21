@@ -11,7 +11,7 @@ using System.IO;
 /// </summary>
 public class SceneLaunchWindow : EditorWindow
 {
-    #region Private Member
+    #region Member Variables
 
     private string[] _buildScenePaths = null;
     private string[] _othersScenePaths = null;

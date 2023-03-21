@@ -5,8 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [CustomEditor(typeof(Text))]
-public class TextEditor : Editor
+public class TextInspector : Editor
 {
+    #region Unity Methods
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
@@ -14,4 +16,6 @@ public class TextEditor : Editor
         text.horizontalOverflow = HorizontalWrapMode.Overflow;
         text.verticalOverflow = VerticalWrapMode.Overflow;
     }
+
+    #endregion
 }

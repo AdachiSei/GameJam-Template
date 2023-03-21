@@ -1,13 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 /// <summary>
 /// ƒXƒRƒA‚ğŠÇ—‚·‚éManager
 /// </summary>
 public static class ScoreManager
 {
-    #region Property
+    #region Properties
 
     public static int Score { get; private set; }
 

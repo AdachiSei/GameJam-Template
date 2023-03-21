@@ -6,14 +6,14 @@ using UnityEngine;
 [Serializable]
 public struct Value<T>
 {
-    #region Public Properties
+    #region Properties
 
     public T MinValue => _minValue;
     public T MaxValue => _maxValue;
 
     #endregion
 
-    #region Inspector Member
+    #region Inspector Variables
 
     [SerializeField]
     [Header("小さい値")]
@@ -25,7 +25,7 @@ public struct Value<T>
 
     #endregion
 
-    #region Public Method
+    #region Public Methods
 
     public void SetValue(T minValue, T maxValue)
     {

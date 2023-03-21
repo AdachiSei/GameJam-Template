@@ -9,9 +9,9 @@ using UnityEngine;
 /// </summary>
 public class PauseManager : SingletonMonoBehaviour<PauseManager>
 {
-    #region private Member
+    #region Member Variables
 
-    private bool _isPausing;
+    private bool _isPausing = false;
 
     #endregion
 

@@ -12,7 +12,7 @@ using System.Linq;
 /// </summary>
 public class InputNameCreator : AssetPostprocessor
 {
-    #region Private Member
+    #region Member Variables
 
     /// <summary>
     /// ファイル名
@@ -22,7 +22,7 @@ public class InputNameCreator : AssetPostprocessor
 
     #endregion
 
-    #region Constant
+    #region Constants
 
     /// <summary>
     /// 作成したスクリプトを保存するパス
@@ -31,7 +31,7 @@ public class InputNameCreator : AssetPostprocessor
 
     #endregion
 
-    #region Unity Method
+    #region Unity Methods
 
     private static void OnPostprocessAllAssets
         (string[] importedAssets, string[] deletedAssets,

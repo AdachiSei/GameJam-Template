@@ -7,22 +7,22 @@ using System.IO;
 using System.Linq;
 
 [CustomEditor(typeof(SceneLoader))]
-public class SceneLoaderEditor : Editor
+public class SceneLoaderInspector : Editor
 {
-    #region Private Member
+    #region Member Variables
 
-    bool _isSetting;
-    bool _isRemoving;
+    private bool _isSetting = false;
+    private bool _isRemoving = false;
 
     #endregion
 
-    #region Const Member
+    #region Constants
 
     private const int OFFSET = 1;
 
     #endregion
 
-    #region Override Method
+    #region Unity Methods
 
     public override void OnInspectorGUI()
     {
@@ -43,19 +43,19 @@ public class SceneLoaderEditor : Editor
         {
             GetSceneName();
             _isSetting = true;
-            _isRemoving = sceneLoader.SceneNames.Contains("RemoveThis");
+            _isRemoving = sceneLoader.AllSceneName.Contains("RemoveThis");
         }
 
         if (_isSetting && _isRemoving)
         {
-            _isRemoving = sceneLoader.SceneNames.Contains("RemoveThis");
+            _isRemoving = sceneLoader.AllSceneName.Contains("RemoveThis");
             EditorGUILayout.HelpBox("This is a warning-help message.", MessageType.Warning);
         }
     }
 
     #endregion
 
-    #region Private Method
+    #region Private Methods
 
     /// <summary>
     /// Assetフォルダの中にあるSceneの名前を全てとってくる関数
@@ -96,7 +96,7 @@ public class SceneLoaderEditor : Editor
         }
         if (isPlaying == false)
         {
-            sceneLoader.AddSceneName(sceneLoader.SceneNames.Length - offset, "RemoveThis");
+            sceneLoader.AddSceneName(sceneLoader.AllSceneName.Length - offset, "RemoveThis");
         }
     }
 

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public static class PoolObjectNameCreator
 {
-    #region Private Member
+    #region Member Variables
 
     /// <summary>
     /// ファイル名
@@ -61,7 +61,7 @@ public static class PoolObjectNameCreator
 
     #endregion
 
-    #region Private Method
+    #region Private Methods
 
     /// <summary>
     /// プールオブジェクト名を定数で管理する構造体を作成する関数

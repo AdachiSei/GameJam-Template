@@ -7,21 +7,21 @@ using UnityEngine;
 /// </summary>
 public class ObjectPool : SingletonMonoBehaviour<ObjectPool>
 {
-    #region Public Property
+    #region Properties
 
     public int PoolCount => _poolCount;
 
     #endregion
 
-    #region Inspector Member
+    #region Inspector Variables
 
     [SerializeField]
     [Header("プールオブジェクト")]
-    private List<PoolObjectData> _pools = new List<PoolObjectData>();
+    private List<PoolObjectData> _pools = new();
 
     #endregion
 
-    #region Private Member
+    #region Member Variables
 
     private int _poolCount = 10;
 
@@ -86,7 +86,7 @@ public class ObjectPool : SingletonMonoBehaviour<ObjectPool>
         return null;
     }
 
-    public void ChangePoolCount(int count)
+    public void SetPoolCount(int count)
     {
         _poolCount = count;
     }

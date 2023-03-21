@@ -7,31 +7,31 @@ using UnityEngine;
 /// </summary>
 public class BackGroundScroller : MonoBehaviour
 {
-    #region Inspector Member
+    #region Inspector Variables
 
     [SerializeField]
     [Header("背景")]
-    SpriteRenderer[] _background = new SpriteRenderer[2];
+    private SpriteRenderer[] _background = new SpriteRenderer[2];
 
     [SerializeField]
     [Header("スクロールスピード")]
-    float _speed = -0.03f;
+    private float _speed = -0.03f;
 
     [SerializeField]
     [Header("この地点を超えたら左にワープする")]
-    float _limitPosX = -12f;
+    private float _limitPosX = -12f;
 
     #endregion
 
     #region Public Member
 
-    bool _isPlaying = true;
+    private bool _isPlaying = true;
 
     #endregion
 
-    #region Const Member
+    #region Constants
 
-    const int ONE_OTHER = 1;
+    private const int ONE_OTHER = 1;
 
     #endregion
 

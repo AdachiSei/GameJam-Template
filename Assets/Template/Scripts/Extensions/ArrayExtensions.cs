@@ -8,7 +8,7 @@ public static class ArrayExtensions
 
     #endregion
 
-    #region Public Method
+    #region Public Methods
 
     public static int OffsetLength<T>(this T[] array)
     {

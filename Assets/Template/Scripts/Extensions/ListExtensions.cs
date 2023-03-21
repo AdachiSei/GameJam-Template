@@ -10,7 +10,7 @@ public static class ListExtensions
 
     #endregion
 
-    #region Public Method
+    #region Public Methods
 
     public static int OffsetCount<T>(this List<T> list)
     {

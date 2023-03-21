@@ -4,22 +4,17 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(SoundManager))]
-public class SoundManagerEditor : Editor
+public class SoundManagerInspector : Editor
 {
-    #region Private Member
+    #region Member Variables
 
     private float _maxLength = 20f;
     private int _maxValue = 100;
+    private static bool _isOpening = false;
 
     #endregion
 
-    #region Private Static Member
-
-    private static bool _isOpening;
-
-    #endregion
-
-    #region Override Method
+    #region Unity Methods
 
     public override void OnInspectorGUI()
     {
@@ -67,7 +62,7 @@ public class SoundManagerEditor : Editor
             var intField =
                 EditorGUILayout
                     .IntField
-                        ("ê∂ê¨êî", soundManager.AudioSourceNumber);
+                        ("ê∂ê¨êî", soundManager.AudioSourceCount);
 
             var lessThanZero = intField < 0;
             var overHundred = intField > _maxValue;
@@ -84,7 +79,7 @@ public class SoundManagerEditor : Editor
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("<b>BGM&SFXópÇÃPrefabÇëSçÌèú</b>", style);
-            EditorGUI.BeginDisabledGroup(soundManager.IsStopToCreate);
+            EditorGUI.BeginDisabledGroup(soundManager.IsStopingToCreate);
 
             if (GUILayout.Button("Init"))
             {
