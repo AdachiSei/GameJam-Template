@@ -50,11 +50,11 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     [SerializeField]
     [Header("音楽を格納するオブジェクト")]
-    private GameObject _bGMParent = null;
+    private Transform _bGMParent = null;
 
     [SerializeField]
     [Header("効果音を格納するオブジェクト")]
-    private GameObject _sFXParent = null;
+    private Transform _sFXParent = null;
 
     [SerializeField]
     [Header("オーディオソースがついているプレファブ")]
@@ -92,37 +92,28 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         base.Awake();
 
         if (_audioPrefab == null) CreateAudio();//オーディオのプレファブが無かったら作成
-        if (_bGMParent == null) CreateBGMParent();//BGMを格納するオブジェクトが無かったら作成   
-        if (_sFXParent == null) CreateSFXParent();//SFXを格納するオブジェクトが無かったら作成
+        if (_bGMParent == null) CreateAudioParent(true);//BGMを格納するオブジェクトが無かったら作成   
+        if (_sFXParent == null) CreateAudioParent(false);//SFXを格納するオブジェクトが無かったら作成
 
         if (_audioPrefab.playOnAwake)_audioPrefab.playOnAwake = false;
 
         this
-            .ObserveEveryValueChanged
-                (soundManager => soundManager.MasterVolume)
-            .Subscribe
-                (volume => ReflectMasterVolume())
+            .ObserveEveryValueChanged(x => x.MasterVolume)
+            .Subscribe(x => ReflectMasterVolume())
             .AddTo(this);
 
         this
-            .ObserveEveryValueChanged
-                (soundManager => soundManager.BGMVolume)
-            .Subscribe
-                (volume => ReflectBGMVolume())
+            .ObserveEveryValueChanged(x => x.BGMVolume)
+            .Subscribe(x => ReflectBGMVolume())
             .AddTo(this);
 
         this
-            .ObserveEveryValueChanged
-                (soundManager => soundManager.SFXVolume)
-            .Subscribe
-                (volume => ReflectSFXVolume())
+            .ObserveEveryValueChanged(x => x.SFXVolume)
+            .Subscribe(x => ReflectSFXVolume())
             .AddTo(this);
 
         //ポーズ用
-        PauseManager.Instance.OnPause -= Pause;
-        PauseManager.Instance.OnResume -= Resume;
-        PauseManager.Instance.OnPause += Pause;
-        PauseManager.Instance.OnResume += Resume;
+        //AddSystemAction();
 
         PlayBGM(_name);
     }
@@ -151,7 +142,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// 音楽(BGM)を再生する関数
     /// </summary>
     /// <param name="name">音楽(BGM)の名前</param>
-    /// <param name="isLooping"></param>
+    /// <param name="isLooping">ループの有無</param>
     /// <param name="volume">音の大きさ</param>
     public void PlayBGM(string name, bool isLooping = true, float volume = 1)
     {
@@ -180,7 +171,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                 audioSource.loop = isLooping;
 
                 audioSource.Play();
-
                 return;
             }
         }
@@ -202,7 +192,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
                 newAudioSource.loop = isLooping;
 
                 newAudioSource.Play();
-
                 return;
             }
         }
@@ -329,9 +318,9 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     public void ReflectBGMVolume()
     {
         var volume = _masterVolume * _bgmVolume;
-        _bgmAudioSources
-            .FirstOrDefault(_ => _.isPlaying)
-            .volume = volume;
+        var audioSource = _bgmAudioSources
+            .FirstOrDefault(x => x.isPlaying);
+        if (audioSource != null)audioSource.volume = volume;
     }
 
     /// <summary>
@@ -363,12 +352,12 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     public void CreateBGM()
     {
         if (_audioPrefab == null)CreateAudio();
-        if(_bGMParent == null)CreateBGMParent();
+        if(_bGMParent == null)CreateAudioParent(true);
 
         IsStopingToCreate = false;
 
         _bgmAudioSources.Clear();
-        InitBGM();
+        InitAudioSources(_bGMParent);
 
         for (var i = 0; i < _bgmClips.Length; i++)
         {
@@ -390,13 +379,13 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     public void CreateSFX()
     {
         if (_audioPrefab == null)CreateAudio();
-        if(_sFXParent == null)CreateSFXParent();
+        if(_sFXParent == null)CreateAudioParent(false);
 
         IsStopingToCreate = false;
 
         _sfxAudioSources.Clear();
 
-        InitSFX();
+        InitAudioSources(_sFXParent);
 
         for (var i = 0; i < AudioSourceCount; i++)
         {
@@ -420,32 +409,19 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         _bgmAudioSources.Clear();
         _sfxAudioSources.Clear();
 
-        InitBGM();
-        InitSFX();
+        InitAudioSources(_bGMParent);
+        InitAudioSources(_sFXParent);
     }
 
     #endregion
 
     #region Editor Methods
 
-    public void ResizeBGMClips(int length)
+    public void SetAudioClips(List<AudioClip> clips)
     {
-        Array.Resize(ref _bgmClips, length);
-    }
-
-    public void ResizeSFXClips(int length)
-    {
-        Array.Resize(ref _sfxClips, length);
-    }
-
-    public void AddBGMClip(int index, AudioClip clip)
-    {
-        _bgmClips[index] = clip;
-    }
-
-    public void AddSFXClip(int index, AudioClip clip)
-    {
-        _sfxClips[index] = clip;
+        var isBGM = clips[0].length >= BGMLengthData.BGMLength;
+        if(isBGM) _bgmClips = clips.ToArray();
+        else _sfxClips = clips.ToArray();
     }
 
     #endregion
@@ -453,27 +429,20 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     #region Private Methods
 
     /// <summary>
-    /// 音楽を格納するオブジェクトを生成する関数
+    /// 音を格納するオブジェクトを生成する関数
     /// </summary>
-    private void CreateBGMParent()
+    private void CreateAudioParent(bool isBGM)
     {
-        _bGMParent = new();
-        _bGMParent.name = "BGM";
-        _bGMParent.transform.SetParent(transform);
+        Transform parent = isBGM ? _bGMParent : _sFXParent;
+        string name = isBGM ? "BGM" : "SFX";
+
+        parent = new GameObject().transform;
+        parent.name = "BGM";
+        parent.transform.SetParent(transform);
     }
 
     /// <summary>
-    /// 効果音を格納するオブジェクトを生成する関数
-    /// </summary>
-    private void CreateSFXParent()
-    {
-        _sFXParent = new();
-        _sFXParent.name = "SFX";
-        _sFXParent.transform.SetParent(transform);
-    }
-
-    /// <summary>
-    /// オーディオソースが付きオブジェクトを生成する関数
+    /// オーディオソース付きオブジェクトを生成する関数
     /// </summary>
     private void CreateAudio()
     {
@@ -485,12 +454,11 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     }
 
     /// <summary>
-    /// BGM用のPrefabを全削除する関数
+    /// Audio用に生成したPrefabを全削除する関数
     /// </summary>
-    private void InitBGM()
+    private void InitAudioSources(Transform parent)
     {
-        if (_bGMParent == null) return;
-        var parent = _bGMParent.transform;
+        if (parent == null) return;
 
         while (true)
         {
@@ -500,18 +468,14 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     }
 
     /// <summary>
-    /// SFX用のPrefabを全削除する関数
+    /// ポーズマネージャーの関数に登録する関数
     /// </summary>
-    private void InitSFX()
+    private void AddSystemAction()
     {
-        if (_sFXParent == null) return;
-        var parent = _sFXParent.transform;
-
-        while (true)
-        {
-            if (parent.childCount == 0) break;
-            DestroyImmediate(parent.GetChild(0).gameObject);
-        }
+        PauseManager.Instance.OnPause -= Pause;
+        PauseManager.Instance.OnResume -= Resume;
+        PauseManager.Instance.OnPause += Pause;
+        PauseManager.Instance.OnResume += Resume;
     }
 
     /// <summary>
