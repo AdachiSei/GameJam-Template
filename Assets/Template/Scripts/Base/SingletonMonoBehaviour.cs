@@ -12,22 +12,26 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
     {
         get
         {
-            if (Instance == null)
+            if (_instance == null)
             {
                 Type t = typeof(T);
 
-                Instance = (T)FindObjectOfType(t);
-                if (Instance == null)
+                _instance = (T)FindObjectOfType(t);
+                if (_instance == null)
                 {
                     Debug.LogWarning($"{t}をアタッチしているオブジェクトがありません");
                 }
             }
 
-            return Instance;
+            return _instance;
         }
-
-        private set => Instance = value;
     }
+
+    #endregion
+
+    #region Member Variables
+
+    private static T _instance;
 
     #endregion
 
@@ -48,12 +52,12 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
     /// </summary>
     protected bool CheckInstance()
     {
-        if (Instance == null)
+        if (_instance == null)
         {
-            Instance = this as T;
+            _instance = this as T;
             return true;
         }
-        else if (Instance == this)
+        else if (_instance == this)
         {
             return true;
         }
