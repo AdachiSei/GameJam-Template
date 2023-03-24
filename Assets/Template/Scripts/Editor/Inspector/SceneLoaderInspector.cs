@@ -36,20 +36,26 @@ public class SceneLoaderInspector : Editor
         var style = new GUIStyle(EditorStyles.label);
         style.richText = true;
 
-        EditorGUILayout.Space();
-
-        EditorGUILayout.LabelField("<b>Sceneの名前を全てとってくる</b>", style);
-        if (GUILayout.Button("GetSceneName"))
+        //警告を表示
         {
-            GetSceneName();
-            _isSetting = true;
-            _isRemoving = sceneLoader.AllSceneName.Contains("RemoveThis");
+            if (_isSetting && _isRemoving)
+            {
+                _isRemoving = sceneLoader.AllSceneName.Contains("RemoveThis");
+                EditorGUILayout.HelpBox("Please Delete Array Element 'RemoveThis'.", MessageType.Warning);
+            }
         }
 
-        if (_isSetting && _isRemoving)
+        EditorGUILayout.Space();
+
+        //Sceneの名前を全てとってくる
         {
-            _isRemoving = sceneLoader.AllSceneName.Contains("RemoveThis");
-            EditorGUILayout.HelpBox("This is a warning-help message.", MessageType.Warning);
+            EditorGUILayout.LabelField("<b>Sceneの名前を全てとってくる</b>", style);
+            if (GUILayout.Button("GetSceneName"))
+            {
+                GetAllSceneName();
+                _isSetting = true;
+                _isRemoving = sceneLoader.AllSceneName.Contains("RemoveThis");
+            }
         }
     }
 
@@ -60,44 +66,29 @@ public class SceneLoaderInspector : Editor
     /// <summary>
     /// Assetフォルダの中にあるSceneの名前を全てとってくる関数
     /// </summary>
-    private void GetSceneName()
+    private void GetAllSceneName()
     {
         var sceneLoader = target as SceneLoader;
-        var offset = 0;
-        var isPlaying = EditorApplication.isPlaying;
-
-        if (isPlaying == false)offset = 1;
-
-        sceneLoader.ResizeSceneNames(EditorBuildSettings.scenes.Length + offset);
-        List<string> sceneNames = new();
+        List<string> allSceneName = new();
 
         //BuildSetingsに入っているSceneの名前を全てとってくる
         foreach (var scene in EditorBuildSettings.scenes)
         {
             var name = Path.GetFileNameWithoutExtension(scene.path);
-            sceneNames.Add(name);
+            allSceneName.Add(name);
         }
 
         //重複している要素を消してから並び替え
-        sceneNames = new(sceneNames.Distinct());
-        sceneNames = new(sceneNames.OrderBy(name =>
+        allSceneName = new(allSceneName.Distinct().OrderBy(name =>
         {
             var sceneNum = name.Split("Scene");
-            if (sceneNum[OFFSET] == "")
-            {
-                sceneNum = new[] { sceneNum[0], "0" };
-            }
+            if (sceneNum[OFFSET] == "")sceneNum = new[] { sceneNum[0], "0" };
             return int.Parse(sceneNum[OFFSET]);
         }));
+        allSceneName.Add("RemoveThis");
 
-        for (int i = 0; i < sceneNames.Count; i++)
-        {
-            sceneLoader.AddSceneName(i, sceneNames[i]);
-        }
-        if (isPlaying == false)
-        {
-            sceneLoader.AddSceneName(sceneLoader.AllSceneName.Length - offset, "RemoveThis");
-        }
+        sceneLoader.ResizeAllSceneName(EditorBuildSettings.scenes.Length + OFFSET);
+        sceneLoader.SetAllSceneName(allSceneName);
     }
 
     #endregion

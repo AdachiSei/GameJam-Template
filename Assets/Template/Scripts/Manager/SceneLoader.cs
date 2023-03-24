@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
+using System.Linq;
 
 /// <summary>
 /// シーンを読み込むために必要なScript
@@ -14,7 +15,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 {
     #region Properties
 
-    public string ActiveScene => SceneManager.GetActiveScene().name;
+    public string ActiveSceneName => SceneManager.GetActiveScene().name;
     public string[] AllSceneName => _allSceneName;
 
     #endregion
@@ -73,7 +74,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     /// Sceneを読み込む関数
     /// </summary>
     /// <param name="name">Sceneの名前</param>
-    async public void LoadScene(string name)
+    public async void LoadScene(string name)
     {
         if (_loadingPanel) await FadeOut();
         _loadingImage?.gameObject.SetActive(true);
@@ -82,7 +83,9 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
                 .DORotate(_rotDir, _loadingImageSpeed, RotateMode.FastBeyond360)
                 .SetEase(Ease.Linear)
                 .SetLoops(LOOP_VALUE);
+
         await SceneManager.LoadSceneAsync(name);
+
         _loadingImage?.gameObject.SetActive(false);
         _loadingImage?.DOKill();
     }
@@ -92,8 +95,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     /// </summary>
     public void ReloadScene()
     {
-        var name = SceneManager.GetActiveScene().name;
-        LoadScene(name);
+        LoadScene(ActiveSceneName);
     }
 
     /// <summary>
@@ -114,14 +116,14 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     #region Editor Methods
 
-    public void ResizeSceneNames(int length)
+    public void ResizeAllSceneName(int length)
     {
         Array.Resize(ref _allSceneName, length);
     }
 
-    public void AddSceneName(int index, string name)
+    public void SetAllSceneName(IReadOnlyList<string> allSceneName)
     {
-        _allSceneName[index] = name;
+        _allSceneName = allSceneName.ToArray();
     }
 
     #endregion
@@ -154,7 +156,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         _loadingPanel?.DOFade(0f, _fadeTime);
     }
 
-    async private UniTask FadeOut()
+    private async UniTask FadeOut()
     {
         await _loadingPanel?.DOFade(MAX_ALPFA_VALUE, _fadeTime).AsyncWaitForCompletion();
     }
