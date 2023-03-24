@@ -203,7 +203,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     /// </summary>
     /// <param name="name">効果音(SFX)の名前</param>
     /// <param name="volume">音の大きさ</param>
-    async public void PlaySFX(string name, float volume = 1)
+    public async void PlaySFX(string name, float volume = 1)
     {
         var sfxVolume = volume * _masterVolume * _sfxVolume;
 

@@ -28,7 +28,7 @@ public class TimeManager : SingletonMonoBehaviour<TimeManager>
 
     #endregion
 
-    #region Unity Method
+    #region Unity Methods
 
     protected override void Awake()
     {
@@ -67,7 +67,7 @@ public class TimeManager : SingletonMonoBehaviour<TimeManager>
 
     #endregion
 
-    #region Private Method
+    #region Private Methods
 
     async private void CountTimer()
     {
