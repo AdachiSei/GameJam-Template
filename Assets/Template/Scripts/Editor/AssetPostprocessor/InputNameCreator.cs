@@ -8,14 +8,14 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// ƒCƒ“ƒvƒbƒg–¼‚ğ’è”‚ÅŠÇ—‚·‚é\‘¢‘Ì‚ğì¬‚·‚éƒXƒNƒŠƒvƒg
+/// ã‚¤ãƒ³ãƒ—ãƒƒãƒˆåã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹æ§‹é€ ä½“ã‚’ä½œæˆã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 /// </summary>
 public class InputNameCreator : AssetPostprocessor
 {
     #region Member Variables
 
     /// <summary>
-    /// ƒtƒ@ƒCƒ‹–¼
+    /// ãƒ•ã‚¡ã‚¤ãƒ«å
     /// </summary>
     private static readonly string FILENAME =
         Path.GetFileNameWithoutExtension(EXPORT_PATH);
@@ -25,9 +25,9 @@ public class InputNameCreator : AssetPostprocessor
     #region Constants
 
     /// <summary>
-    /// ì¬‚µ‚½ƒXƒNƒŠƒvƒg‚ğ•Û‘¶‚·‚éƒpƒX
+    /// ä½œæˆã—ãŸã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’ä¿å­˜ã™ã‚‹ãƒ‘ã‚¹
     /// </summary>
-    private const string EXPORT_PATH = "Assets/Scripts/Constants/InputName.cs";
+    private const string EXPORT_PATH = "Assets/Template/Scripts/Constants/InputName.cs";
 
     #endregion
 
@@ -54,12 +54,12 @@ public class InputNameCreator : AssetPostprocessor
     }
 
     /// <summary>
-    /// ƒCƒ“ƒvƒbƒg–¼‚ğ’è”‚ÅŠÇ—‚·‚é\‘¢‘Ì‚ğì¬‚·‚éŠÖ”
+    /// ã‚¤ãƒ³ãƒ—ãƒƒãƒˆåã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹æ§‹é€ ä½“ã‚’ä½œæˆã™ã‚‹é–¢æ•°
     /// </summary>
     /// <param name="importedAssets"></param>
     private static void CreateScriptInputName(string[] importedAssets)
     {
-        // InputManager‚Ì•ÏXƒ`ƒFƒbƒN
+        // InputManagerã®å¤‰æ›´ãƒã‚§ãƒƒã‚¯
         var inputManagerPath =
             Array
                 .Find(importedAssets,
@@ -67,7 +67,7 @@ public class InputNameCreator : AssetPostprocessor
 
         if (inputManagerPath == null) return;
 
-        // InputManager‚Ìİ’èî•ñ“Ç‚İ‚İ
+        // InputManagerã®è¨­å®šæƒ…å ±èª­ã¿è¾¼ã¿
         var serializedObjects =
             AssetDatabase
                 .LoadAllAssetsAtPath(inputManagerPath);
@@ -80,7 +80,7 @@ public class InputNameCreator : AssetPostprocessor
         StringBuilder builder = new StringBuilder();
 
         builder.AppendLine("/// <summary>");
-        builder.AppendLine("/// ƒCƒ“ƒvƒbƒg–¼‚ğ’è”‚ÅŠÇ—‚·‚éƒNƒ‰ƒX");
+        builder.AppendLine("/// ã‚¤ãƒ³ãƒ—ãƒƒãƒˆåã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹");
         builder.AppendLine("/// </summary>");
         builder.AppendFormat("public struct {0}", FILENAME).AppendLine();
         builder.AppendLine("{");
@@ -88,7 +88,7 @@ public class InputNameCreator : AssetPostprocessor
         builder.AppendLine("\t");
 
         List<string> inputNames = new();
-        //‘S•”æ‚Á‚Ä‚­‚é
+        //å…¨éƒ¨å–ã£ã¦ãã‚‹
         for (int i = 0; i < axesSize; ++i)
         {
             foreach (var serialized in serializedObjects)
@@ -100,7 +100,7 @@ public class InputNameCreator : AssetPostprocessor
                 inputNames.Add(inputName);
             }
         }
-        //d•¡‚·‚é—v‘f‚ğÁ‚·
+        //é‡è¤‡ã™ã‚‹è¦ç´ ã‚’æ¶ˆã™
         inputNames = new(inputNames.Distinct());
         foreach (var name in inputNames)
         {
@@ -125,7 +125,7 @@ public class InputNameCreator : AssetPostprocessor
 
         File.WriteAllText(EXPORT_PATH, builder.ToString(), Encoding.UTF8);
         AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
-        Debug.Log("InputNames‚ğì¬Š®—¹");
+        Debug.Log("InputNamesã‚’ä½œæˆå®Œäº†");
     }
 
     #endregion
