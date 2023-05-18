@@ -5,21 +5,21 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// ƒI[ƒfƒBƒIƒNƒŠƒbƒv‚Ìƒtƒ@ƒCƒ‹–¼‚ğ’è”‚ÅŠÇ—‚·‚éƒNƒ‰ƒX‚ğì¬‚·‚éƒXƒNƒŠƒvƒg
+/// ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚¯ãƒªãƒƒãƒ—ã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚’ä½œæˆã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 /// </summary>
 public static class AudioNameCreator
 {
     #region Member Variables
 
-    // ƒtƒ@ƒCƒ‹–¼(Šg’£q‚ ‚èA‚È‚µ)
+    // ãƒ•ã‚¡ã‚¤ãƒ«å(æ‹¡å¼µå­ã‚ã‚Šã€ãªã—)
     private static readonly string FILENAME_AUDIO =
 		Path.GetFileNameWithoutExtension(EXPORT_PATH_AUDIO);
 
-	// BGM—pƒtƒ@ƒCƒ‹–¼(Šg’£q‚ ‚èA‚È‚µ)
+	// BGMç”¨ãƒ•ã‚¡ã‚¤ãƒ«å(æ‹¡å¼µå­ã‚ã‚Šã€ãªã—)
 	private static readonly string FILENAME_BGM =
 		Path.GetFileNameWithoutExtension(EXPORT_PATH_BGM);
 
-	// SFX—pƒtƒ@ƒCƒ‹–¼(Šg’£q‚ ‚èA‚È‚µ)
+	// SFXç”¨ãƒ•ã‚¡ã‚¤ãƒ«å(æ‹¡å¼µå­ã‚ã‚Šã€ãªã—)
 	private static readonly string FILENAME_SFX =
 		Path.GetFileNameWithoutExtension(EXPORT_PATH_SFX);
 
@@ -28,29 +28,29 @@ public static class AudioNameCreator
     #region Constants
 
 	/// <summary>
-	/// ƒRƒ}ƒ“ƒh–¼
+	/// ã‚³ãƒãƒ³ãƒ‰å
 	/// </summary>
 	private const string COMMAND_NAME = "Tools/CreateConstants/Audio Name";
 
 	/// <summary>
-	/// ì¬‚µ‚½ƒXƒNƒŠƒvƒg‚ğ•Û‘¶‚·‚éƒpƒX(‘S‚Ä)
+	/// ä½œæˆã—ãŸã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’ä¿å­˜ã™ã‚‹ãƒ‘ã‚¹(å…¨ã¦)
 	/// </summary>
-	private const string EXPORT_PATH_AUDIO = "Assets/Scripts/Constants/AudioName.cs";
+	private const string EXPORT_PATH_AUDIO = "Assets/Template/Scripts/Constants/AudioName.cs";
 	/// <summary>
-	/// ì¬‚µ‚½ƒXƒNƒŠƒvƒg‚ğ•Û‘¶‚·‚éƒpƒX(BGM)
+	/// ä½œæˆã—ãŸã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’ä¿å­˜ã™ã‚‹ãƒ‘ã‚¹(BGM)
 	/// </summary>
-	private const string EXPORT_PATH_BGM = "Assets/Scripts/Constants/BGMName.cs";
+	private const string EXPORT_PATH_BGM = "Assets/Template/Scripts/Constants/BGMName.cs";
 	/// <summary>
-	/// ì¬‚µ‚½ƒXƒNƒŠƒvƒg‚ğ•Û‘¶‚·‚éƒpƒX(SFX)
+	/// ä½œæˆã—ãŸã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’ä¿å­˜ã™ã‚‹ãƒ‘ã‚¹(SFX)
 	/// </summary>
-	private const string EXPORT_PATH_SFX = "Assets/Scripts/Constants/SFXName.cs";
+	private const string EXPORT_PATH_SFX = "Assets/Template/Scripts/Constants/SFXName.cs";
 
     #endregion
 
     #region MenuItem Methods
 
     /// <summary>
-    /// ’è”‚ÅŠÇ—‚·‚é\‘¢‘Ì‚ğì¬‚µ‚Ü‚·
+    /// å®šæ•°ã§ç®¡ç†ã™ã‚‹æ§‹é€ ä½“ã‚’ä½œæˆã—ã¾ã™
     /// </summary>
     [MenuItem(COMMAND_NAME)]
 	private static void Create()
@@ -61,12 +61,12 @@ public static class AudioNameCreator
 		CreateScriptBGM();
 		CreateScriptSFX();
 
-		Debug.Log("AudioName‚ğì¬Š®—¹");
-		//EditorUtility.DisplayDialog(FILENAME, "ì¬‚ªŠ®—¹‚µ‚Ü‚µ‚½", "OK");
+		Debug.Log("AudioNameã‚’ä½œæˆå®Œäº†");
+		//EditorUtility.DisplayDialog(FILENAME, "ä½œæˆãŒå®Œäº†ã—ã¾ã—ãŸ", "OK");
 	}
 
     /// <summary>
-    /// ƒI[ƒfƒBƒI‚Ìƒtƒ@ƒCƒ‹–¼‚ğ’è”‚ÅŠÇ—‚·‚éƒNƒ‰ƒX‚ğì¬‚Å‚«‚é‚©‚Ç‚¤‚©‚ğæ“¾‚µ‚Ü‚·
+    /// ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚’ä½œæˆã§ãã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã—ã¾ã™
     /// </summary>
     [MenuItem(COMMAND_NAME, true)]
 	private static bool CanCreate()
@@ -82,14 +82,14 @@ public static class AudioNameCreator
     #region Private Methods
 
     /// <summary>
-    /// ƒI[ƒfƒBƒI–¼‚ğ’è”‚ÅŠÇ—‚·‚é\‘¢‘Ì‚ğì¬‚µ‚Ü‚·
+    /// ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªåã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹æ§‹é€ ä½“ã‚’ä½œæˆã—ã¾ã™
     /// </summary>
     private static void CreateScriptAll()
 	{
 		StringBuilder builder = new StringBuilder();
 
 		builder.AppendLine("/// <summary>");
-		builder.AppendLine("/// ƒI[ƒfƒBƒIƒNƒŠƒbƒv–¼‚ğ’è”‚ÅŠÇ—‚·‚éƒNƒ‰ƒX");
+		builder.AppendLine("/// ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚¯ãƒªãƒƒãƒ—åã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹");
 		builder.AppendLine("/// </summary>");
 		builder.AppendFormat("public struct {0}", FILENAME_AUDIO).AppendLine();
 		builder.AppendLine("{");
@@ -98,7 +98,7 @@ public static class AudioNameCreator
 
 		var bGMList = new List<AudioClip>();
 		var sFXList = new List<AudioClip>();
-		//ƒGƒfƒBƒ^[
+		//ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼
 		foreach (var guid in AssetDatabase.FindAssets("t:AudioClip"))
         {
             var path = AssetDatabase.GUIDToAssetPath(guid);
@@ -154,14 +154,14 @@ public static class AudioNameCreator
 	}
 
 	/// <summary>
-	/// BGM–¼‚ğ’è”‚ÅŠÇ—‚·‚é\‘¢‘Ì‚ğì¬‚µ‚Ü‚·
+	/// BGMåã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹æ§‹é€ ä½“ã‚’ä½œæˆã—ã¾ã™
 	/// </summary>
 	private static void CreateScriptBGM()
 	{
 		StringBuilder builder = new StringBuilder();
 
 		builder.AppendLine("/// <summary>");
-		builder.AppendLine("/// ‰¹Šy–¼‚ğ’è”‚ÅŠÇ—‚·‚éƒNƒ‰ƒX");
+		builder.AppendLine("/// éŸ³æ¥½åã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹");
 		builder.AppendLine("/// </summary>");
 		builder.AppendFormat("public struct {0}", FILENAME_BGM).AppendLine();
 		builder.AppendLine("{");
@@ -169,7 +169,7 @@ public static class AudioNameCreator
 		builder.AppendLine("\t");
 
 		var bGMList = new List<AudioClip>();
-		//ƒGƒfƒBƒ^[
+		//ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼
 		foreach (var guid in AssetDatabase.FindAssets("t:AudioClip"))
 		{
 			var path = AssetDatabase.GUIDToAssetPath(guid);
@@ -205,14 +205,14 @@ public static class AudioNameCreator
 	}
 
 	/// <summary>
-	/// SFX–¼‚ğ’è”‚ÅŠÇ—‚·‚é\‘¢‘Ì‚ğì¬‚µ‚Ü‚·
+	/// SFXåã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹æ§‹é€ ä½“ã‚’ä½œæˆã—ã¾ã™
 	/// </summary>
 	private static void CreateScriptSFX()
 	{
 		StringBuilder builder = new StringBuilder();
 
 		builder.AppendLine("/// <summary>");
-		builder.AppendLine("/// Œø‰Ê‰¹–¼‚ğ’è”‚ÅŠÇ—‚·‚éƒNƒ‰ƒX");
+		builder.AppendLine("/// åŠ¹æœéŸ³åã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹");
 		builder.AppendLine("/// </summary>");
 		builder.AppendFormat("public struct {0}", FILENAME_SFX).AppendLine();
 		builder.AppendLine("{");
@@ -220,7 +220,7 @@ public static class AudioNameCreator
 		builder.AppendLine("\t");
 
 		var sFXList = new List<AudioClip>();
-		//ƒGƒfƒBƒ^[
+		//ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼
 		foreach (var guid in AssetDatabase.FindAssets("t:AudioClip"))
 		{
 			var path = AssetDatabase.GUIDToAssetPath(guid);
