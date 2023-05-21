@@ -4,13 +4,13 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// ƒrƒ‹ƒhƒZƒbƒeƒBƒ“ƒOƒX‚ÌƒV[ƒ“–¼‚ğ’è”‚ÅŠÇ—‚·‚éƒNƒ‰ƒX‚ğì¬‚·‚éƒXƒNƒŠƒvƒg
+/// ãƒ“ãƒ«ãƒ‰ã‚»ãƒƒãƒ†ã‚£ãƒ³ã‚°ã‚¹ã®ã‚·ãƒ¼ãƒ³åã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚’ä½œæˆã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 /// </summary>
 public static class SceneNameCreator
 {
     #region Member Variables
 
-    // ƒtƒ@ƒCƒ‹–¼
+    // ãƒ•ã‚¡ã‚¤ãƒ«å
     private static readonly string FILENAME =
 		Path.GetFileNameWithoutExtension(EXPORT_PATH);
 
@@ -19,21 +19,21 @@ public static class SceneNameCreator
     #region Constants
 
     /// <summary>
-    /// ƒRƒ}ƒ“ƒh–¼
+    /// ã‚³ãƒãƒ³ãƒ‰å
     /// </summary>
     private const string COMMAND_NAME = "Tools/CreateConstants/Scene Name";
 
 	/// <summary>
-	/// ì¬‚µ‚½ƒXƒNƒŠƒvƒg‚ğ•Û‘¶‚·‚éƒpƒX
+	/// ä½œæˆã—ãŸã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’ä¿å­˜ã™ã‚‹ãƒ‘ã‚¹
 	/// </summary>
-	private const string EXPORT_PATH = "Assets/Scripts/Constants/SceneName.cs";
+	private const string EXPORT_PATH = "Assets/Template/Scripts/Constants/SceneName.cs";
 
 	#endregion
 
 	#region MenuItem Methods
 
 	/// <summary>
-	/// ’è”‚ÅŠÇ—‚·‚é\‘¢‘Ì‚ğì¬‚·‚éŠÖ”
+	/// å®šæ•°ã§ç®¡ç†ã™ã‚‹æ§‹é€ ä½“ã‚’ä½œæˆã™ã‚‹é–¢æ•°
 	/// </summary>
 	[MenuItem(COMMAND_NAME)]
 	private static void Create()
@@ -42,12 +42,12 @@ public static class SceneNameCreator
 
 		CreateScriptSceneName();
 
-		Debug.Log("SceneNames‚ğì¬Š®—¹");
-		//EditorUtility.DisplayDialog(FILENAME, "ì¬‚ªŠ®—¹‚µ‚Ü‚µ‚½", "OK");
+		Debug.Log("SceneNamesã‚’ä½œæˆå®Œäº†");
+		//EditorUtility.DisplayDialog(FILENAME, "ä½œæˆãŒå®Œäº†ã—ã¾ã—ãŸ", "OK");
 	}
 
 	/// <summary>
-	/// ƒV[ƒ“–¼‚ğ’è”‚ÅŠÇ—‚·‚é\‘¢‘Ì‚ğì¬‚Å‚«‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éŠÖ”
+	/// ã‚·ãƒ¼ãƒ³åã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹æ§‹é€ ä½“ã‚’ä½œæˆã§ãã‚‹ã‹ã©ã†ã‹ã‚’å–å¾—ã™ã‚‹é–¢æ•°
 	/// </summary>
 	[MenuItem(COMMAND_NAME, true)]
 	private static bool CanCreate()
@@ -63,21 +63,21 @@ public static class SceneNameCreator
 	#region Private Methods
 
 	/// <summary>
-	/// ƒV[ƒ“–¼‚ğ’è”‚ÅŠÇ—‚·‚é\‘¢‘Ì‚ğì¬‚·‚éŠÖ”
+	/// ã‚·ãƒ¼ãƒ³åã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹æ§‹é€ ä½“ã‚’ä½œæˆã™ã‚‹é–¢æ•°
 	/// </summary>
 	private static void CreateScriptSceneName()
 	{
 		StringBuilder builder = new StringBuilder();
 
 		builder.AppendLine("/// <summary>");
-		builder.AppendLine("/// ƒV[ƒ“–¼‚ğ’è”‚ÅŠÇ—‚·‚éƒNƒ‰ƒX");
+		builder.AppendLine("/// ã‚·ãƒ¼ãƒ³åã‚’å®šæ•°ã§ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹");
 		builder.AppendLine("/// </summary>");
 		builder.AppendFormat("public struct {0}", FILENAME).AppendLine();
 		builder.AppendLine("{");
 		builder.Append("\t").AppendLine("#region Constants");
 		builder.AppendLine("\t");
 
-		//BuildSetings‚É“ü‚Á‚Ä‚¢‚éScene‚Ì–¼‘O‚ğ‘S‚Ä‚Æ‚Á‚Ä‚­‚é
+		//BuildSetingsã«å…¥ã£ã¦ã„ã‚‹Sceneã®åå‰ã‚’å…¨ã¦ã¨ã£ã¦ãã‚‹
 		foreach (var scene in EditorBuildSettings.scenes)
 		{
 			var name = Path.GetFileNameWithoutExtension(scene.path);
