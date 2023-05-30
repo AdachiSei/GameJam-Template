@@ -1,69 +1,42 @@
-using System;
 using UnityEngine;
 
 /// <summary>
 /// シングルトンパターンを実装したい時に継承するジェネリックな基底クラス
 /// </summary>
-public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : SingletonMonoBehaviour<T>
 {
-    #region Properties
-
-    public static T Instance
+    public static T I
     {
         get
         {
             if (_instance == null)
-            {
-                Type t = typeof(T);
-
-                _instance = (T)FindObjectOfType(t);
-                if (_instance == null)
-                {
-                    Debug.LogWarning($"{t}をアタッチしているオブジェクトがありません");
-                }
-            }
+                Debug.LogWarning($"{typeof(T)}{LOG}");
 
             return _instance;
         }
     }
 
-    #endregion
+    protected virtual bool IsRemoveComponent => false;
 
-    #region Member Variables
+    private static T _instance = null;
 
-    private static T _instance;
-
-    #endregion
-
-    #region Unity Methods
+    private const string LOG = "をアタッチしているオブジェクトがありません";
 
     protected virtual void Awake()
     {
-        CheckInstance();
-    }
-
-    #endregion
-
-    #region Private Methods
-
-    /// <summary>
-    /// 他のゲームオブジェクトにアタッチされているか調べる
-    /// アタッチされている場合は破棄する。
-    /// </summary>
-    protected bool CheckInstance()
-    {
         if (_instance == null)
-        {
             _instance = this as T;
-            return true;
-        }
-        else if (_instance == this)
-        {
-            return true;
-        }
-        Destroy(this);
-        return false;
+
+        else if (IsRemoveComponent)
+            Destroy(this);
+
+        else
+            Destroy(gameObject);
     }
 
-    #endregion
+    protected virtual void OnDestroy()
+    {
+        if (_instance == this)
+            _instance = null;
+    }
 }

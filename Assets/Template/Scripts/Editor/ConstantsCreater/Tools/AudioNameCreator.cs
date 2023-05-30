@@ -91,7 +91,7 @@ public static class AudioNameCreator
 		builder.AppendLine("/// <summary>");
 		builder.AppendLine("/// オーディオクリップ名を定数で管理するクラス");
 		builder.AppendLine("/// </summary>");
-		builder.AppendFormat("public struct {0}", FILENAME_AUDIO).AppendLine();
+		builder.AppendFormat("public static class {0}", FILENAME_AUDIO).AppendLine();
 		builder.AppendLine("{");
 		builder.Append("\t").AppendLine("#region BGM Constants");
 		builder.AppendLine("\t");
@@ -163,7 +163,7 @@ public static class AudioNameCreator
 		builder.AppendLine("/// <summary>");
 		builder.AppendLine("/// 音楽名を定数で管理するクラス");
 		builder.AppendLine("/// </summary>");
-		builder.AppendFormat("public struct {0}", FILENAME_BGM).AppendLine();
+		builder.AppendFormat("public static class {0}", FILENAME_BGM).AppendLine();
 		builder.AppendLine("{");
 		builder.Append("\t").AppendLine("#region Constants");
 		builder.AppendLine("\t");
@@ -214,7 +214,7 @@ public static class AudioNameCreator
 		builder.AppendLine("/// <summary>");
 		builder.AppendLine("/// 効果音名を定数で管理するクラス");
 		builder.AppendLine("/// </summary>");
-		builder.AppendFormat("public struct {0}", FILENAME_SFX).AppendLine();
+		builder.AppendFormat("public static class {0}", FILENAME_SFX).AppendLine();
 		builder.AppendLine("{");
 		builder.Append("\t").AppendLine("#region Constants");
 		builder.AppendLine("\t");

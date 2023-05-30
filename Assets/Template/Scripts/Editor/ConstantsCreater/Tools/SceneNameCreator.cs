@@ -72,7 +72,7 @@ public static class SceneNameCreator
 		builder.AppendLine("/// <summary>");
 		builder.AppendLine("/// シーン名を定数で管理するクラス");
 		builder.AppendLine("/// </summary>");
-		builder.AppendFormat("public struct {0}", FILENAME).AppendLine();
+		builder.AppendFormat("public static class {0}", FILENAME).AppendLine();
 		builder.AppendLine("{");
 		builder.Append("\t").AppendLine("#region Constants");
 		builder.AppendLine("\t");

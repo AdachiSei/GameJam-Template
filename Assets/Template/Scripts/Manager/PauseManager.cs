@@ -1,7 +1,4 @@
-using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -9,37 +6,25 @@ using UnityEngine;
 /// </summary>
 public class PauseManager : SingletonMonoBehaviour<PauseManager>
 {
-    #region Member Variables
-
-    private bool _isPausing = false;
-
-    #endregion
-
-    #region Events
+    public bool IsPausing { get; private set; } = false;
 
     public event Action OnPause;
     public event Action OnResume;
-
-    #endregion
-
-    #region Unity Method
 
     void Update()
     {
         if (Input.GetButtonDown(InputName.CANCEL))
         {
-            if (!_isPausing)
+            if (!IsPausing)
             {
-                _isPausing = true;
+                IsPausing = true;
                 OnPause();
             }
             else
             {
-                _isPausing = false;
+                IsPausing = false;
                 OnResume();
             }
         }
     }
-
-    #endregion
 }

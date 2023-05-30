@@ -39,8 +39,8 @@ public class BackGroundScroller : MonoBehaviour
 
     void Awake()
     {
-        PauseManager.Instance.OnPause += Pause;
-        PauseManager.Instance.OnResume += Resume;
+        PauseManager.I.OnPause += Pause;
+        PauseManager.I.OnResume += Resume;
     }
 
     void Update()
@@ -63,8 +63,8 @@ public class BackGroundScroller : MonoBehaviour
 
     private void OnDisable()
     {
-        PauseManager.Instance.OnPause -= Pause;
-        PauseManager.Instance.OnResume -= Resume;
+        PauseManager.I.OnPause -= Pause;
+        PauseManager.I.OnResume -= Resume;
     }
 
     #endregion
