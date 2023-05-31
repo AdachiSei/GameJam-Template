@@ -1,29 +1,32 @@
 ﻿using System;
 using UnityEngine;
 
+/// <summary>
+/// https://techblog.kayac.com/trap-around-struct-in-csharp
+/// https://albatrus.com/entry/2021/07/03/190000
+/// https://baba-s.hatenablog.com/entry/2022/05/19/090000
+/// </summary>
 [Serializable]
-public struct Value<T>
+public struct Value<T> : IEquatable<Value<T>> where T : struct 
 {
-    public T MinValue => _minValue;
-    public T MaxValue => _maxValue;
-
-    [SerializeField]
-    [Header("小さい値")]
-    private T _minValue;
-
-    [SerializeField]
-    [Header("大きい値")]
-    private T _maxValue;
+    public T Min;
+    public T Max;
 
     public Value(T minValue, T maxValue)
     {
-        _minValue = minValue;
-        _maxValue = maxValue;
+        Min = minValue;
+        Max = maxValue;
     }
 
-    public void Set(T minValue, T maxValue)
+    public bool Equals(Value<T> other)
     {
-        _minValue = minValue;
-        _maxValue = maxValue;
+        return 
+            Min.Equals(other.Min) &&
+            Max.Equals(other.Max);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Min, Max);
     }
 }
