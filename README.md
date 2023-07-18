@@ -1,9 +1,9 @@
-# GameJam-Template
+# ゲームのタイトル
 
+## GameJam-Template
 ゲームジャム用のテンプレート
 
 ## プレイ動画
-
 > URLを挿入
 
 ## クレジット
