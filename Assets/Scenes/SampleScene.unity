@@ -1213,8 +1213,8 @@ MonoBehaviour:
   _a: {fileID: 0}
   _folder: Assets/AssetStoreTools
   _value:
-    _minValue: 0
-    _maxValue: 0
+    Min: 0
+    Max: 0
   _defaultAsset: {fileID: 102900000, guid: 042709f537adddb499699891a4a522ed, type: 3}
 --- !u!4 &740840910
 Transform:
@@ -1231,55 +1231,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &784124275
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 784124277}
-  - component: {fileID: 784124278}
-  m_Layer: 0
-  m_Name: ObjectPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &784124277
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784124275}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &784124278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784124275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e4bd6b5236e5d34dbf29912a7f38eb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _pools:
-  - _poolPrefab: {fileID: 2821204213330099478, guid: d4613edc8ebd6184ca47321b12fd8b7b, type: 3}
-    _createdPool: []
-    _poolParent: {fileID: 0}
-    _poolCount: 10
 --- !u!1 &850774705
 GameObject:
   m_ObjectHideFlags: 0

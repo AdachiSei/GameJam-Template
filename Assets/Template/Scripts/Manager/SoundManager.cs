@@ -500,7 +500,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         else _sfxClips = clips.ToArray();
     }
 
-     #endif
+    #endif
 
     #endregion
 }
