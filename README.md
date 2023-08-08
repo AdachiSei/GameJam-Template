@@ -1,6 +1,7 @@
 # ゲームのタイトル
 
 ## GameJam-Template
+
 ゲームジャム用のテンプレート
 
 Unity用
