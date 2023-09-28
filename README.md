@@ -2,7 +2,7 @@
 
 ## GameJam-Template
 
-ゲームジャム用のテンプレート
+GameJam用のテンプレート
 
 Unity用
 
