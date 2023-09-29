@@ -2,9 +2,7 @@
 
 ## GameJam-Template
 
-GameJam用のテンプレート
-
-Unity用
+GameJamを想定したUnity用テンプレート
 
 ## プレイ動画
 > URLを挿入
