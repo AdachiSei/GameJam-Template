@@ -1,7 +1,6 @@
 # ゲームのタイトル
 
 ## GameJam-Template
-
 GameJamを想定したUnity用テンプレート
 
 ## プレイ動画
@@ -29,7 +28,6 @@ GameJamを想定したUnity用テンプレート
 > **[UniTask](https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask)**
 
 ## 素材
-
 >　URLを挿入
 
 ## 命名規則
