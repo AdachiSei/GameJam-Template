@@ -1,4 +1,4 @@
-# ゲームのタイトル
+# ゲームのタイトルを入れてください
 
 ## GameJam-Template
 GameJamを想定したUnity用テンプレート
