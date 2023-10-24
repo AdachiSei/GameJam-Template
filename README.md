@@ -71,7 +71,7 @@ public class AnyName
     #region Events
         // System.Action, System.Func などのデリゲートやコールバック関数
     #region Constructor
-        // コンストラクタ、デストラクタ
+        // コンストラクタ, デストラクタ
     #region Unity Methods
         // Start, UpdateなどのUnityのイベント関数
     #region Enums
