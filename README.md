@@ -1,7 +1,7 @@
 # ゲームのタイトルを挿入
 
 ## GameJam-Template
-GameJamを想定したUnity用テンプレート
+GameJam開発を想定したUnity用テンプレート
 
 ## プレイ動画
 > URLを挿入
