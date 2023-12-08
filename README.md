@@ -1,4 +1,4 @@
-# ゲームのタイトルを挿入
+# Any Project Name
 
 ## GameJam-Template
 GameJam開発を想定したUnity用テンプレート
